@@ -447,7 +447,7 @@
       <div class="p-3 border-t border-sql-border shrink-0 select-none">
         <div class="text-[11px] text-sql-muted font-mono flex items-center justify-between">
           <span>Made by <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="text-sql-accent hover:underline font-semibold">@Worgzek</a></span>
-          <span class="text-sql-muted/80">v1.0.1</span>
+          <span class="text-sql-muted/80">v1.2.0</span>
         </div>
       </div>
 
@@ -741,13 +741,12 @@
       // 3. HARDWARE & WORKSPACE
       hardware: {
         title: "Query: dim_hardware",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">device_category</span>, <span class="sql-col">model_name</span>, <span class="sql-col">specifications</span>, <span class="sql-col">workload_role</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_hardware</span>;`,
-        headers: ["device_category", "model_name", "specifications", "workload_role"],
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">model_name</span>, <span class="sql-col">specifications</span>, <span class="sql-col">workload_role</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_hardware</span>;`,
+        headers: ["model_name", "specifications", "workload_role"],
         hasAction: true,
         rows: [
           {
             id: "pc",
-            device_category: "Desktop Rig",
             model_name: "Custom Compute PC",
             specifications: "Intel Core i5-12400F · RTX 3070 · 48 GB RAM · 1.5 TB SSD",
             workload_role: "Heavy Compute Rig: Local Spark clusters, Docker stacks, GPU testing, ETL batch processing",
@@ -770,7 +769,6 @@ OS: Windows 11 Pro + WSL 2 (Ubuntu 22.04 LTS)`,
           },
           {
             id: "macbook",
-            device_category: "Laptop (Pri)",
             model_name: 'Apple MacBook Pro 14"',
             specifications: "Apple M5 Pro · 24 GB · 1 TB SSD",
             workload_role: "Daily Driver: System architecture, pipeline modeling, code reviews, mobile engineering",
@@ -793,7 +791,6 @@ OS: macOS + Docker + WSL 2 (Ubuntu 22.04 LTS)`,
           },
           {
             id: "lenovo",
-            device_category: "Laptop (Sec)",
             model_name: "Lenovo Xiaoxin Pro 14 GT",
             specifications: "AMD Ryzen AI 9 365 · 32 GB RAM · 1 TB SSD",
             workload_role: "Secondary Workstation: Linux data engineering sandbox & client demonstrations",
@@ -816,7 +813,6 @@ OS: Windows 11 Pro + WSL 2 (Ubuntu 22.04 LTS)`,
           },
           {
             id: "gear",
-            device_category: "Peripherals",
             model_name: "Desk Setup",
             specifications: "Customized Sugar65 · ATK Ghost Ultimate · Razer Barracuda X 2022 · 2K180HZ Monitor · Maono PD100X · Wallhack SP-004",
             workload_role: "High-throughput productivity: Fast typing, precise mouse control, immersive audio, and clear voice capture",
