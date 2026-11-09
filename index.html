@@ -1510,10 +1510,8 @@ Editor: VS Code & Claude Code CLI`,
       switchTable('aboutme');
     }
 
-    // Auto-open About Me modal on desktop page load only
-    if (window.innerWidth >= 768) {
-      openDetail('aboutme', 0);
-    }
+    // Auto-open About Me modal on page load (both desktop & mobile)
+    openDetail('aboutme', 0);
   </script>
 
 </body>
