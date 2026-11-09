@@ -200,21 +200,25 @@
       transform: translateY(0px) scale(1);
     }
 
-    /* Table Rows Hover & Interaction */
+    /* Table Rows Hover & Interaction: Full Translucent Blue Overlay */
     #table-body tr {
+      transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #table-body tr td {
       transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms ease;
     }
-    #table-body tr:hover {
-      background-color: rgba(var(--sql-accent), 0.15) !important;
-    }
     #table-body tr:hover td {
+      background-color: rgba(var(--sql-accent), 0.18) !important;
       color: rgb(var(--sql-bright)) !important;
     }
     #table-body tr:hover td:first-child {
       color: rgb(var(--sql-accent)) !important;
       font-weight: 700 !important;
       box-shadow: inset 4px 0 0 rgb(var(--sql-accent)) !important;
-      background-color: rgba(var(--sql-accent), 0.22) !important;
+      background-color: rgba(var(--sql-accent), 0.26) !important;
+    }
+    #table-body tr:active td {
+      background-color: rgba(var(--sql-accent), 0.30) !important;
     }
     /* Flat tech chips (hover triggers only on the specific chip hovered) */
     .tech-chip {
