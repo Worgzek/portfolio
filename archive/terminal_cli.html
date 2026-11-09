@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quang Hiếu (Worgzek) | About</title>
+  <meta name="description" content="Quang Hiếu (Worgzek) — Data Engineer. About me, tech stack, education, setup and interests." />
+  <meta name="theme-color" content="#0d1117" />
+
+  <!-- Inline theme preloader to prevent FOUC -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+
+  <!-- Monospace font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Devicon Programming Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            term: {
+              bg: 'var(--term-bg)',
+              panel: 'var(--term-panel)',
+              border: 'var(--term-border)',
+              muted: 'var(--term-muted)',
+              dim: 'var(--term-dim)',
+              fg: 'var(--term-fg)',
+              bright: 'var(--term-bright)',
+              green: 'var(--term-green)',
+              greenBright: 'var(--term-green-bright)',
+              cyan: 'var(--term-cyan)',
+              yellow: 'var(--term-yellow)',
+              purple: 'var(--term-purple)',
+              red: 'var(--term-red)',
+            },
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body class="bg-[var(--term-bg)] text-[var(--term-fg)] font-mono text-sm antialiased selection:bg-[var(--term-green)]/30 selection:text-[var(--term-green-bright)]">
+
+  <!-- Top Terminal Bar -->
+  <header class="term-header">
+    <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
+      
+      <!-- Prompt Identifier -->
+      <a href="index.html" class="flex items-center gap-2 text-xs font-semibold text-[var(--term-bright)] hover:text-[var(--term-green-bright)] transition-colors">
+        <span class="text-[var(--term-green-bright)]">❯</span>
+        <span>worgzek</span>
+        <span class="cursor-blink text-[var(--term-green-bright)]">_</span>
+      </a>
+
+      <!-- Right Group: Nav Tabs + Divider + Theme Toggle + Status -->
+      <div class="flex items-center gap-2 sm:gap-3 text-xs">
+        <!-- Page Tabs Navigation -->
+        <nav class="hidden md:flex items-center gap-1.5">
+          <a href="index.html" class="term-tab is-active" data-nav="about">About</a>
+          <a href="portfolio.html" class="term-tab" data-nav="portfolio">Portfolio</a>
+          <a href="#contact" class="term-tab" data-nav="contact">Contact</a>
+          <a href="modern.html" class="term-tab text-[var(--term-cyan)] border border-[var(--term-cyan)]/40 hover:bg-[var(--term-cyan)]/10 ml-1" title="So sánh bản Modern (renlenon.vercel.app)">✨ Modern UI</a>
+          <a href="../index.html" class="term-tab text-[var(--term-yellow)] border border-[var(--term-yellow)]/40 hover:bg-[var(--term-yellow)]/10" title="Bản phong cách SQL Studio / Database IDE">🗄️ SQL Studio</a>
+        </nav>
+
+        <span class="hidden md:inline-block text-[var(--term-border)]">|</span>
+
+        <!-- Light / Dark Theme Switcher -->
+        <button id="theme-toggle" type="button" class="term-btn !py-1 !px-2.5 text-xs flex items-center gap-1.5" aria-label="Toggle light and dark theme">
+          <span id="theme-icon">☀</span>
+          <span id="theme-text">light</span>
+        </button>
+
+        <div class="hidden lg:flex items-center gap-1.5 text-[var(--term-muted)] ml-0.5">
+          <span class="inline-block w-2 h-2 rounded-full bg-[var(--term-green-bright)] animate-pulse"></span>
+          <span class="text-[11px] font-mono">ONLINE</span>
+        </div>
+
+        <button id="menu-toggle" class="md:hidden text-[var(--term-muted)] hover:text-[var(--term-bright)] p-1 ml-1" aria-label="Toggle mobile menu">
+          [MENU]
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--term-border)] bg-[var(--term-panel)] px-4 py-3 space-y-2 text-xs" hidden>
+      <a href="index.html" class="block py-1 text-[var(--term-green-bright)] font-semibold">About (current)</a>
+      <a href="portfolio.html" class="block py-1 hover:text-[var(--term-green-bright)]">Portfolio ↗</a>
+      <a href="#contact" class="block py-1 hover:text-[var(--term-green-bright)]">Contact</a>
+      <div class="pt-2 border-t border-[var(--term-border)] flex items-center justify-between text-[var(--term-muted)]">
+        <span><a data-link="github" href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="text-[var(--term-cyan)] hover:underline">GitHub Profile ↗</a></span>
+        <span class="text-[10px]">worgzek</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main id="main" class="max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-24 space-y-16">
+
+    <!-- ============================== HERO (WHOAMI) ============================== -->
+    <section id="top" class="term-window mt-4">
+      <div class="term-window-header">
+        <div class="flex items-center gap-2">
+          <span class="term-dot term-dot-red"></span>
+          <span class="term-dot term-dot-yellow"></span>
+          <span class="term-dot term-dot-green"></span>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 space-y-6">
+        <div class="grid md:grid-cols-[1.3fr_0.85fr] gap-8 lg:gap-10 items-start">
+          
+          <!-- Bio -->
+          <div class="space-y-4">
+            <div class="text-xs text-[var(--term-green-bright)] font-semibold tracking-wider uppercase">
+              // Data Engineer Portfolio
+            </div>
+
+            <div>
+              <h1 class="text-3xl sm:text-4xl font-bold text-[var(--term-bright)] tracking-tight">
+                Quang Hiếu
+                <span class="text-lg sm:text-xl font-normal text-[var(--term-muted)] block mt-1">aka Worgzek</span>
+              </h1>
+              <p class="text-[var(--term-green-bright)] font-semibold mt-1">Role: Data Engineer</p>
+            </div>
+
+            <p class="text-[var(--term-muted)] leading-relaxed text-xs sm:text-sm">
+              &gt; Specializing in scalable <span class="text-[var(--term-bright)]">ETL/ELT data pipelines</span>, 
+              <span class="text-[var(--term-bright)]">medallion lakehouse architectures</span>, and distributed systems. 
+              Turning raw, messy streams into idempotent, trustworthy data.
+            </p>
+
+            <div class="p-3 bg-[var(--term-subtle)] border border-[var(--term-border)] rounded text-xs space-y-1 text-[var(--term-muted)]">
+              <div><span class="text-[var(--term-cyan)]">system.uptime:</span> 99.98%</div>
+              <div><span class="text-[var(--term-cyan)]">location:</span> Hanoi, Vietnam</div>
+              <div><span class="text-[var(--term-cyan)]">status:</span> <span class="text-[var(--term-green-bright)]">OPEN_FOR_OPPORTUNITIES</span></div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="pt-2 flex flex-wrap gap-2 text-xs">
+              <a href="portfolio.html" class="term-btn term-btn-primary">
+                View Projects &amp; Experiences ↗
+              </a>
+              <a href="#contact" class="term-btn">
+                Contact Me
+              </a>
+              <a data-link="github" href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="term-btn text-[var(--term-muted)]">
+                GitHub ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- Profile Photo Frame -->
+          <div class="border border-[var(--term-border)] bg-[var(--term-subtle)] rounded overflow-hidden max-w-md md:max-w-none mx-auto w-full">
+            <div class="relative aspect-[4/3] bg-[var(--term-subtle)] overflow-hidden">
+              <img 
+                src="../assets/img/profile.jpg" 
+                alt="Quang Hiếu (Worgzek)" 
+                width="1024" 
+                height="684" 
+                class="w-full h-full object-cover object-[48%_32%] filter contrast-[1.03]" 
+              />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 01. ABOUT ME & HOBBIES ============================== -->
+    <section id="about" class="space-y-4">
+      <div class="section-title">
+        <span class="text-[var(--term-green-bright)]">//</span> About Me
+      </div>
+
+      <div class="term-window p-6 space-y-6">
+        
+        <div class="space-y-3 text-xs sm:text-sm text-[var(--term-muted)] leading-relaxed">
+          <p>
+            I'm a <strong class="text-[var(--term-bright)]">Data Engineer</strong> passionate about building reliable, high-throughput data backbones. My focus is treating data pipelines like production software: with strict schema contracts, idempotent operations, containerized micro-environments, and comprehensive end-to-end observability.
+          </p>
+          <p>
+            I enjoy moving data across layered lakehouse architectures (<code class="text-[var(--term-cyan)]">bronze → silver → gold</code>), automating ETL/ELT lifecycles, and bridging traditional analytics engineering with modern AI agent workflows.
+          </p>
+        </div>
+
+        <!-- Hobbies & Personal Interests -->
+        <div class="border border-[var(--term-border)] rounded bg-[var(--term-subtle)] overflow-hidden">
+          <div class="bg-[var(--term-subtle)] px-4 py-2 border-b border-[var(--term-border)] text-xs font-semibold text-[var(--term-bright)] flex justify-between items-center">
+            <span>Hobbies &amp; Interests</span>
+          </div>
+          <div class="p-4 text-xs space-y-3">
+            <div class="grid sm:grid-cols-[140px_1fr] gap-2 items-start">
+              <span class="text-[var(--term-purple)] font-semibold">🎮 Gaming:</span>
+              <span class="text-[var(--term-fg)]">Indie gems, story-rich narrative titles (cốt truyện sâu sắc), and immersive AAA blockbusters.</span>
+            </div>
+            <div class="grid sm:grid-cols-[140px_1fr] gap-2 items-start pt-2 border-t border-[var(--term-border-muted)]">
+              <span class="text-[var(--term-cyan)] font-semibold">🏀 Basketball:</span>
+              <span class="text-[var(--term-fg)]">Playing pickup games &amp; die-hard fan of the <strong class="text-[var(--term-bright)]">Golden State Warriors</strong> (#DubNation).</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="border border-[var(--term-border)] rounded bg-[var(--term-subtle)] overflow-hidden">
+          <div class="bg-[var(--term-subtle)] px-4 py-2 border-b border-[var(--term-border)] text-xs font-semibold text-[var(--term-bright)] flex justify-between items-center">
+            <span>Tech Stack</span>
+          </div>
+
+          <div class="p-4 divide-y divide-[var(--term-border-muted)] text-xs space-y-3">
+            
+            <div class="pt-2 first:pt-0">
+              <span class="text-[var(--term-purple)] font-semibold block mb-1.5">Languages</span>
+              <div class="flex flex-wrap gap-2 pl-2">
+                <span class="term-tag"><i class="devicon-python-plain colored text-sm"></i> Python</span>
+                <span class="term-tag"><i class="devicon-azuresqldatabase-plain colored text-sm"></i> SQL</span>
+              </div>
+            </div>
+
+            <div class="pt-3">
+              <span class="text-[var(--term-purple)] font-semibold block mb-1.5">Big Data &amp; Transformation</span>
+              <div class="flex flex-wrap gap-2 pl-2">
+                <span class="term-tag"><i class="devicon-apachespark-original colored text-sm"></i> PySpark</span>
+                <span class="term-tag">
+                  <svg class="w-3.5 h-3.5 text-[#FF694B]" viewBox="0 0 24 24" fill="currentColor"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763z"/></svg>
+                  <span>dbt</span>
+                </span>
+                <span class="term-tag">
+                  <svg class="w-3.5 h-3.5 text-[#00ADD8]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.8L19.5 19h-15L12 5.8z"/></svg>
+                  <span>Delta Lake</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="pt-3">
+              <span class="text-[var(--term-purple)] font-semibold block mb-1.5">Databases &amp; Storage</span>
+              <div class="flex flex-wrap gap-2 pl-2">
+                <span class="term-tag"><i class="devicon-postgresql-plain colored text-sm"></i> PostgreSQL</span>
+                <span class="term-tag"><i class="devicon-duckdb-plain colored text-sm"></i> DuckDB</span>
+                <span class="term-tag"><i class="devicon-mongodb-plain colored text-sm"></i> MongoDB</span>
+                <span class="term-tag"><i class="devicon-redis-plain colored text-sm"></i> Redis</span>
+              </div>
+            </div>
+
+            <div class="pt-3">
+              <span class="text-[var(--term-purple)] font-semibold block mb-1.5">Orchestration &amp; DevOps</span>
+              <div class="flex flex-wrap gap-2 pl-2">
+                <span class="term-tag"><i class="devicon-apacheairflow-plain colored text-sm"></i> Apache Airflow</span>
+                <span class="term-tag"><i class="devicon-docker-plain colored text-sm"></i> Docker</span>
+                <span class="term-tag"><i class="devicon-docker-plain text-[var(--term-cyan)] text-sm"></i> Docker Compose</span>
+                <span class="term-tag"><i class="devicon-fastapi-plain colored text-sm"></i> FastAPI</span>
+              </div>
+            </div>
+
+            <div class="pt-3">
+              <span class="text-[var(--term-purple)] font-semibold block mb-1.5">Tools &amp; Environment</span>
+              <div class="flex flex-wrap gap-2 pl-2">
+                <span class="term-tag"><i class="devicon-git-plain colored text-sm"></i> Git</span>
+                <span class="term-tag"><i class="devicon-github-original text-sm"></i> GitHub</span>
+                <span class="term-tag"><i class="devicon-bash-plain text-sm"></i> Unix CLI</span>
+                <span class="term-tag"><i class="devicon-vscode-plain colored text-sm"></i> VS Code</span>
+                <span class="term-tag">Claude Code CLI</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================== 02. EXPERIENCE & TIMELINE ============================== -->
+    <section id="experience" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="section-title">
+          <span class="text-[var(--term-green-bright)]">//</span> Work &amp; Community Experience
+        </div>
+        <span class="text-xs text-[var(--term-muted)] font-mono">
+          2 Roles · 1 Hackathon Award
+        </span>
+      </div>
+
+      <div class="term-window overflow-hidden">
+        <div class="term-window-header">
+          <div class="flex items-center gap-2">
+            <span class="term-dot term-dot-red"></span>
+            <span class="term-dot term-dot-yellow"></span>
+            <span class="term-dot term-dot-green"></span>
+            <span class="text-xs text-[var(--term-muted)] ml-2 font-mono">experience.log</span>
+          </div>
+          <span class="text-[10px] text-[var(--term-cyan)] font-mono">
+            UPDATED: 2026
+          </span>
+        </div>
+
+        <div class="p-6 sm:p-8 divide-y divide-[var(--term-border)]">
+
+          <!-- Role 1: IVINA Data Engineer Intern -->
+          <div class="py-6 first:pt-0 group">
+            <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-3 md:gap-6">
+              
+              <!-- Left: Date & Type -->
+              <div class="space-y-1.5">
+                <div class="text-xs font-mono text-[var(--term-muted)]">
+                  8/2026 — 11/2026
+                </div>
+                <span class="inline-block text-[10px] font-mono font-semibold px-2 py-0.5 rounded border border-[var(--term-cyan)]/30 text-[var(--term-cyan)] bg-[var(--term-cyan)]/10">
+                  [INTERNSHIP]
+                </span>
+              </div>
+
+              <!-- Right: Details -->
+              <div class="space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <h3 class="text-base sm:text-lg font-bold text-[var(--term-bright)] group-hover:text-[var(--term-green-bright)] transition-colors">
+                    Data Engineer Intern
+                  </h3>
+                  <span class="text-xs text-[var(--term-muted)] font-mono">
+                    Hanoi, Vietnam · On-site
+                  </span>
+                </div>
+
+                <div class="text-xs font-semibold text-[var(--term-green-bright)] font-mono">
+                  IVINA Joint Stock Company
+                </div>
+
+                <p class="text-xs sm:text-sm text-[var(--term-fg)] leading-relaxed">
+                  Participated in data engineering workflows: designing scalable ETL/ELT data pipelines, containerizing services with Docker, tuning SQL queries on PostgreSQL, and maintaining reliable automated task schedulers for business analytics.
+                </p>
+
+                <!-- Key Focus Pillars -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
+                  <div class="p-2.5 rounded bg-[var(--term-subtle)] border border-[var(--term-border)]">
+                    <span class="text-[var(--term-cyan)] font-semibold block mb-0.5">01. Pipeline Automation</span>
+                    <span class="text-[var(--term-muted)] text-[11px]">Resilient Python ETL workflows extracting from diverse data sources.</span>
+                  </div>
+                  <div class="p-2.5 rounded bg-[var(--term-subtle)] border border-[var(--term-border)]">
+                    <span class="text-[var(--term-green-bright)] font-semibold block mb-0.5">02. Data Warehousing</span>
+                    <span class="text-[var(--term-muted)] text-[11px]">Modeled and maintained staging &amp; production tables in PostgreSQL.</span>
+                  </div>
+                  <div class="p-2.5 rounded bg-[var(--term-subtle)] border border-[var(--term-border)]">
+                    <span class="text-[var(--term-yellow)] font-semibold block mb-0.5">03. SQL Optimization</span>
+                    <span class="text-[var(--term-muted)] text-[11px]">Analyzed EXPLAIN plans, built indexes, reduced query latency.</span>
+                  </div>
+                </div>
+
+                <!-- Devicon Tech Tags -->
+                <div class="flex flex-wrap gap-2 pt-2">
+                  <span class="term-tag"><i class="devicon-python-plain colored text-xs"></i> Python</span>
+                  <span class="term-tag"><i class="devicon-postgresql-plain colored text-xs"></i> PostgreSQL</span>
+                  <span class="term-tag"><i class="devicon-docker-plain colored text-xs"></i> Docker</span>
+                  <span class="term-tag">ETL / ELT</span>
+                  <span class="term-tag">Data Pipelines</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Role 2: GDGoC PTIT & Mini Hackathon 2nd Prize -->
+          <div class="py-6 last:pb-0 group">
+            <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-3 md:gap-6">
+              
+              <!-- Left: Date & Type -->
+              <div class="space-y-1.5">
+                <div class="text-xs font-mono text-[var(--term-muted)]">
+                  9/2026 — Present
+                </div>
+                <span class="inline-block text-[10px] font-mono font-semibold px-2 py-0.5 rounded border border-[var(--term-yellow)]/40 text-[var(--term-yellow)] bg-[var(--term-yellow)]/10">
+                  [COMMUNITY]
+                </span>
+              </div>
+
+              <!-- Right: Details -->
+              <div class="space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <h3 class="text-base sm:text-lg font-bold text-[var(--term-bright)] group-hover:text-[var(--term-yellow)] transition-colors">
+                    Tech Member &amp; Hackathon Team Lead
+                  </h3>
+                  <span class="text-xs text-[var(--term-yellow)] font-mono font-semibold flex items-center gap-1 border border-[var(--term-yellow)]/30 px-2 py-0.5 rounded bg-[var(--term-yellow)]/10">
+                    🥈 2nd Prize Winner
+                  </span>
+                </div>
+
+                <div class="text-xs font-semibold text-[var(--term-purple)] font-mono">
+                  Google Developer Groups on Campus — PTIT Chapter · Hanoi
+                </div>
+
+                <p class="text-xs sm:text-sm text-[var(--term-fg)] leading-relaxed">
+                  Participated in technical workshops and community sharing. Led a team of 7 developers in an internal mini-hackathon, developing the project <strong>NutriBudget</strong> (macro calculator, budget constraint solver, smart meal planner) and successfully winning <strong>2nd Prize (Giải Nhì) 🥈</strong>.
+                </p>
+
+                <!-- Hackathon Feature Card with Team Award Photo (Modern Highlight Pattern in CLI) -->
+                <div class="border border-[var(--term-border)] rounded-lg overflow-hidden bg-[var(--term-subtle)] mt-2">
+                  <div class="grid grid-cols-1 md:grid-cols-5">
+                    
+                    <!-- Team Photo -->
+                    <div class="md:col-span-2 relative h-48 md:h-auto overflow-hidden border-b md:border-b-0 md:border-r border-[var(--term-border)]">
+                      <img src="../assets/img/gdgoc-hackathon.jpg" alt="GDGoC Hackathon Award - Team NutriBudget" class="w-full h-full object-cover" />
+                      <div class="absolute bottom-2 left-2 text-[10px] font-mono text-white bg-black/70 px-2 py-0.5 rounded">
+                        Team 7 members at Award 🥈
+                      </div>
+                    </div>
+
+                    <!-- Highlight Specs -->
+                    <div class="md:col-span-3 p-4 space-y-2.5 text-xs">
+                      <div class="flex items-center justify-between">
+                        <span class="font-bold text-[var(--term-bright)] text-sm">Project: Google ADK NutriBudget</span>
+                        <span class="text-[11px] font-mono text-[var(--term-green-bright)]">Team of 7</span>
+                      </div>
+                      
+                      <div class="space-y-1.5 text-[var(--term-muted)]">
+                        <div class="flex items-start gap-1.5">
+                          <span class="text-[var(--term-yellow)] font-bold">✓</span>
+                          <span><strong>Role:</strong> Hackathon Team Lead &amp; Optimization Architect</span>
+                        </div>
+                        <div class="flex items-start gap-1.5">
+                          <span class="text-[var(--term-cyan)] font-bold">✓</span>
+                          <span><strong>Optimization Engine:</strong> PuLP Linear Programming matching nutritional targets within user wallet constraints</span>
+                        </div>
+                        <div class="flex items-start gap-1.5">
+                          <span class="text-[var(--term-green-bright)] font-bold">✓</span>
+                          <span><strong>Tech Stack:</strong> FastAPI, Docker, PostgreSQL, Google ADK, PuLP</span>
+                        </div>
+                        <div class="flex items-start gap-1.5">
+                          <span class="text-[var(--term-purple)] font-bold">✓</span>
+                          <span><strong>Outcome:</strong> Awarded 2nd Prize 🥈 overall</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Devicon Tech Tags -->
+                <div class="flex flex-wrap gap-2 pt-2">
+                  <span class="term-tag"><i class="devicon-fastapi-plain colored text-xs"></i> FastAPI</span>
+                  <span class="term-tag"><i class="devicon-docker-plain colored text-xs"></i> Docker</span>
+                  <span class="term-tag"><i class="devicon-postgresql-plain colored text-xs"></i> PostgreSQL</span>
+                  <span class="term-tag">Google ADK</span>
+                  <span class="term-tag">PuLP</span>
+                  <span class="term-tag font-semibold text-[var(--term-yellow)]">Team Lead (7 devs)</span>
+                  <span class="term-tag font-semibold text-[var(--term-yellow)]">🥈 2nd Prize</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 03. EDUCATION & ACADEMICS ============================== -->
+    <section id="education" class="space-y-4">
+      <div class="section-title">
+        <span class="text-[var(--term-green-bright)]">//</span> Education &amp; Community
+      </div>
+
+      <div class="term-window p-6 space-y-4">
+        
+        <!-- Degree: PTIT -->
+        <div class="border-l-2 border-[var(--term-green)] pl-4 py-1 space-y-1">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+            <span class="font-bold text-[var(--term-bright)]">Bachelor of Information Technology</span>
+            <span class="text-[var(--term-green-bright)] bg-[var(--term-green)]/10 px-2 py-0.5 rounded border border-[var(--term-green)]/30">DEGREE</span>
+          </div>
+          <div class="text-xs text-[var(--term-cyan)]">Posts and Telecommunications Institute of Technology (PTIT)</div>
+          <div class="text-[11px] text-[var(--term-muted)]">Học viện Công nghệ Bưu chính Viễn thông · Hanoi, VN</div>
+          <p class="text-xs text-[var(--term-muted)] pt-1">
+            Core foundations in data structures, algorithms, databases, networking, and distributed operating systems.
+          </p>
+        </div>
+
+        <!-- Course: MindX -->
+        <div class="border-l-2 border-[var(--term-cyan)] pl-4 py-1 space-y-1">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+            <span class="font-bold text-[var(--term-bright)]">Data Engineering Short Course</span>
+            <span class="text-[var(--term-cyan)] bg-[var(--term-cyan)]/10 px-2 py-0.5 rounded border border-[var(--term-cyan)]/30">COURSE</span>
+          </div>
+          <div class="text-xs text-[var(--term-cyan)]">MindX Technology School</div>
+          <p class="text-xs text-[var(--term-muted)] pt-1">
+            Hands-on training in production-grade ETL/ELT pipelines, dimensional modeling, Apache Airflow orchestration, and Spark data processing.
+          </p>
+        </div>
+
+        <!-- Community: GDGoC PTIT -->
+        <div class="border-l-2 border-[var(--term-purple)] pl-4 py-1 space-y-1">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+            <span class="font-bold text-[var(--term-bright)]">Tech Member &amp; Hackathon Team Lead — GDGoC PTIT</span>
+            <span class="text-[var(--term-purple)] bg-[var(--term-purple)]/10 px-2 py-0.5 rounded border border-[var(--term-purple)]/30">COMMUNITY</span>
+          </div>
+          <div class="text-xs text-[var(--term-purple)]">Google Developer Groups on Campus · PTIT Chapter</div>
+          <p class="text-xs text-[var(--term-muted)] pt-1">
+            Participating in technical workshops, sharing knowledge on data engineering. Led a 7-member team to 2nd Prize 🥈 in the internal hackathon with <strong>NutriBudget</strong> (FastAPI, Docker, PostgreSQL, Google ADK, PuLP).
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================== 03. GEAR & SETUP ============================== -->
+    <section id="setup" class="space-y-4">
+      <div class="section-title">
+        <span class="text-[var(--term-green-bright)]">//</span> Hardware &amp; Workspace
+      </div>
+
+      <div class="term-window p-5 sm:p-6" data-tabs>
+        <div class="flex flex-wrap gap-1 border-b border-[var(--term-border)] pb-3 mb-4">
+          <button class="term-tab-sm is-active" data-tab="desktop">🖥️ Desktop</button>
+          <button class="term-tab-sm" data-tab="laptops">💻 Laptops</button>
+          <button class="term-tab-sm" data-tab="env">🐚 Environment</button>
+          <button class="term-tab-sm" data-tab="gear">⌨️ Peripherals</button>
+        </div>
+
+        <!-- Desktop Specs -->
+        <div data-panel="desktop" class="space-y-2 text-xs">
+          <div class="text-[var(--term-green-bright)] font-semibold">// Custom Desktop PC (Heavy Compute Rig)</div>
+          <div class="grid grid-cols-[100px_1fr] py-1 border-b border-[var(--term-border-muted)]"><span class="text-[var(--term-muted)]">cpu:</span><span class="text-[var(--term-bright)]">Intel Core i5-12400F (12 threads)</span></div>
+          <div class="grid grid-cols-[100px_1fr] py-1 border-b border-[var(--term-border-muted)]"><span class="text-[var(--term-muted)]">gpu:</span><span class="text-[var(--term-cyan)]">NVIDIA GeForce RTX 3070 (8GB VRAM)</span></div>
+          <div class="grid grid-cols-[100px_1fr] py-1 border-b border-[var(--term-border-muted)]"><span class="text-[var(--term-muted)]">memory:</span><span class="text-[var(--term-bright)]">48 GB RAM</span></div>
+          <div class="grid grid-cols-[100px_1fr] py-1 border-b border-[var(--term-border-muted)]"><span class="text-[var(--term-muted)]">storage:</span><span class="text-[var(--term-bright)]">1.5 TB SSD</span></div>
+          <div class="grid grid-cols-[100px_1fr] py-1"><span class="text-[var(--term-muted)]">usage:</span><span class="text-[var(--term-muted)]">Local Spark clusters, Docker stacks, GPU tests</span></div>
+        </div>
+
+        <!-- Laptops Specs -->
+        <div data-panel="laptops" class="space-y-4 text-xs" hidden>
+          <div class="space-y-1">
+            <div class="text-[var(--term-green-bright)] font-semibold">// Apple MacBook Pro 14" (Daily Driver)</div>
+            <div class="text-[var(--term-muted)]">Apple M5 Pro · 24 GB Unified RAM · 1 TB SSD · Space Black</div>
+          </div>
+          <div class="space-y-1 pt-2 border-t border-[var(--term-border-muted)]">
+            <div class="text-[var(--term-cyan)] font-semibold">// Lenovo Xiaoxin Pro 14 GT (Secondary Workstation)</div>
+            <div class="text-[var(--term-muted)]">AMD Ryzen AI 9 365 · 32 GB RAM · Linux / WSL data engineering lab</div>
+          </div>
+        </div>
+
+        <!-- Environment -->
+        <div data-panel="env" class="space-y-2 text-xs" hidden>
+          <div class="text-[var(--term-green-bright)] font-semibold">// Terminal &amp; Productivity Stack</div>
+          <div class="bg-[var(--term-subtle)] p-3 rounded border border-[var(--term-border)] space-y-1 text-[var(--term-muted)]">
+            <div><span class="text-[var(--term-purple)]">export</span> SHELL=<span class="text-[var(--term-bright)]">"unix-cli"</span></div>
+            <div><span class="text-[var(--term-purple)]">export</span> EDITOR=<span class="text-[var(--term-bright)]">"code"</span> # VS Code</div>
+            <div><span class="text-[var(--term-purple)]">export</span> AGENT=<span class="text-[var(--term-bright)]">"claude-code"</span> # CLI Agent</div>
+            <div><span class="text-[var(--term-cyan)]">alias</span> up=<span class="text-[var(--term-bright)]">"docker compose up -d"</span></div>
+            <div><span class="text-[var(--term-cyan)]">alias</span> q=<span class="text-[var(--term-bright)]">"duckdb analytics.db"</span></div>
+          </div>
+        </div>
+
+        <!-- Peripherals -->
+        <div data-panel="gear" class="space-y-2 text-xs" hidden>
+          <div class="text-[var(--term-green-bright)] font-semibold">// Desk &amp; Peripherals</div>
+          <ul class="list-disc list-inside space-y-1 text-[var(--term-muted)]">
+            <li>Mechanical keyboard with tactile switches</li>
+            <li>Ergonomic precision mouse</li>
+            <li>Clean desk layout configured for prolonged engineering sessions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================== CALL TO ACTION: PORTFOLIO ============================== -->
+    <section class="term-window p-6 sm:p-7 border border-[var(--term-border)] bg-[var(--term-panel)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <span class="text-xs text-[var(--term-green-bright)] font-semibold tracking-wider uppercase">// PORTFOLIO SHOWCASE</span>
+        <h3 class="text-base sm:text-lg font-bold text-[var(--term-bright)] mt-1">Explore Projects &amp; Work Experiences</h3>
+        <p class="text-xs text-[var(--term-muted)] mt-1 leading-relaxed max-w-xl">
+          View production pipelines (NASA NEO, Medallion Lakehouse, Text-to-SQL Agent), internship experience at IVINA, and 2nd Prize GDGoC Hackathon details.
+        </p>
+      </div>
+      <a href="portfolio.html" class="term-btn term-btn-primary shrink-0">
+        View Projects &amp; Experiences ↗
+      </a>
+    </section>
+
+
+    <!-- ============================== 04. CONTACT ============================== -->
+    <section id="contact" class="space-y-4">
+      <div class="section-title">
+        <span class="text-[var(--term-green-bright)]">//</span> Contact
+      </div>
+
+      <div class="term-window">
+        <!-- Terminal Window Header -->
+        <div class="term-window-header">
+          <div class="flex items-center gap-2">
+            <span class="term-dot term-dot-red"></span>
+            <span class="term-dot term-dot-yellow"></span>
+            <span class="term-dot term-dot-green"></span>
+          </div>
+          <div class="flex items-center gap-2 text-[10px] font-mono text-[var(--term-muted)]">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--term-green-bright)] animate-pulse"></span>
+            <span>OPEN FOR OPPORTUNITIES</span>
+          </div>
+        </div>
+
+        <div class="p-5 sm:p-7 space-y-6">
+          <!-- Intro -->
+          <div>
+            <div class="text-xs text-[var(--term-green-bright)] font-semibold tracking-wider uppercase mb-1">
+              // Direct Channels
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-[var(--term-bright)] tracking-tight">
+              Let's Connect &amp; Build Together
+            </h2>
+            <p class="text-xs sm:text-sm text-[var(--term-muted)] mt-1.5 max-w-2xl leading-relaxed">
+              Open for Data Engineer roles, scalable ETL &amp; Lakehouse collaborations, or interesting tech discussions. Reach out via any of the channels below:
+            </p>
+          </div>
+
+          <!-- 3 Synchronized Contact Channels -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+
+            <!-- 01: Direct Email -->
+            <div class="p-4 rounded border border-[var(--term-border)] bg-[var(--term-subtle)] flex flex-col justify-between space-y-3 hover:border-[var(--term-green-bright)]/60 transition-colors">
+              <div>
+                <div class="flex items-center justify-between text-[11px] text-[var(--term-muted)] pb-2 border-b border-[var(--term-border-muted)]">
+                  <span class="flex items-center gap-1.5 font-semibold text-[var(--term-green-bright)]">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <span>01. EMAIL</span>
+                  </span>
+                  <span class="text-[10px] text-[var(--term-dim)] font-mono">[PRIMARY]</span>
+                </div>
+                <div class="mt-3">
+                  <span class="text-[11px] text-[var(--term-muted)] block mb-1">Direct inquiries &amp; opportunities</span>
+                  <a href="mailto:hieuqt@gdscptit.dev" data-link="email" data-text="email" class="text-sm font-bold text-[var(--term-bright)] hover:text-[var(--term-green-bright)] transition-colors block truncate">
+                    hieuqt@gdscptit.dev
+                  </a>
+                </div>
+              </div>
+              <button id="copy-email" type="button" class="term-btn term-btn-primary !w-full !py-1.5 text-center flex items-center justify-center gap-1.5 font-semibold">
+                <span class="copy-label">copy to clipboard</span>
+              </button>
+            </div>
+
+            <!-- 02: GitHub -->
+            <div class="p-4 rounded border border-[var(--term-border)] bg-[var(--term-subtle)] flex flex-col justify-between space-y-3 hover:border-[var(--term-cyan)]/60 transition-colors">
+              <div>
+                <div class="flex items-center justify-between text-[11px] text-[var(--term-muted)] pb-2 border-b border-[var(--term-border-muted)]">
+                  <span class="flex items-center gap-1.5 font-semibold text-[var(--term-cyan)]">
+                    <i class="devicon-github-original text-sm"></i>
+                    <span>02. GITHUB</span>
+                  </span>
+                  <span class="text-[10px] text-[var(--term-dim)] font-mono">[CODEBASE]</span>
+                </div>
+                <div class="mt-3">
+                  <span class="text-[11px] text-[var(--term-muted)] block mb-1">Source repositories &amp; pipelines</span>
+                  <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" data-link="github" class="text-sm font-bold text-[var(--term-bright)] hover:text-[var(--term-cyan)] transition-colors block truncate">
+                    github.com/worgzek
+                  </a>
+                </div>
+              </div>
+              <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" data-link="github" class="term-btn !w-full !py-1.5 text-center flex items-center justify-center gap-1 hover:border-[var(--term-cyan)] hover:text-[var(--term-bright)]">
+                <span>open profile</span>
+                <span class="text-[var(--term-cyan)]">↗</span>
+              </a>
+            </div>
+
+            <!-- 03: LinkedIn -->
+            <div class="p-4 rounded border border-[var(--term-border)] bg-[var(--term-subtle)] flex flex-col justify-between space-y-3 hover:border-[var(--term-purple)]/60 transition-colors">
+              <div>
+                <div class="flex items-center justify-between text-[11px] text-[var(--term-muted)] pb-2 border-b border-[var(--term-border-muted)]">
+                  <span class="flex items-center gap-1.5 font-semibold text-[var(--term-purple)]">
+                    <i class="devicon-linkedin-plain colored text-sm"></i>
+                    <span>03. LINKEDIN</span>
+                  </span>
+                  <span class="text-[10px] text-[var(--term-dim)] font-mono">[NETWORK]</span>
+                </div>
+                <div class="mt-3">
+                  <span class="text-[11px] text-[var(--term-muted)] block mb-1">Professional network &amp; chat</span>
+                  <a href="https://www.linkedin.com/in/qt-hieu/" target="_blank" rel="noopener noreferrer" data-link="linkedin" class="text-sm font-bold text-[var(--term-bright)] hover:text-[var(--term-purple)] transition-colors block truncate">
+                    in/qt-hieu
+                  </a>
+                </div>
+              </div>
+              <a href="https://www.linkedin.com/in/qt-hieu/" target="_blank" rel="noopener noreferrer" data-link="linkedin" class="term-btn !w-full !py-1.5 text-center flex items-center justify-center gap-1 hover:border-[var(--term-purple)] hover:text-[var(--term-bright)]">
+                <span>connect</span>
+                <span class="text-[var(--term-purple)]">↗</span>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Terminal Status Banner -->
+          <div class="p-3 bg-[var(--term-bg)] border border-[var(--term-border)] rounded text-xs font-mono flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[var(--term-muted)]">
+            <div class="flex items-center gap-2">
+              <span class="text-[var(--term-green-bright)]">➜</span>
+              <span><span class="text-[var(--term-bright)]">Response Time:</span> Typically within 24 hours via email or LinkedIn</span>
+            </div>
+            <div class="flex items-center gap-2 text-[11px]">
+              <span class="text-[var(--term-dim)]">PGP:</span>
+              <span class="text-[var(--term-cyan)]">verified</span>
+              <span class="text-[var(--term-dim)]">·</span>
+              <span class="text-[var(--term-yellow)]">Hanoi, VN (GMT+7)</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Terminal Bar -->
+  <footer class="border-t border-[var(--term-border)] bg-[var(--term-bg)] py-6 text-xs text-[var(--term-muted)]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>
+        © <span id="year"></span> Quang Hiếu (Worgzek). Terminal portfolio edition.
+      </div>
+      <div class="flex items-center gap-4 text-[11px]">
+        <span class="text-[var(--term-green-bright)]">[exit 0]</span>
+        <a href="#top" class="hover:text-[var(--term-bright)]">↑ top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast for Copy -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
+

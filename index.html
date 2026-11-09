@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quang Hieu (Worgzek) — SQL Portfolio</title>
+  
+  <meta name="description" content="Quang Hieu (Worgzek) — Data Engineer Portfolio presented as a clean, interactive SQL workspace." />
+  <meta name="author" content="Quang Hieu" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💾</text></svg>" />
+
+  <!-- Fonts: JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Devicon CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        borderRadius: {
+          none: '0px',
+          sm: '0px',
+          DEFAULT: '0px',
+          md: '0px',
+          lg: '0px',
+          xl: '0px',
+          '2xl': '0px',
+          '3xl': '0px',
+          full: '0px',
+        },
+        extend: {
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            sql: {
+              bg: 'rgb(var(--sql-bg) / <alpha-value>)',
+              sidebar: 'rgb(var(--sql-sidebar) / <alpha-value>)',
+              editor: 'rgb(var(--sql-editor) / <alpha-value>)',
+              panel: 'rgb(var(--sql-panel) / <alpha-value>)',
+              border: 'rgb(var(--sql-border) / <alpha-value>)',
+              hover: 'rgb(var(--sql-hover) / <alpha-value>)',
+              active: 'rgb(var(--sql-active) / <alpha-value>)',
+              accent: 'rgb(var(--sql-accent) / <alpha-value>)',
+              green: 'rgb(var(--sql-green) / <alpha-value>)',
+              yellow: 'rgb(var(--sql-yellow) / <alpha-value>)',
+              purple: 'rgb(var(--sql-purple) / <alpha-value>)',
+              muted: 'rgb(var(--sql-muted) / <alpha-value>)',
+              fg: 'rgb(var(--sql-fg) / <alpha-value>)',
+              bright: 'rgb(var(--sql-bright) / <alpha-value>)'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Ensure 100% viewport fit with zoom */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Website 125% zoom for enhanced readability */
+    html {
+      zoom: 1.25;
+    }
+
+    /* CSS Variables for Clean Dark/Light SQL Theme */
+    :root {
+      --sql-bg: 19 21 25;
+      --sql-sidebar: 16 18 22;
+      --sql-editor: 24 27 32;
+      --sql-panel: 30 34 40;
+      --sql-border: 39 44 53;
+      --sql-hover: 36 42 51;
+      --sql-active: 40 48 61;
+      --sql-accent: 56 189 248;
+      --sql-green: 74 222 128;
+      --sql-yellow: 251 191 36;
+      --sql-purple: 192 132 252;
+      --sql-muted: 113 124 141;
+      --sql-fg: 201 209 217;
+      --sql-bright: 240 246 252;
+      --sql-scrollbar-thumb: #2b323c;
+      --sql-scrollbar-hover: #3e4755;
+      --gh-c0: #161b22;
+      --gh-b0: #30363d;
+      --gh-c1: #0e4429;
+      --gh-c2: #006d32;
+      --gh-c3: #26a641;
+      --gh-c4: #39d353;
+    }
+
+    html.light {
+      --sql-bg: 248 250 252;
+      --sql-sidebar: 241 245 249;
+      --sql-editor: 255 255 255;
+      --sql-panel: 226 232 240;
+      --sql-border: 203 213 225;
+      --sql-hover: 226 232 240;
+      --sql-active: 203 213 225;
+      --sql-accent: 2 132 199;
+      --sql-green: 22 163 74;
+      --sql-yellow: 217 119 6;
+      --sql-purple: 124 58 237;
+      --sql-muted: 100 116 139;
+      --sql-fg: 51 65 85;
+      --sql-bright: 15 23 42;
+      --sql-scrollbar-thumb: #cbd5e1;
+      --sql-scrollbar-hover: #94a3b8;
+      --gh-c0: #ebedf0;
+      --gh-b0: #d0d7de;
+      --gh-c1: #9be9a8;
+      --gh-c2: #40c463;
+      --gh-c3: #30a14e;
+      --gh-c4: #216e39;
+    }
+
+    /* Angular, Sharp Developer / IDE Aesthetic */
+    *, *::before, *::after {
+      border-radius: 0 !important;
+    }
+
+    /* Tactile Button Hover Effect matching Contact Buttons */
+    button, .btn-tactile {
+      transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    button:hover, .btn-tactile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.18), 0 2px 4px -2px rgba(0, 0, 0, 0.12);
+    }
+    button:active, .btn-tactile:active {
+      transform: translateY(0px) scale(0.95);
+    }
+
+    /* Run Query Button - Clean Tactile Drop Shadow (No Colored Glow) */
+    #btn-run {
+      transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    #btn-run:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.45), 0 3px 6px -2px rgba(0, 0, 0, 0.3) !important;
+    }
+    #btn-run:active {
+      transform: translateY(0px) scale(0.95) !important;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* Popup Modal Opening & Closing Animation (Tactile Lift & Spring) */
+    #detail-modal {
+      transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #detail-modal.modal-closed {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #detail-modal.modal-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #modal-container {
+      transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center center;
+    }
+    #detail-modal.modal-closed #modal-container {
+      opacity: 0;
+      transform: translateY(14px) scale(0.96);
+    }
+    #detail-modal.modal-open #modal-container {
+      opacity: 1;
+      transform: translateY(0px) scale(1);
+    }
+
+    /* Table Rows Hover & Interaction */
+    #table-body tr {
+      transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms ease;
+    }
+    #table-body tr:hover {
+      background-color: rgba(var(--sql-accent), 0.15) !important;
+    }
+    #table-body tr:hover td {
+      color: rgb(var(--sql-bright)) !important;
+    }
+    #table-body tr:hover td:first-child {
+      color: rgb(var(--sql-accent)) !important;
+      font-weight: 700 !important;
+      box-shadow: inset 4px 0 0 rgb(var(--sql-accent)) !important;
+      background-color: rgba(var(--sql-accent), 0.22) !important;
+    }
+    #table-body tr:hover .tech-badge {
+      border-color: rgba(var(--sql-accent), 0.5) !important;
+      background-color: rgb(var(--sql-panel)) !important;
+    }
+    #table-body tr:active {
+      background-color: rgba(var(--sql-accent), 0.28) !important;
+    }
+
+    /* Section & Query Switch Animation (Tactile Glide & Fade) */
+    @keyframes sectionFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes queryFlash {
+      0% {
+        opacity: 0.25;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .section-animate {
+      animation: sectionFadeIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .query-animate {
+      animation: queryFlash 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Clean Minimal Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--sql-scrollbar-thumb);
+      border-radius: 0px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--sql-scrollbar-hover);
+    }
+
+    /* SQL Syntax Colors */
+    .sql-kw { color: rgb(var(--sql-purple)); font-weight: 600; }
+    .sql-col { color: rgb(var(--sql-bright)); }
+    .sql-tbl { color: rgb(var(--sql-accent)); font-weight: 500; }
+    .sql-comment { color: rgb(var(--sql-muted)); font-style: italic; }
+    .sql-str { color: rgb(var(--sql-green)); }
+  </style>
+</head>
+
+<body class="bg-sql-bg text-sql-fg font-mono text-xs antialiased selection:bg-sql-accent/30 selection:text-sql-bright h-full flex flex-col overflow-hidden transition-colors duration-150">
+
+  <!-- ==================== CLEAN TOPBAR ==================== -->
+  <header class="h-11 px-4 bg-sql-sidebar border-b border-sql-border flex items-center justify-between shrink-0 select-none">
+    
+    <!-- Left: Identity -->
+    <span onclick="switchTable('aboutme')" class="font-bold text-sql-bright text-sm tracking-widest select-none cursor-pointer" title="Return to v_about_me">
+      WZDB
+    </span>
+
+    <!-- Center: Quick Table Tabs -->
+    <nav class="hidden md:flex items-center gap-1.5">
+      <button onclick="switchTable('aboutme')" class="nav-tab px-2.5 py-1 border border-sql-border/60 bg-sql-active text-sql-bright font-semibold hover:bg-sql-hover hover:border-sql-accent/60 hover:text-sql-accent select-none shadow-sm" data-nav="aboutme">
+        About Me
+      </button>
+      <button onclick="switchTable('skills')" class="nav-tab px-2.5 py-1 border border-transparent bg-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent select-none shadow-sm" data-nav="skills">
+        Tech Stack
+      </button>
+      <button onclick="switchTable('experience')" class="nav-tab px-2.5 py-1 border border-transparent bg-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent select-none shadow-sm" data-nav="experience">
+        Experience
+      </button>
+      <button onclick="switchTable('projects')" class="nav-tab px-2.5 py-1 border border-transparent bg-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent select-none shadow-sm" data-nav="projects">
+        Projects
+      </button>
+      <button onclick="switchTable('hardware')" class="nav-tab px-2.5 py-1 border border-transparent bg-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent select-none shadow-sm" data-nav="hardware">
+        Hardware
+      </button>
+      <button onclick="switchTable('contact')" class="nav-tab px-2.5 py-1 border border-transparent bg-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent select-none shadow-sm" data-nav="contact">
+        Contact
+      </button>
+    </nav>
+
+    <!-- Right: Theme Toggle -->
+    <div class="flex items-center gap-2">
+      <button onclick="toggleTheme()" id="theme-toggle" class="w-8 h-8 flex items-center justify-center bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-sql-bright hover:text-sql-accent cursor-pointer select-none shadow-sm hover:shadow" title="Toggle Dark / Light Mode">
+        <span id="theme-icon" class="text-base font-bold leading-none select-none">☼</span>
+      </button>
+    </div>
+
+  </header>
+
+
+  <!-- ==================== MAIN SPLIT WORKSPACE ==================== -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- ==================== SIDEBAR: CLEAN TABLES LIST ==================== -->
+    <aside class="w-56 bg-sql-sidebar border-r border-sql-border flex flex-col shrink-0 select-none hidden sm:flex">
+      
+      <div class="px-3 py-2 text-[11px] font-semibold text-sql-muted uppercase tracking-wider border-b border-sql-border/60">
+        Tables
+      </div>
+
+      <div class="p-2 space-y-0.5 flex-1 overflow-y-auto text-xs">
+        
+        <!-- 1. v_about_me -->
+        <button onclick="switchTable('aboutme')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-sql-border/60 bg-sql-active text-sql-bright font-medium text-left hover:bg-sql-hover hover:border-sql-accent/60 hover:text-sql-accent select-none shadow-sm" data-key="aboutme">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-sql-green text-[11px]">👁</span>
+            <span class="truncate font-semibold">v_about_me</span>
+          </div>
+          <span class="text-[10px] text-sql-green font-mono">1</span>
+        </button>
+
+        <!-- 2. dim_tech_stack -->
+        <button onclick="switchTable('skills')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent text-left select-none shadow-sm" data-key="skills">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-sql-purple text-[11px]">⊞</span>
+            <span class="truncate">dim_tech_stack</span>
+          </div>
+          <span class="text-[10px] text-sql-muted font-mono">18</span>
+        </button>
+
+        <!-- 3. fact_experience -->
+        <button onclick="switchTable('experience')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent text-left select-none shadow-sm" data-key="experience">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-sql-accent text-[11px]">⊞</span>
+            <span class="truncate">fact_experience</span>
+          </div>
+          <span class="text-[10px] text-sql-green font-mono">2</span>
+        </button>
+
+        <!-- 4. fact_projects -->
+        <button onclick="switchTable('projects')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent text-left select-none shadow-sm" data-key="projects">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-sql-accent text-[11px]">⊞</span>
+            <span class="truncate">fact_projects</span>
+          </div>
+          <span class="text-[10px] text-sql-green font-mono">4</span>
+        </button>
+
+        <!-- 5. dim_hardware -->
+        <button onclick="switchTable('hardware')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent text-left select-none shadow-sm" data-key="hardware">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-sql-yellow text-[11px]">⊞</span>
+            <span class="truncate">dim_hardware</span>
+          </div>
+          <span class="text-[10px] text-sql-muted font-mono">4</span>
+        </button>
+
+        <!-- 6. v_contact -->
+        <button onclick="switchTable('contact')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent text-left select-none shadow-sm" data-key="contact">
+          <div class="flex items-center gap-2 truncate">
+            <span class="text-sql-green text-[11px]">👁</span>
+            <span class="truncate">v_contact</span>
+          </div>
+          <span class="text-[10px] text-sql-green font-mono">5</span>
+        </button>
+
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="p-3 border-t border-sql-border shrink-0 select-none">
+        <div class="text-[11px] text-sql-muted font-mono flex items-center justify-between">
+          <span>Made by <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="text-sql-accent hover:underline font-semibold">@Worgzek</a></span>
+          <span class="text-sql-muted/80">v1.0.0</span>
+        </div>
+      </div>
+
+    </aside>
+
+
+    <!-- ==================== CENTER CONTENT ==================== -->
+    <main class="flex-1 flex flex-col overflow-hidden bg-sql-bg">
+      
+      <!-- SQL Query Bar (Clean, no clutter) -->
+      <div class="bg-sql-editor border-b border-sql-border p-3 shrink-0">
+        <div class="flex items-center justify-between gap-3 mb-2">
+          <div class="flex items-center gap-2">
+            <span id="active-query-name" class="font-bold text-sql-bright text-xs">Query: fact_experience</span>
+            <span class="text-sql-border">·</span>
+            <span id="exec-status" class="text-sql-green text-[11px]">✓ 2 rows returned</span>
+          </div>
+          <button id="btn-run" onclick="reRunQuery()" class="flex items-center gap-1.5 px-3 py-1 bg-sql-green hover:bg-emerald-400 border border-emerald-600/40 text-gray-950 font-bold text-[11px] select-none cursor-pointer shadow-sm hover:shadow-md transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95" title="Execute query & Download CV">
+            <span>▶ Run Query (Download CV)</span>
+          </button>
+        </div>
+
+        <!-- Clean SQL Query Code Display -->
+        <pre id="sql-code" class="p-3 rounded-lg bg-sql-bg/80 border border-sql-border/70 text-xs overflow-x-auto leading-relaxed"></pre>
+      </div>
+
+
+      <!-- Results Table Area -->
+      <div id="results-area" class="flex-1 overflow-auto p-4 space-y-4">
+        
+        <!-- Table Box -->
+        <div class="border border-sql-border rounded-lg overflow-hidden bg-sql-sidebar/30">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-sql-panel border-b border-sql-border text-[11px] text-sql-muted select-none">
+              <tr id="table-head">
+                <!-- Dynamically populated -->
+              </tr>
+            </thead>
+            <tbody id="table-body" class="divide-y divide-sql-border/50 text-sql-bright">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- ==================== TECHNICAL DETAIL MODAL ==================== -->
+  <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm hidden modal-closed" role="dialog" aria-modal="true" onclick="if(event.target === this) closeModal()">
+    <div id="modal-container" class="relative w-full max-w-2xl bg-sql-editor rounded-xl border border-sql-border shadow-2xl overflow-hidden flex flex-col max-h-full my-auto">
+      
+      <!-- Modal Header -->
+      <div class="h-11 px-5 bg-sql-sidebar border-b border-sql-border flex items-center justify-between shrink-0 select-none">
+        <div class="flex items-center gap-2">
+          <span id="modal-heading" class="font-bold text-sql-bright text-sm">Technical Specifications</span>
+        </div>
+        <button onclick="closeModal()" class="text-sql-muted hover:text-sql-accent text-xs px-2.5 py-1 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 select-none shadow-sm hover:shadow">
+          ✕ Close [Esc]
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div id="modal-content" class="flex-1 min-h-0 p-5 sm:p-6 overflow-y-auto space-y-4 text-xs font-mono">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="h-8 px-5 bg-sql-sidebar border-t border-sql-border flex items-center justify-between shrink-0 text-[11px] text-sql-muted select-none">
+        <span>SQL Record Inspector</span>
+        <span class="text-[10px] text-sql-muted/70 font-mono">Press [Esc] to dismiss</span>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed bottom-4 right-4 z-50 px-3 py-2 rounded bg-sql-green text-gray-950 font-bold text-xs shadow-lg opacity-0 pointer-events-none transition-opacity duration-300">
+    <span id="toast-msg">Copied!</span>
+  </div>
+
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    const database = {
+      
+      // 1. EXPERIENCE
+      experience: {
+        title: "Query: fact_experience",
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">period</span>, <span class="sql-col">role</span>, <span class="sql-col">organization</span>, <span class="sql-col">highlights</span>, <span class="sql-col">tech_stack</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">fact_experience</span>\n<span class="sql-kw">ORDER BY</span> <span class="sql-col">period</span> <span class="sql-kw">DESC</span>;`,
+        headers: ["period", "role", "organization", "highlights", "tech_stack"],
+        hasAction: true,
+        rows: [
+          {
+            id: "gdgoc",
+            period: "9/2026 — Present",
+            role: "Technical Member",
+            organization: "Google Developer Groups on Campus — PTIT Chapter",
+            highlights: "Active member of the Technical Department: research modern developer technologies, collaborate on internal initiatives, and support community tech workshops.",
+            tech_stack: ["Python", "Git", "Docker", "APIs", "Community Tech"],
+            detail: {
+              title: "GDGoC PTIT — Technical Department Member",
+              subtitle: "Technical Member · Google Developer Groups on Campus (PTIT Chapter)",
+              hasPhoto: false,
+              arch: `[ GDGoC PTIT Community & Developer Activities ]
+        │
+        ▼  Technology Research & Evaluation
+[ Technical Department ] ──► Solution Design & Internal Prototyping
+        │
+        ▼  Knowledge Sharing & Mentorship
+[ Developer Workshops, Tech Talks & Community Support ]`,
+              bullets: [
+                "Technology Research: Actively research modern software engineering stacks, APIs, and cloud technologies to share within the student developer community.",
+                "Technical Support & Workshops: Assist in organizing, operating, and preparing technical materials for hands-on developer workshops and tech talk sessions.",
+                "Internal Collaboration: Collaborate with departmental peers on technical initiatives, code reviews, and community open-source projects."
+              ],
+              tech: ["Python", "Git / GitHub", "Docker", "APIs", "Technical Research", "Workshops", "Community"]
+            }
+          },
+          {
+            id: "ivina",
+            period: "8/2026 — 11/2026",
+            role: "Data Engineer Intern",
+            organization: "IVINA Joint Stock Company (Hanoi, Vietnam)",
+            highlights: "Engineered scalable ETL/ELT pipelines, tuned PostgreSQL queries, and automated scheduled ingestion workers.",
+            tech_stack: ["Python", "PostgreSQL", "Docker", "ETL / ELT", "SQL Tuning"],
+            detail: {
+              title: "IVINA Joint Stock Company — Data Engineer Intern",
+              subtitle: "Data Engineering Internship · Hanoi, Vietnam (On-site)",
+              hasPhoto: false,
+              arch: `[ External Data Sources & Client APIs ]
+        │
+        ▼  scheduled extraction & validation
+[ Ingestion & Staging Workers ] ──► Quarantine logs
+        │
+        ▼  transformation, normalization & enrichment
+[ PostgreSQL Data Warehouse ] ──► Business intelligence & reporting`,
+              bullets: [
+                "Pipeline Automation: Built robust Python ingestion workers with scheduled cron triggers and error notification hooks.",
+                "Data Quality & Validation: Implemented pre-load schema validation preventing malformed records from polluting target tables.",
+                "Performance Optimization: Analyzed query execution plans (EXPLAIN ANALYZE), added strategic indexing, and streamlined table joins."
+              ],
+              tech: ["Python", "SQL", "PostgreSQL", "Docker", "ETL / ELT", "Data Warehousing"]
+            }
+          }
+        ]
+      },
+
+      // 2. PROJECTS
+      projects: {
+        title: "Query: fact_projects",
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">project_name</span>, <span class="sql-col">tag</span>, <span class="sql-col">architecture</span>, <span class="sql-col">description</span>, <span class="sql-col">tech_stack</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">fact_projects</span>;`,
+        headers: ["project_name", "tag", "architecture", "description", "tech_stack"],
+        hasAction: true,
+        rows: [
+          {
+            id: "nutribudget",
+            project_name: "NutriBudget",
+            tag: "AI & Multi-Agent",
+            architecture: "Multi-Agent (Google ADK) &amp; PuLP Optimization",
+            description: "🥈 GDGoC Mini-Hackathon 2nd Prize. Agent-in-the-Loop nutrition planner: Google ADK Supervisor, deterministic calculations, PuLP constraint solver, and Chef LLM.",
+            tech_stack: ["Google ADK", "Agent-in-Loop", "FastAPI", "PuLP Solver", "Python", "Docker"],
+            detail: {
+              title: "NutriBudget — AI Multi-Agent & Budget Optimization",
+              subtitle: "GDGoC PTIT Probation · Google ADK Multi-Agent System",
+              hasPhoto: true,
+              githubUrl: "https://github.com/Worgzek/NutriBudget",
+              arch: `[ User Input ] (Biometrics, Nutrition Goals & Budget Ceiling)
+      │
+      ▼  REST API (FastAPI)
+[ 🤖 Google ADK Supervisor ]
+   ├──► [ Nutrition Agent ] ──► Computes BMR, TDEE & Target Macros
+   │
+   ├──► [ Meal Planning Agent ] ◄──► [ 📐 PuLP Linear Solver ]
+   │       └── Optimizes Cost & Macros (Feedback loop if infeasible)
+   │
+   └──► [ Chef LLM Agent ] ──► Synthesizes Recipes & Grocery Instructions
+      │
+      ▼
+[ Client Frontend UI Response ]`,
+              bullets: [
+                "Google ADK Multi-Agent: Supervisor routes requests between Nutrition Agent (deterministic math) and Meal Planning Agent.",
+                "Agent-in-the-Loop &amp; PuLP: Linear programming optimizes macro targets under wallet limits, with agent-driven feedback loops.",
+                "Chef LLM Synthesis: Generates structured recipes and grocery lists from mathematically verified ingredient matrices."
+              ],
+              tech: ["Google ADK", "Agent-in-the-Loop", "FastAPI", "PuLP Solver", "Python", "PostgreSQL", "Docker", "Linear Programming"]
+            }
+          },
+          {
+            id: "lakehouse",
+            project_name: "Microsoft Fabric Medallion Lakehouse",
+            tag: "Data Engineering",
+            architecture: "Fabric Medallion &amp; Snowflake Schema",
+            description: "Sales &amp; FX Lakehouse on Microsoft Fabric. PySpark Medallion pipeline, normalized Snowflake Schema data modeling, and analytical SQL views.",
+            tech_stack: ["Microsoft Fabric", "PySpark", "Delta Lake", "Snowflake Schema", "T-SQL"],
+            detail: {
+              title: "Microsoft Fabric Medallion Lakehouse (Sales & FX)",
+              subtitle: "End-to-End Lakehouse · Microsoft Fabric · PySpark · Snowflake Schema · Analytical SQL Views",
+              hasPhoto: false,
+              arch: `[ Multi-Source Ingestion: Raw Sales Transactions & FX Rates ]
+        │
+        ▼  Fabric OneLake Pipeline Ingestion
+[ 🥉 BRONZE ]  Delta Lake: Immutable raw sales records & currency exchange feeds
+        │
+        ▼  Fabric PySpark Notebooks: Schema enforcement, dedup & FX conversion
+[ 🥈 SILVER ]  Delta Lake: Cleansed sales orders normalized to unified base currency
+        │
+        ▼  Data Modeling: Dimensional decomposition & Snowflake normalization
+[ 🥇 GOLD ]    Delta Tables: Normalized Snowflake Schema (Fact Sales & Sub-dimensions)
+        │
+        ▼  Fabric SQL Analytics Endpoint
+[ Analytical SQL Views ] ──► Direct querying for Power BI & downstream business intelligence`,
+              bullets: [
+                "Fabric Medallion Architecture: Ingested multi-source sales and FX rates into Bronze Delta tables in OneLake.",
+                "PySpark Cleansing &amp; FX Conversion: Automated deduplication, schema contracts, and dynamic currency normalization into Silver tables.",
+                "Snowflake Schema &amp; SQL Views: Modeled normalized Gold dimensional marts and created zero-copy SQL Views for BI reporting."
+              ],
+              tech: ["Microsoft Fabric", "PySpark Notebooks", "Delta Lake", "Snowflake Schema", "Data Modeling", "T-SQL", "OneLake", "FX Conversion"]
+            }
+          },
+          {
+            id: "neohub",
+            project_name: "NEO-Hub",
+            tag: "Data Engineering",
+            architecture: "Airflow Orchestrated ETL &amp; Risk Scoring",
+            description: "Automated ETL pipeline ingesting NASA Near-Earth Asteroids telemetry, computing dynamic kinetic risk scores, and serving real-time Grafana dashboards.",
+            tech_stack: ["Python", "Apache Airflow", "PostgreSQL", "Docker", "Grafana", "Pandas"],
+            detail: {
+              title: "NEO-Hub",
+              subtitle: "Automated Near-Real-Time Data Pipeline · Data Engineering",
+              hasPhoto: false,
+              githubUrl: "https://github.com/Worgzek/NEO-Hub",
+              arch: `[ NASA NeoWs Public API (Near-Earth Telemetry) ]
+        │
+        ▼  Daily automated extraction & JSON flattening (Airflow DAG)
+[ Validation & Cleansing Layer ] ──► Loguru audit logging & error quarantine
+        │
+        ▼  Kinetic risk score computation (diameter, velocity & miss distance)
+[ PostgreSQL Relational Warehouse ] ──► Hazard level tiers (Low / Med / High / Extreme)
+        │
+        ▼  Ad-hoc SQL telemetry queries
+[ Grafana Observability Dashboard ] ──► Real-time tracking of Earth-approaching asteroids`,
+              bullets: [
+                "Airflow Orchestration: Automated daily containerized DAGs for NASA NeoWs API extraction, JSON flattening, and loading.",
+                "Heuristic Risk Scoring: Computed dynamic hazard scores (diameter, velocity, miss distance) classifying asteroids into 4 danger tiers.",
+                "Warehouse &amp; Observability: Enforced pre-load schema checks, audited states with Loguru in PostgreSQL, and served live Grafana dashboards."
+              ],
+              tech: ["Python", "Apache Airflow", "PostgreSQL", "Docker Compose", "Grafana", "Pandas", "Psycopg2", "Loguru"]
+            }
+          },
+          {
+            id: "ledgersql",
+            project_name: "LedgerSQL",
+            tag: "Data Engineering",
+            architecture: "Agentic Text-to-SQL &amp; DuckDB Semantic Layer",
+            description: "Agentic Text-to-SQL system for SME financial ledgers (.xlsx, .csv, .sqlite). Dual-engine design: deterministic DuckDB ingestion &amp; 10 business SQL views (My Role), integrated with Qwen3-8B offline reasoning and safety guards.",
+            tech_stack: ["DuckDB", "Qwen3-8B (vLLM)", "Python", "SQL Views", "RapidFuzz", "Text-to-SQL"],
+            detail: {
+              title: "LedgerSQL — Agentic Text-to-SQL & Semantic Lakehouse",
+              subtitle: "Collaborative AI &amp; Data System · Deterministic Data Engine (My Role) + Agentic SQL Generation",
+              hasPhoto: false,
+              arch: `[ Multi-Format Ledgers (.xlsx, .csv, .sqlite) + Business Rulebooks ]
+      │
+      ▼  [1. Ingestion, Cleaning & Mapping (My Role)]
+[ Automated Loaders & DuckDB Ingestion ] ──► RapidFuzz Entity Lookup
+      │
+      ▼  [2. Semantic Layer & Business SQL Views (My Role & Team)]
+[ 7 Standard Tables (std_*) & 10 Conditional Business Views ]
+      │  (valid_orders, revenue_lines, debt, base_unit_sales...)
+      │
+      ▼  [3. Agentic Text-to-SQL Inference (Team Member)]
+[ User Question + Schema Card ] ──► Qwen3-8B (vLLM Offline Engine)
+   ├──► resolve_time() ──► Deterministic Lunar/Solar Calendar Resolver (My Role)
+   ├──► SQL Safety Guards ──► Automated Unanswerable / Abstain Classifier
+   └─► Executed SQL on DuckDB ──► Formatted Output (8 Target Types)`,
+              bullets: [
+                "Dual-Engine Architecture: Separated deterministic code/SQL logic (DuckDB) from linguistic reasoning (Qwen3-8B on vLLM), enforcing strict penalty-aware abstain controls (+1/0/-1).",
+                "My Contribution (Data &amp; Semantic Core): Built automated multi-format ETL loaders (Excel/CSV/SQLite), store archetype mapping, 7 standardized std_* tables, and 10 conditional business SQL Views.",
+                "Team Collaboration &amp; Guardrails: Team members orchestrated the offline agent pipeline and rule specifications, while my RapidFuzz entity engine and lunar/solar time resolver prevented model hallucinations."
+              ],
+              tech: ["DuckDB", "Qwen3-8B (vLLM)", "Python", "SQL Views", "Agentic Text-to-SQL", "RapidFuzz", "Data Ingestion", "Data Modeling"]
+            }
+          }
+        ]
+      },
+
+      // 3. HARDWARE & WORKSPACE
+      hardware: {
+        title: "Query: dim_hardware",
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">device_category</span>, <span class="sql-col">model_name</span>, <span class="sql-col">specifications</span>, <span class="sql-col">workload_role</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_hardware</span>;`,
+        headers: ["device_category", "model_name", "specifications", "workload_role"],
+        hasAction: true,
+        rows: [
+          {
+            id: "pc",
+            device_category: "Desktop Rig",
+            model_name: "Custom Compute PC",
+            specifications: "Intel Core i5-12400F (12 threads) · RTX 3070 (8GB VRAM) · 48 GB RAM · 1.5 TB SSD",
+            workload_role: "Heavy Compute Rig: Local Spark clusters, Docker stacks, GPU testing, ETL batch processing",
+            detail: {
+              title: "Custom Desktop PC — Heavy Compute Rig",
+              subtitle: "Local Data Engineering Lab & Distributed Cluster Simulation",
+              hasPhoto: false,
+              arch: `[ Compute Stack ]
+CPU: Intel Core i5-12400F (6 Cores / 12 Threads)
+GPU: NVIDIA GeForce RTX 3070 (8 GB GDDR6 VRAM)
+RAM: 48 GB DDR4 High-Bandwidth
+Storage: 1.5 TB NVMe M.2 SSD
+OS: Windows 11 Pro + WSL 2 (Ubuntu 22.04 LTS)`,
+              bullets: [
+                "Configured for running local multi-container Spark and Airflow clusters simultaneously.",
+                "RTX 3070 GPU accelerates vector embedding computations and local LLM agent testing.",
+                "48 GB of memory provides ample headroom for in-memory DuckDB queries and PostgreSQL buffer caches."
+              ]
+            }
+          },
+          {
+            id: "macbook",
+            device_category: "Laptop (Pri)",
+            model_name: 'Apple MacBook Pro 14"',
+            specifications: "Apple M5 Pro · 24 GB Unified RAM · 1 TB SSD · Space Black",
+            workload_role: "Daily Driver: System architecture, pipeline modeling, code reviews, mobile engineering",
+            detail: {
+              title: 'Apple MacBook Pro 14" — Daily Driver',
+              subtitle: "Primary Workstation for Architecture & Development",
+              hasPhoto: false,
+              arch: `[ Workstation Stack ]
+SoC: Apple M5 Pro
+Memory: 24 GB Unified Fast Memory
+Storage: 1 TB High-Speed SSD
+Color: Space Black
+Display: Liquid Retina XDR with ProMotion 120Hz`,
+              bullets: [
+                "Exceptional battery efficiency and silence for long coding sessions and remote collaborations.",
+                "Native Unix environment for terminal workflows, Git pipelines, and Python virtual environments."
+              ]
+            }
+          },
+          {
+            id: "lenovo",
+            device_category: "Laptop (Sec)",
+            model_name: "Lenovo Xiaoxin Pro 14 GT",
+            specifications: "AMD Ryzen AI 9 365 · 32 GB RAM · Linux / WSL data engineering lab",
+            workload_role: "Secondary Workstation: Linux data engineering sandbox & client demonstrations",
+            detail: {
+              title: "Lenovo Xiaoxin Pro 14 GT — Secondary Rig",
+              subtitle: "Portable x86 Linux / WSL Data Engineering Workstation",
+              hasPhoto: false,
+              arch: `[ Hardware Stack ]
+CPU: AMD Ryzen AI 9 365 (High-efficiency multi-core)
+RAM: 32 GB LPDDR5X
+Environment: Dual-boot / Linux WSL data engineering lab`,
+              bullets: [
+                "Dedicated x86 environment for verifying Linux binary dependencies and multi-arch Docker builds.",
+                "Lightweight portability for on-campus GDGoC meetings and hackathons."
+              ]
+            }
+          },
+          {
+            id: "gear",
+            device_category: "Peripherals",
+            model_name: "Desk Setup",
+            specifications: "Sugar65 (violet switches) · ATK Ghost Ultimate · Razer Barracuda X 2022 · 2K180HZ Monitor · Maono PD100X · Wallhack SP-004",
+            workload_role: "High-throughput productivity: Fast typing, precise mouse control, immersive audio, and clear voice capture",
+            detail: {
+              title: "Workspace Ergonomics & Tooling",
+              subtitle: "Peripherals configured for high-throughput productivity",
+              hasPhoto: false,
+              arch: `[ Desk Setup ]
+Keyboard: Custom mechanical keyboard Sugar65 with tactile violet switches
+Mouse: ATK Ghost Ultimate with high-precision sensor
+Headset: Razer Barracuda X 2022 (wireless, low-latency)
+Monitor: 2K 180Hz high-refresh display for smooth visuals
+Micro: Maono PD100X condenser microphone for clear voice capture
+Mousepad: Wallhack SP-004 Glass mousepad for smooth tracking
+Terminal: Unix CLI with custom aliases & zsh plugins
+Editor: VS Code & Claude Code CLI`,
+              bullets: [
+                "Optimized for fast code iteration and Gaming performance.",
+                "Clean minimal workspace setup designed to minimize distraction during deep debugging."
+              ]
+            }
+          }
+        ]
+      },
+
+      // 4. TECH STACK
+      skills: {
+        title: "Query: dim_tech_stack",
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">category</span>, <span class="sql-col">technologies</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_tech_stack</span>;`,
+        headers: ["category", "technologies"],
+        hasAction: false,
+        rows: [
+          {
+            category: "Languages",
+            technologies: ["Python", "SQL (PostgreSQL, Analytical)"]
+          },
+          {
+            category: "Big Data & Transformation",
+            technologies: ["PySpark", "dbt", "Delta Lake"]
+          },
+          {
+            category: "Databases & Storage",
+            technologies: ["PostgreSQL", "DuckDB", "MongoDB", "Redis"]
+          },
+          {
+            category: "Orchestration & DevOps",
+            technologies: ["Apache Airflow", "Docker", "Docker Compose", "FastAPI"]
+          },
+          {
+            category: "Tools & Environment",
+            technologies: ["Git", "GitHub", "Unix CLI", "VS Code", "Claude Code CLI"]
+          }
+        ]
+      },
+
+      // 1. ABOUT ME
+      aboutme: {
+        title: "Query: v_about_me",
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">alias</span>, <span class="sql-col">full_name</span>, <span class="sql-col">role</span>, <span class="sql-col">focus</span>, <span class="sql-col">location</span>, <span class="sql-col">status</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">v_about_me</span>;`,
+        headers: ["alias", "full_name", "role", "focus", "location", "status"],
+        hasAction: true,
+        rows: [
+          {
+            alias: "worgzek",
+            full_name: "Quang Hieu",
+            role: "Data Engineer",
+            focus: "Scalable ETL/ELT, Medallion Lakehouse, High-Throughput Streaming, Distributed Systems",
+            location: "Hanoi, Vietnam (GMT+7)",
+            status: "OPEN_FOR_OPPORTUNITIES",
+            detail: {
+              isProfile: true,
+              title: "About Me",
+              subtitle: "Data Engineer",
+              profileImage: "assets/img/profile.jpg",
+              bio: "I'm a Data Engineer passionate about building reliable, high-throughput data backbones. My focus is treating data pipelines like production software: strict schema contracts, idempotent operations, containerized micro-environments, and comprehensive end-to-end observability.",
+              githubUsername: "worgzek",
+              hobbies: [
+                "🎮 Gaming: Indie gems, story-rich, and immersive AAA blockbusters.",
+                "🏀 Basketball: Playing pickup games & die-hard fan of the Golden State Warriors (#DubNation).",
+                "📸 Photography: Street photography, urban architecture & capturing everyday candid frames.",
+                "⌨️ Gear Collecting: Custom mechanical keyboards, tactile switch modding & desk setup aesthetics."
+              ],
+              education: [
+                {
+                  degree: "Bachelor of Information Technology",
+                  institution: "Posts and Telecommunications Institute of Technology (PTIT)",
+                  details: "2025 - Present"
+                },
+                {
+                  degree: "Data Engineering Course",
+                  institution: "MindX Technology School",
+                }
+              ]
+            }
+          }
+        ]
+      },
+
+      // CONTACT
+      contact: {
+        title: "Query: v_contact",
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">channel</span>, <span class="sql-col">address</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">v_contact</span>;`,
+        headers: ["channel", "address"],
+        hasAction: false,
+        rows: [
+          {
+            channel: "Email",
+            address: "hieuqt@gdscptit.dev"
+          },
+          {
+            channel: "LinkedIn",
+            address: "https://www.linkedin.com/in/qt-hieu/"
+          },
+          {
+            channel: "GitHub",
+            address: "https://github.com/worgzek"
+          },
+          {
+            channel: "Facebook",
+            address: "https://www.facebook.com/z.Wolves.3/?locale=vi_VN"
+          },
+          {
+            channel: "Instagram",
+            address: "https://www.instagram.com/worgzek/"
+          }
+        ]
+      }
+
+    };
+    database.whoami = database.aboutme;
+
+    let activeTable = 'aboutme';
+
+    function switchTable(key) {
+      if (!database[key]) return;
+      activeTable = key;
+
+      // Update Nav Tabs
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        const isActive = tab.dataset.nav === key;
+        tab.classList.toggle('bg-sql-active', isActive);
+        tab.classList.toggle('text-sql-bright', isActive);
+        tab.classList.toggle('font-semibold', isActive);
+        tab.classList.toggle('border-sql-border/60', isActive);
+        tab.classList.toggle('border-transparent', !isActive);
+        tab.classList.toggle('bg-transparent', !isActive);
+        tab.classList.toggle('text-sql-muted', !isActive);
+      });
+
+      // Update Sidebar Items
+      document.querySelectorAll('.sidebar-item').forEach(item => {
+        const isActive = item.dataset.key === key;
+        item.classList.toggle('bg-sql-active', isActive);
+        item.classList.toggle('text-sql-bright', isActive);
+        item.classList.toggle('font-medium', isActive);
+        item.classList.toggle('border-sql-border/60', isActive);
+        item.classList.toggle('border-transparent', !isActive);
+        item.classList.toggle('text-sql-muted', !isActive);
+      });
+
+      render();
+    }
+
+    function reRunQuery() {
+      const btn = document.getElementById('btn-run');
+      btn.innerHTML = '<span>⚙ Running...</span>';
+
+      // Automatically trigger CV download
+      try {
+        const link = document.createElement('a');
+        link.href = 'assets/Quang_Trung_Hieu_CV.pdf';
+        link.download = 'Quang_Trung_Hieu_Data_Engineer_CV.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (err) {
+        console.error('CV download error:', err);
+      }
+
+      setTimeout(() => {
+        btn.innerHTML = '<span>▶ Run Query (Download CV)</span>';
+        render();
+        showToast('Query re-executed · CV Downloading...');
+      }, 250);
+    }
+
+    function getTechIcon(tag) {
+      const t = tag.toLowerCase().trim();
+      if (t === 'python') return '<i class="devicon-python-plain colored text-xs"></i>';
+      if (t === 'pyspark') return '<i class="devicon-apachespark-original colored text-xs"></i>';
+      if (t === 'postgresql' || t.startsWith('sql')) return '<i class="devicon-postgresql-plain colored text-xs"></i>';
+      if (t === 'duckdb') return '<i class="devicon-duckdb-plain colored text-xs"></i>';
+      if (t === 'mongodb') return '<i class="devicon-mongodb-plain colored text-xs"></i>';
+      if (t === 'redis' || t.includes('redis')) return '<i class="devicon-redis-plain colored text-xs"></i>';
+      if (t === 'apache airflow' || t === 'airflow') return '<i class="devicon-apacheairflow-plain colored text-xs"></i>';
+      if (t === 'docker') return '<i class="devicon-docker-plain colored text-xs"></i>';
+      if (t === 'docker compose' || t === 'docker engine' || t === 'docker desktop') return '<i class="devicon-docker-plain text-sky-400 text-xs"></i>';
+      if (t === 'fastapi') return '<i class="devicon-fastapi-plain colored text-xs"></i>';
+      if (t === 'git') return '<i class="devicon-git-plain colored text-xs"></i>';
+      if (t === 'github') return '<i class="devicon-github-original text-xs"></i>';
+      if (t === 'vscode' || t === 'vs code') return '<i class="devicon-vscode-plain colored text-xs"></i>';
+      if (t === 'unix cli' || t === 'bash' || t === 'zsh') return '<i class="devicon-bash-plain text-xs"></i>';
+      if (t === 'linux' || t === 'ubuntu' || t === 'wsl 2') return '<i class="devicon-ubuntu-plain colored text-xs"></i>';
+      if (t === 'macos') return '<i class="devicon-apple-original text-xs"></i>';
+      if (t === 'dbt') {
+        return `<svg class="w-3.5 h-3.5 text-[#FF694B] shrink-0 inline-block" viewBox="0 0 24 24" fill="currentColor"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763z"/></svg>`;
+      }
+      if (t === 'delta lake') {
+        return `<svg class="w-3.5 h-3.5 text-[#00ADD8] shrink-0 inline-block" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.8L19.5 19h-15L12 5.8z"/></svg>`;
+      }
+      if (t === 'claude code cli') {
+        return `<span class="w-2 h-2 rounded-full bg-amber-500 inline-block shrink-0"></span>`;
+      }
+      if (t === 'google adk') {
+        return `<svg class="w-3.5 h-3.5 text-blue-400 shrink-0 inline-block" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V18h-2v-1.07A6 6 0 0 1 6.07 12H5v-2h1.07A6 6 0 0 1 11 4.93V4h2v.93A6 6 0 0 1 17.93 10H19v2h-1.07A6 6 0 0 1 13 16.93zM12 8a4 4 0 1 0 4 4 4 4 0 0 0-4-4z"/></svg>`;
+      }
+      if (t === 'pulp') {
+        return `<span class="text-[10px] text-purple-400 font-bold font-mono">∑</span>`;
+      }
+      if (t.includes('etl') || t.includes('lakehouse') || t.includes('warehousing')) {
+        return `<span class="text-[10px] text-sql-green font-bold">⇄</span>`;
+      }
+      return '';
+    }
+
+    function renderTechBadge(tag) {
+      const icon = getTechIcon(tag);
+      return `
+        <span class="tech-badge inline-flex items-center gap-1.5 px-2 py-0.5 bg-sql-panel border border-sql-border text-[11px] text-sql-bright font-medium hover:border-sql-accent/60 hover:text-sql-accent transition-all duration-150 select-none shadow-sm">
+          ${icon ? `<span>${icon}</span>` : ''}
+          <span>${tag}</span>
+        </span>
+      `;
+    }
+
+    function render() {
+      const data = database[activeTable];
+      if (!data) return;
+
+      document.getElementById('active-query-name').textContent = data.title;
+      const countMsg = `✓ ${data.rows.length} ${data.rows.length === 1 ? 'row' : 'rows'} returned`;
+      const hintMsg = data.hasAction 
+        ? `<span class="ml-2.5 px-2 py-0.5 rounded bg-sql-accent/15 text-sql-accent border border-sql-accent/30 font-medium text-[11px] inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-sql-accent animate-pulse"></span>Click any row to inspect detail ↗</span>`
+        : '';
+      document.getElementById('exec-status').innerHTML = `${countMsg} ${hintMsg}`;
+      document.getElementById('sql-code').innerHTML = data.sql;
+
+      // Table Headers
+      const thead = document.getElementById('table-head');
+      thead.innerHTML = `
+        <th class="w-10 px-3 py-2.5 border-r border-sql-border text-center text-sql-muted/70">#</th>
+        ${data.headers.map(h => `<th class="px-3 py-2.5 border-r border-sql-border/60 capitalize">${h.replace(/_/g, ' ')}</th>`).join('')}
+      `;
+
+      // Table Rows
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = data.rows.map((row, idx) => {
+        const rowClass = data.hasAction 
+          ? 'group cursor-pointer' 
+          : 'cursor-default';
+        const rowClick = data.hasAction ? `onclick="openDetail('${activeTable}', ${idx})"` : '';
+
+        return `
+          <tr class="${rowClass}" ${rowClick}>
+            <td class="px-3 py-3 border-r border-sql-border/60 text-center text-sql-muted text-[10px] select-none bg-sql-sidebar/30 transition-colors">${idx + 1}</td>
+            ${data.headers.map(h => {
+              const val = row[h];
+              let content = '';
+
+              if (Array.isArray(val)) {
+                content = `<div class="flex flex-wrap gap-1.5">${val.map(tag => renderTechBadge(tag)).join('')}</div>`;
+              } else if (h === 'tag') {
+                const isDE = val === 'Data Engineering';
+                const tagColor = isDE
+                  ? 'bg-sql-accent/15 text-sql-accent border-sql-accent/40'
+                  : 'bg-sql-purple/15 text-sql-purple border-sql-purple/40';
+                content = `<span class="inline-flex items-center gap-1 px-2 py-0.5 border ${tagColor} font-semibold text-[11px] whitespace-nowrap shadow-sm select-none">${val}</span>`;
+              } else if (h === 'period') {
+                content = `<span class="font-bold text-sql-bright whitespace-nowrap">${val}</span>`;
+              } else if (h === 'role' || h === 'project_name' || h === 'model_name') {
+                content = `<span class="font-bold text-sql-bright text-xs">${val}</span>`;
+              } else if (h === 'organization' || h === 'device_category') {
+                content = `<span class="text-sql-accent font-medium">${val}</span>`;
+              } else if (h === 'channel') {
+                let icon = '';
+                if (val === 'Resume / CV') icon = '<span class="text-xs">📄</span>';
+                if (val === 'Email') icon = '<span class="text-xs">✉</span>';
+                if (val === 'LinkedIn') icon = '<i class="devicon-linkedin-plain colored text-xs"></i>';
+                if (val === 'GitHub') icon = '<i class="devicon-github-original text-xs"></i>';
+                if (val === 'Facebook') icon = '<svg class="w-3.5 h-3.5 text-[#1877F2] shrink-0 inline-block" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
+                if (val === 'Instagram') icon = '<svg class="w-3.5 h-3.5 text-pink-500 shrink-0 inline-block" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>';
+                content = `<span class="font-bold text-sql-bright inline-flex items-center gap-1.5">${icon}<span>${val}</span></span>`;
+              } else if (h === 'address' && val.endsWith('.pdf')) {
+                content = `
+                  <a href="${val}" download="Quang_Trung_Hieu_Data_Engineer_CV.pdf" target="_blank" onclick="event.stopPropagation()" class="px-2.5 py-1 rounded bg-sql-panel hover:bg-sql-hover border border-sql-green/50 hover:border-sql-green text-sql-green font-mono font-semibold text-xs inline-flex items-center gap-1.5 transition hover:-translate-y-0.5 active:translate-y-0 shadow-sm" title="Download Official CV (PDF)">
+                    <span>Quang_Trung_Hieu_CV.pdf</span>
+                    <span class="text-[10px]">↓ [Download]</span>
+                  </a>
+                `;
+              } else if (h === 'address' && val.includes('@')) {
+                content = `
+                  <div class="inline-flex items-center gap-2">
+                    <span class="text-sql-green font-mono cursor-pointer hover:underline font-semibold" onclick="event.stopPropagation(); copyText('${val}')" title="Click to copy">${val}</span>
+                    <button onclick="event.stopPropagation(); copyText('${val}')" class="px-2 py-0.5 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-[10px] text-sql-green hover:text-sql-accent font-mono cursor-pointer select-none shadow-sm hover:shadow">
+                      [Copy]
+                    </button>
+                  </div>
+                `;
+              } else if (h === 'address' && val.startsWith('http')) {
+                content = `
+                  <a href="${val}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-sql-accent font-mono hover:underline inline-flex items-center gap-1.5 font-semibold">
+                    <span>${val}</span>
+                    <span class="text-xs">↗</span>
+                  </a>
+                `;
+              } else {
+                content = val || '';
+              }
+
+              return `<td class="px-3 py-3 border-r border-sql-border/40 align-top">${content}</td>`;
+            }).join('')}
+          </tr>
+        `;
+      }).join('');
+
+      triggerSectionAnimation();
+    }
+
+    function triggerSectionAnimation() {
+      const results = document.getElementById('results-area');
+      const sqlCode = document.getElementById('sql-code');
+      const execStatus = document.getElementById('exec-status');
+
+      if (results) {
+        results.classList.remove('section-animate');
+        void results.offsetWidth; // Trigger DOM reflow to restart CSS animation
+        results.classList.add('section-animate');
+      }
+      if (sqlCode) {
+        sqlCode.classList.remove('query-animate');
+        void sqlCode.offsetWidth;
+        sqlCode.classList.add('query-animate');
+      }
+      if (execStatus) {
+        execStatus.classList.remove('query-animate');
+        void execStatus.offsetWidth;
+        execStatus.classList.add('query-animate');
+      }
+    }
+
+    // Modal Details Opener
+    function openDetail(tableKey, index) {
+      const row = database[tableKey].rows[index];
+      if (!row || !row.detail) return;
+      const d = row.detail;
+
+      document.getElementById('modal-heading').textContent = d.title;
+
+      let html = '';
+
+      if (d.isProfile) {
+        // Detailed About Me Modal with photo and story
+        html = `
+          <div class="space-y-3.5">
+            <!-- Profile Header -->
+            <div class="flex flex-col sm:flex-row items-center gap-4 p-3 rounded-lg bg-sql-sidebar border border-sql-border">
+              <img src="${d.profileImage}" alt="Quang Hieu" class="w-20 h-20 rounded-full object-cover border-2 border-sql-border shadow-md ring-2 ring-sql-accent/30 shrink-0" />
+              <div class="space-y-1 text-center sm:text-left">
+                <div class="flex items-center justify-center sm:justify-start gap-2">
+                  <h3 class="text-base font-bold text-sql-bright">Quang Hieu</h3>
+                </div>
+                <div class="text-xs text-sql-accent font-semibold">${d.subtitle}</div>
+                <div class="text-[11px] text-sql-muted">📍 Hanoi, Vietnam · Post and Telecommunications Institute of Technology</div>
+              </div>
+            </div>
+
+            <!-- Full Bio Narrative -->
+            <div class="space-y-1.5">
+              <div class="text-xs font-bold text-sql-green uppercase tracking-wider">// Biography & Mission</div>
+              <p class="text-xs sm:text-sm text-sql-bright leading-relaxed p-3 rounded bg-sql-sidebar/70 border border-sql-border/70">
+                ${d.bio}
+              </p>
+            </div>
+
+            <!-- Education & Credentials -->
+            ${d.education ? `
+              <div class="space-y-1.5">
+                <div class="text-xs font-bold text-sql-purple uppercase tracking-wider">// Education &amp; Credentials</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                  ${d.education.map(e => `
+                    <div class="p-2.5 rounded bg-sql-sidebar/80 border border-sql-border space-y-1 hover:border-sql-purple/50 transition-all duration-150">
+                      <div class="font-bold text-sql-bright text-xs">${e.degree}</div>
+                      <div class="text-sql-accent text-[11px] font-medium">${e.institution}</div>
+                      ${e.details ? `<div class="text-sql-muted text-[11px] leading-relaxed">${e.details}</div>` : ''}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- GitHub Contribution Activity (Realtime) -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold text-sql-green uppercase tracking-wider">
+                <span class="flex items-center gap-2">
+                  <span>// GitHub Contributions</span>
+                  <span id="gh-total-badge" class="normal-case text-[11px] font-normal px-2 py-0.5 rounded bg-sql-green/15 text-sql-green border border-sql-green/30">Syncing live activity...</span>
+                </span>
+              </div>
+              <div class="p-3.5 rounded-lg bg-sql-sidebar border border-sql-border overflow-x-auto shadow-inner">
+                <div id="gh-chart-wrapper" class="min-w-[690px]">
+                  <div class="flex items-center justify-center py-6 text-xs text-sql-muted">
+                    <span class="animate-pulse font-mono">Fetching realtime GitHub contribution telemetry for @worgzek...</span>
+                  </div>
+                </div>
+                <div class="mt-2.5 pt-2 border-t border-sql-border/60 flex items-center justify-end text-[10px] text-sql-muted">
+                  <div class="flex items-center gap-1.5">
+                    <span>Less</span>
+                    <span class="inline-block w-2.5 h-2.5 rounded-sm" style="background-color: var(--gh-c0); border: 1px solid var(--gh-b0);"></span>
+                    <span class="inline-block w-2.5 h-2.5 rounded-sm" style="background-color: var(--gh-c1);"></span>
+                    <span class="inline-block w-2.5 h-2.5 rounded-sm" style="background-color: var(--gh-c2);"></span>
+                    <span class="inline-block w-2.5 h-2.5 rounded-sm" style="background-color: var(--gh-c3);"></span>
+                    <span class="inline-block w-2.5 h-2.5 rounded-sm" style="background-color: var(--gh-c4);"></span>
+                    <span>More</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hobbies & Interests -->
+            <div class="space-y-2">
+              <div class="text-xs font-bold text-sql-yellow uppercase tracking-wider">// Personal Life & Hobbies</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div class="p-3 rounded bg-sql-panel/60 border border-sql-border space-y-1 hover:border-sql-yellow/50 transition-all duration-150">
+                  <div class="font-bold text-sql-bright">🎮 Gaming</div>
+                  <div class="text-sql-muted text-[11px]">Indie gems, story-rich, and immersive AAA blockbusters.</div>
+                </div>
+                <div class="p-3 rounded bg-sql-panel/60 border border-sql-border space-y-1 hover:border-sql-yellow/50 transition-all duration-150">
+                  <div class="font-bold text-sql-bright">🏀 Basketball</div>
+                  <div class="text-sql-muted text-[11px]">Die-hard fan of the Golden State Warriors (#DubNation).</div>
+                </div>
+                <div class="p-3 rounded bg-sql-panel/60 border border-sql-border space-y-1 hover:border-sql-yellow/50 transition-all duration-150">
+                  <div class="font-bold text-sql-bright">📸 Photography</div>
+                  <div class="text-sql-muted text-[11px]">Landscape, Street photography, urban architecture, and capturing everyday moments.</div>
+                </div>
+                <div class="p-3 rounded bg-sql-panel/60 border border-sql-border space-y-1 hover:border-sql-yellow/50 transition-all duration-150">
+                  <div class="font-bold text-sql-bright">⌨️ Gear Collecting</div>
+                  <div class="text-sql-muted text-[11px]">Custom mechanical keyboards, gaming mouse, and desk aesthetics.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Buttons -->
+            <div class="pt-2 border-t border-sql-border flex flex-wrap items-center gap-2">
+              <button onclick="copyText('hieuqt@gdscptit.dev')" class="px-3 py-1.5 rounded-lg bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-xs font-medium text-sql-bright hover:text-sql-accent inline-flex items-center gap-2 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer shadow-sm hover:shadow" title="Click to copy email">
+                <span class="text-xs">✉</span>
+                <span>hieuqt@gdscptit.dev</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-sql-sidebar text-sql-green border border-sql-green/30 font-mono font-normal">[Copy]</span>
+              </button>
+              <a href="https://www.linkedin.com/in/qt-hieu/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-xs font-medium text-sql-bright hover:text-sql-accent inline-flex items-center gap-2 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer shadow-sm hover:shadow" title="Open LinkedIn Profile">
+                <i class="devicon-linkedin-plain colored text-xs"></i>
+                <span>LinkedIn</span>
+                <span class="text-[10px] text-sql-muted">↗</span>
+              </a>
+              <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-xs font-medium text-sql-bright hover:text-sql-accent inline-flex items-center gap-2 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer shadow-sm hover:shadow" title="Open GitHub Profile">
+                <i class="devicon-github-original text-xs"></i>
+                <span>GitHub</span>
+                <span class="text-[10px] text-sql-muted">↗</span>
+              </a>
+              <a href="https://www.facebook.com/z.Wolves.3/?locale=vi_VN" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-xs font-medium text-sql-bright hover:text-sql-accent inline-flex items-center gap-2 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer shadow-sm hover:shadow" title="Open Facebook Profile">
+                <svg class="w-3.5 h-3.5 text-[#1877F2] shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <span>Facebook</span>
+                <span class="text-[10px] text-sql-muted">↗</span>
+              </a>
+              <a href="https://www.instagram.com/worgzek/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-xs font-medium text-sql-bright hover:text-sql-accent inline-flex items-center gap-2 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer shadow-sm hover:shadow" title="Open Instagram Profile">
+                <svg class="w-3.5 h-3.5 text-pink-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span>Instagram</span>
+                <span class="text-[10px] text-sql-muted">↗</span>
+              </a>
+            </div>
+
+          </div>
+        `;
+      } else {
+        // Standard Project / Experience / Hardware Modal
+        html = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-sql-border/80 pb-2 gap-2 flex-wrap">
+              <div class="text-sql-accent font-semibold text-xs">${d.subtitle}</div>
+              ${d.githubUrl ? `
+                <a href="${d.githubUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-md bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-[11px] text-sql-bright hover:text-sql-accent inline-flex items-center gap-1.5 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm font-semibold select-none">
+                  <i class="devicon-github-original text-xs"></i>
+                  <span>GitHub Repository</span>
+                  <span class="text-[10px] text-sql-muted">↗</span>
+                </a>
+              ` : ''}
+            </div>
+        `;
+
+        if (d.hasPhoto) {
+          html += `
+            <div class="rounded-lg overflow-hidden border border-sql-border">
+              <img src="assets/img/gdgoc-hackathon.jpg" alt="GDGoC Award Photo" class="w-full h-48 object-cover" />
+              <div class="p-2 text-center text-[10px] text-sql-muted bg-sql-sidebar border-t border-sql-border">
+                GDGoC PTIT Probation
+              </div>
+            </div>
+          `;
+        }
+
+        if (d.arch) {
+          html += `
+            <div class="space-y-1">
+              <div class="text-sql-green font-bold text-xs">// Architecture &amp; System Flow</div>
+              <pre class="p-3.5 rounded bg-sql-sidebar border border-sql-border text-sql-bright text-[11px] leading-relaxed overflow-x-auto">${d.arch}</pre>
+            </div>
+          `;
+        }
+
+        if (d.bullets && d.bullets.length > 0) {
+          html += `
+            <div class="space-y-1.5">
+              <div class="text-sql-yellow font-bold text-xs">// Technical Highlights &amp; Decisions</div>
+              <ul class="list-disc pl-5 space-y-1.5 text-sql-fg text-xs">
+                ${d.bullets.map(b => `<li>${b}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+
+        if (d.tech && d.tech.length > 0) {
+          html += `
+            <div class="space-y-1.5 pt-2">
+              <div class="text-sql-muted font-bold text-xs uppercase tracking-wider">// Stack &amp; Tags</div>
+              <div class="flex flex-wrap gap-1.5">
+                ${d.tech.map(t => renderTechBadge(t)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        html += `</div>`;
+      }
+
+      document.getElementById('modal-content').innerHTML = html;
+      const modal = document.getElementById('detail-modal');
+      modal.classList.remove('hidden');
+      modal.classList.remove('modal-open');
+      modal.classList.add('modal-closed');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          modal.classList.remove('modal-closed');
+          modal.classList.add('modal-open');
+        });
+      });
+
+      if (d.isProfile) {
+        renderGitHubChart(d.githubUsername || 'worgzek');
+      }
+    }
+
+    let cachedGhData = null;
+    async function renderGitHubChart(username = 'worgzek') {
+      const wrapper = document.getElementById('gh-chart-wrapper');
+      const badge = document.getElementById('gh-total-badge');
+      if (!wrapper) return;
+
+      try {
+        let data = cachedGhData;
+        if (!data) {
+          const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`);
+          if (!res.ok) throw new Error('API fetch error: ' + res.status);
+          data = await res.json();
+          cachedGhData = data;
+        }
+
+        const days = data.contributions || [];
+        const total = (data.total && (data.total.lastYear != null ? data.total.lastYear : (data.total['2026'] || 0))) || 273;
+        if (badge) {
+          badge.textContent = `${total} contributions in the last year`;
+        }
+
+        const isLight = document.documentElement.classList.contains('light');
+        const colors = isLight
+          ? ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39']
+          : ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'];
+        const monthColor = isLight ? '#475569' : '#8b949e';
+        const wdayColor = isLight ? '#64748b' : '#6e7681';
+        const hoverStroke = isLight ? '#0284c7' : '#38bdf8';
+
+        let currentWeek = 0;
+        let prevMonth = -1;
+        const monthLabels = [];
+        const rects = [];
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        days.forEach((day, idx) => {
+          const [y, m, d] = day.date.split('-').map(Number);
+          const dateObj = new Date(Date.UTC(y, m - 1, d));
+          const dayOfWeek = dateObj.getUTCDay(); // 0: Sun ... 6: Sat
+          const month = dateObj.getUTCMonth();
+
+          if (idx > 0 && dayOfWeek === 0) {
+            currentWeek++;
+          }
+
+          if (month !== prevMonth && dayOfWeek <= 3) {
+            monthLabels.push({ text: monthNames[month], x: currentWeek * 13 + 32 });
+            prevMonth = month;
+          }
+
+          const x = currentWeek * 13 + 32;
+          const yPos = dayOfWeek * 13 + 18;
+          const color = colors[day.level] || colors[0];
+          rects.push(`<rect x="${x}" y="${yPos}" width="10" height="10" rx="2" fill="${color}"><title>${day.date}: ${day.count} contribution${day.count === 1 ? '' : 's'}</title></rect>`);
+        });
+
+        const totalWidth = (currentWeek + 1) * 13 + 45;
+        wrapper.innerHTML = `
+          <svg viewBox="0 0 ${totalWidth} 118" class="w-full text-[9px] font-mono select-none" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .gh-month { fill: ${monthColor}; font-size: 9px; font-family: monospace; }
+              .gh-wday { fill: ${wdayColor}; font-size: 8px; font-family: monospace; }
+              rect { transition: transform 0.1s ease, stroke 0.1s ease; }
+              rect:hover { stroke: ${hoverStroke}; stroke-width: 1.5px; cursor: pointer; }
+            </style>
+            <text x="6" y="34" class="gh-wday">Mon</text>
+            <text x="6" y="60" class="gh-wday">Wed</text>
+            <text x="6" y="86" class="gh-wday">Fri</text>
+            ${monthLabels.map(m => `<text x="${m.x}" y="11" class="gh-month">${m.text}</text>`).join('')}
+            ${rects.join('')}
+          </svg>
+        `;
+      } catch (err) {
+        console.warn('Realtime API error, falling back to static SVG chart:', err);
+        const isLight = document.documentElement.classList.contains('light');
+        if (badge) badge.textContent = 'Live Activity Feed';
+        wrapper.innerHTML = `
+          <div class="p-2 rounded ${isLight ? 'bg-slate-100' : 'bg-[#0d1117]'} flex justify-center overflow-x-auto">
+            <img src="https://ghchart.rshah.org/${isLight ? '0284c7' : '4ade80'}/${username}" alt="${username}'s GitHub Contributions" class="w-full min-w-[650px] filter contrast-125" loading="lazy" />
+          </div>
+        `;
+      }
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('detail-modal');
+      if (!modal || modal.classList.contains('hidden')) return;
+      modal.classList.remove('modal-open');
+      modal.classList.add('modal-closed');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 180);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    document.getElementById('detail-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'detail-modal') closeModal();
+    });
+
+    function copyText(str) {
+      navigator.clipboard.writeText(str).then(() => {
+        showToast(`Copied: ${str}`);
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2200);
+    }
+
+    // ==================== THEME MANAGEMENT ====================
+    function initTheme() {
+      const saved = localStorage.getItem('wzdb_theme');
+      let isLight = false;
+      if (saved) {
+        isLight = saved === 'light';
+      } else {
+        isLight = document.documentElement.classList.contains('light') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches);
+      }
+
+      if (isLight) {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+        updateThemeUI(true);
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        updateThemeUI(false);
+      }
+    }
+
+    function toggleTheme() {
+      const isCurrentlyLight = document.documentElement.classList.contains('light');
+      const isLight = !isCurrentlyLight;
+      if (isLight) {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+      }
+      localStorage.setItem('wzdb_theme', isLight ? 'light' : 'dark');
+      updateThemeUI(isLight);
+
+      // If GitHub chart is currently loaded in modal, re-render with matching light/dark colors
+      if (document.getElementById('gh-chart-wrapper') && !document.getElementById('detail-modal').classList.contains('hidden')) {
+        renderGitHubChart(database.aboutme.rows[0].detail.githubUsername || 'worgzek');
+      }
+      showToast(isLight ? 'Switched to Light Mode ☀︎︎' : 'Switched to Dark Mode ☾');
+    }
+
+    function updateThemeUI(isLight) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) icon.textContent = isLight ? '☾' : '☀︎︎';
+    }
+
+    // Init
+    initTheme();
+    const initialHash = window.location.hash.replace('#', '');
+    if (initialHash && database[initialHash]) {
+      switchTable(initialHash);
+    } else {
+      switchTable('aboutme');
+    }
+
+    // Auto-open About Me modal on page load
+    openDetail('aboutme', 0);
+  </script>
+
+</body>
+</html>

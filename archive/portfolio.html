@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quang Hiếu (Worgzek) | Portfolio</title>
+  <meta name="description" content="Quang Hiếu (Worgzek) — Data Engineer Portfolio & Experiences. Production pipelines, Lakehouse architecture, and Hackathon-winning projects." />
+  <meta name="theme-color" content="#0d1117" />
+
+  <!-- Inline theme preloader to prevent FOUC -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+
+  <!-- Monospace font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Devicon Programming Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            term: {
+              bg: 'var(--term-bg)',
+              panel: 'var(--term-panel)',
+              border: 'var(--term-border)',
+              muted: 'var(--term-muted)',
+              dim: 'var(--term-dim)',
+              fg: 'var(--term-fg)',
+              bright: 'var(--term-bright)',
+              green: 'var(--term-green)',
+              greenBright: 'var(--term-green-bright)',
+              cyan: 'var(--term-cyan)',
+              yellow: 'var(--term-yellow)',
+              purple: 'var(--term-purple)',
+              red: 'var(--term-red)',
+            },
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body class="bg-[var(--term-bg)] text-[var(--term-fg)] font-mono text-sm antialiased selection:bg-[var(--term-green)]/30 selection:text-[var(--term-green-bright)]">
+
+  <!-- Top Terminal Header -->
+  <header class="term-header">
+    <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
+      
+      <!-- Prompt Identifier -->
+      <a href="index.html" class="flex items-center gap-2 text-xs font-semibold text-[var(--term-bright)] hover:text-[var(--term-green-bright)] transition-colors">
+        <span class="text-[var(--term-green-bright)]">❯</span>
+        <span>worgzek</span>
+        <span class="cursor-blink text-[var(--term-green-bright)]">_</span>
+      </a>
+
+      <!-- Right Group: Nav Tabs + Divider + Theme Toggle + Status -->
+      <div class="flex items-center gap-2 sm:gap-3 text-xs">
+        <!-- Page Tabs Navigation -->
+        <nav class="hidden md:flex items-center gap-1.5">
+          <a href="index.html" class="term-tab" data-nav="about">About</a>
+          <a href="portfolio.html" class="term-tab is-active" data-nav="portfolio">Portfolio</a>
+          <a href="#contact" class="term-tab" data-nav="contact">Contact</a>
+          <a href="modern.html" class="term-tab text-[var(--term-cyan)] border border-[var(--term-cyan)]/40 hover:bg-[var(--term-cyan)]/10 ml-1" title="So sánh bản Modern (renlenon.vercel.app)">✨ Modern UI</a>
+          <a href="../index.html" class="term-tab text-[var(--term-yellow)] border border-[var(--term-yellow)]/40 hover:bg-[var(--term-yellow)]/10" title="Bản phong cách SQL Studio / Database IDE">🗄️ SQL Studio</a>
+        </nav>
+
+        <span class="hidden md:inline-block text-[var(--term-border)]">|</span>
+
+        <!-- Light / Dark Theme Switcher -->
+        <button id="theme-toggle" type="button" class="term-btn !py-1 !px-2.5 text-xs flex items-center gap-1.5" aria-label="Toggle light and dark theme">
+          <span id="theme-icon">☀</span>
+          <span id="theme-text">light</span>
+        </button>
+
+        <div class="hidden lg:flex items-center gap-1.5 text-[var(--term-muted)] ml-0.5">
+          <span class="inline-block w-2 h-2 rounded-full bg-[var(--term-green-bright)] animate-pulse"></span>
+          <span class="text-[11px] font-mono">ONLINE</span>
+        </div>
+
+        <button id="menu-toggle" class="md:hidden text-[var(--term-muted)] hover:text-[var(--term-bright)] p-1 ml-1" aria-label="Toggle mobile menu">
+          [MENU]
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--term-border)] bg-[var(--term-panel)] px-4 py-3 space-y-2 text-xs" hidden>
+      <a href="index.html" class="block py-1 hover:text-[var(--term-green-bright)]">About</a>
+      <a href="portfolio.html" class="block py-1 text-[var(--term-green-bright)] font-semibold">Portfolio (current)</a>
+      <a href="#contact" class="block py-1 hover:text-[var(--term-green-bright)]">Contact</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-24 space-y-12">
+
+    <!-- Page Banner / Breadcrumb -->
+    <section>
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-[var(--term-muted)] pb-3 border-b border-[var(--term-border)]">
+        <div class="flex items-center gap-2">
+          <span class="text-[var(--term-green-bright)]">➜</span>
+          <span>Home / <span class="text-[var(--term-bright)] font-semibold">Portfolio</span></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="index.html" class="hover:text-[var(--term-green-bright)]">← Return to About</a>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="text-xs text-[var(--term-green-bright)] font-semibold tracking-wider uppercase mb-1">
+            // Showcase
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-[var(--term-bright)] tracking-tight">
+            Projects &amp; Experiences
+          </h1>
+          <p class="text-xs sm:text-sm text-[var(--term-muted)] mt-1 max-w-2xl leading-relaxed">
+            Data ingestion pipelines, distributed lakehouse architectures, industry internship, and hackathon accomplishments.
+          </p>
+        </div>
+
+        <!-- Quick stats summary -->
+        <div class="flex items-center gap-3 text-xs text-[var(--term-muted)] bg-[var(--term-panel)] border border-[var(--term-border)] px-3 py-2 rounded">
+          <div><span class="text-[var(--term-green-bright)] font-semibold">3</span> Projects</div>
+          <span class="text-[var(--term-dim)]">·</span>
+          <div><span class="text-[var(--term-cyan)] font-semibold">2</span> Experiences</div>
+          <span class="text-[var(--term-dim)]">·</span>
+          <div><span class="text-[var(--term-yellow)] font-semibold">1</span> Hackathon Award 🥈</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects & Experiences Section -->
+    <section id="portfolio-container" class="space-y-6">
+
+      <!-- View Selector (Filter Tabs) -->
+      <div class="flex flex-wrap items-center justify-between gap-3 p-2 bg-[var(--term-panel)] border border-[var(--term-border)] rounded text-xs">
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1.5">
+            <button type="button" class="view-filter-btn term-tab is-active" data-view="projects">
+              Projects (3)
+            </button>
+            <button type="button" class="view-filter-btn term-tab" data-view="experiences">
+              Experiences (2)
+            </button>
+          </div>
+        </div>
+        <div class="text-[11px] text-[var(--term-muted)] hidden sm:block">
+          Click <span class="text-[var(--term-cyan)]">[detail]</span> for architecture diagrams &amp; photos
+        </div>
+      </div>
+
+      <!-- VIEW 1: PROJECTS (2 Columns Per Row) -->
+      <div id="view-projects" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Project 1: NASA NEO Pipeline -->
+        <div class="term-window flex flex-col justify-between hover:border-[var(--term-green-bright)]/60 transition-colors">
+          <div>
+            <div class="term-window-header">
+              <div class="flex items-center gap-2">
+                <span class="term-dot term-dot-red"></span>
+                <span class="term-dot term-dot-yellow"></span>
+                <span class="term-dot term-dot-green"></span>
+                <span class="text-xs text-[var(--term-muted)] ml-1 font-mono">NASA NEO Ingestion</span>
+              </div>
+              <span class="text-[10px] text-[var(--term-green-bright)] font-mono border border-[var(--term-green)]/40 px-1.5 py-0.5 rounded bg-[var(--term-green)]/10">
+                HEALTHY
+              </span>
+            </div>
+
+            <div class="p-5 space-y-3">
+              <div>
+                <div class="text-[11px] text-[var(--term-cyan)] font-mono mb-1">BATCH &amp; STREAM INGESTION</div>
+                <h3 class="text-base font-bold text-[var(--term-bright)] tracking-tight">
+                  NASA NEO ETL Pipeline
+                </h3>
+              </div>
+
+              <p class="text-xs text-[var(--term-fg)] leading-relaxed">
+                Automated ingestion engine streaming asteroid telemetry from NASA's NeoWs REST API. Features idempotent upserts into PostgreSQL, Loguru structured logging, and schema enforcement to prevent duplicate writes during retries.
+              </p>
+
+              <div class="space-y-1 text-xs text-[var(--term-muted)] bg-[var(--term-subtle)] p-2.5 rounded border border-[var(--term-border)] font-mono">
+                <div><span class="text-[var(--term-dim)]">&gt;</span> source: <span class="text-[var(--term-fg)]">NASA NeoWs REST API</span></div>
+                <div><span class="text-[var(--term-dim)]">&gt;</span> target: <span class="text-[var(--term-fg)]">PostgreSQL 16 (Deduplicated)</span></div>
+                <div><span class="text-[var(--term-dim)]">&gt;</span> deploy: <span class="text-[var(--term-fg)]">Docker &amp; Compose multi-container</span></div>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="term-tag">Python 3.11</span>
+                <span class="term-tag">PostgreSQL 16</span>
+                <span class="term-tag">Docker Compose</span>
+                <span class="term-tag">Loguru</span>
+                <span class="term-tag">SQLAlchemy</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-[var(--term-subtle)] border-t border-[var(--term-border)] flex items-center justify-between text-xs">
+            <button type="button" class="btn-open-detail text-[var(--term-green-bright)] hover:underline font-semibold" data-project="neo">
+              Details ↗
+            </button>
+            <a href="https://github.com/worgzek/nasa-neo-etl-pipeline" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--term-bright)] text-[var(--term-muted)]">
+              GitHub ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 2: Medallion Lakehouse -->
+        <div class="term-window flex flex-col justify-between hover:border-[var(--term-green-bright)]/60 transition-colors">
+          <div>
+            <div class="term-window-header">
+              <div class="flex items-center gap-2">
+                <span class="term-dot term-dot-red"></span>
+                <span class="term-dot term-dot-yellow"></span>
+                <span class="term-dot term-dot-green"></span>
+                <span class="text-xs text-[var(--term-muted)] ml-1 font-mono">Medallion Lakehouse</span>
+              </div>
+              <span class="text-[10px] text-[var(--term-cyan)] font-mono border border-[var(--term-cyan)]/40 px-1.5 py-0.5 rounded bg-[var(--term-cyan)]/10">
+                ACTIVE
+              </span>
+            </div>
+
+            <div class="p-5 space-y-3">
+              <div>
+                <div class="text-[11px] text-[var(--term-purple)] font-mono mb-1">LAKEHOUSE &amp; ACID STORAGE</div>
+                <h3 class="text-base font-bold text-[var(--term-bright)] tracking-tight">
+                  Medallion Lakehouse on Delta Lake
+                </h3>
+              </div>
+
+              <p class="text-xs text-[var(--term-fg)] leading-relaxed">
+                Multi-hop Bronze → Silver → Gold lakehouse architecture powered by PySpark and Delta Lake. Employs SCD Type 2 dimension versioning, transactional time-travel, and automated orchestration via Apache Airflow DAGs.
+              </p>
+
+              <div class="space-y-1 text-xs text-[var(--term-muted)] bg-[var(--term-subtle)] p-2.5 rounded border border-[var(--term-border)] font-mono">
+                <div><span class="text-[var(--term-dim)]">&gt;</span> engine: <span class="text-[var(--term-fg)]">Apache Spark (PySpark 3.5)</span></div>
+                <div><span class="text-[var(--term-dim)]">&gt;</span> storage: <span class="text-[var(--term-fg)]">Delta Lake (Parquet + ACID log)</span></div>
+                <div><span class="text-[var(--term-dim)]">&gt;</span> pipeline: <span class="text-[var(--term-fg)]">Bronze ➔ Silver (SCD-2) ➔ Gold</span></div>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="term-tag">PySpark</span>
+                <span class="term-tag">Delta Lake</span>
+                <span class="term-tag">Apache Airflow</span>
+                <span class="term-tag">dbt</span>
+                <span class="term-tag">MS Fabric</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-[var(--term-subtle)] border-t border-[var(--term-border)] flex items-center justify-between text-xs">
+            <button type="button" class="btn-open-detail text-[var(--term-green-bright)] hover:underline font-semibold" data-project="lakehouse">
+              Details ↗
+            </button>
+            <a href="https://github.com/worgzek/medallion-lakehouse" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--term-bright)] text-[var(--term-muted)]">
+              GitHub ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 3: AI Text-to-SQL Analytics Copilot -->
+        <div class="term-window flex flex-col justify-between hover:border-[var(--term-green-bright)]/60 transition-colors">
+          <div>
+            <div class="term-window-header">
+              <div class="flex items-center gap-2">
+                <span class="term-dot term-dot-red"></span>
+                <span class="term-dot term-dot-yellow"></span>
+                <span class="term-dot term-dot-green"></span>
+                <span class="text-xs text-[var(--term-muted)] ml-1 font-mono">AI Text-to-SQL Agent</span>
+              </div>
+              <span class="text-[10px] text-[var(--term-yellow)] font-mono border border-[var(--term-yellow)]/40 px-1.5 py-0.5 rounded bg-[var(--term-yellow)]/10">
+                AGENTIC
+              </span>
+            </div>
+
+            <div class="p-5 space-y-3">
+              <div>
+                <div class="text-[11px] text-[var(--term-yellow)] font-mono mb-1">AGENTIC AI &amp; IN-PROCESS OLAP</div>
+                <h3 class="text-base font-bold text-[var(--term-bright)] tracking-tight">
+                  AI Text-to-SQL Analytics Copilot
+                </h3>
+              </div>
+
+              <p class="text-xs text-[var(--term-fg)] leading-relaxed">
+                Autonomous LLM analytics assistant translating natural language into safe, optimized analytical queries. Enforces strict read-only safety via AST parser guardrails and executes blazing-fast columnar aggregations in DuckDB.
+              </p>
+
+              <div class="space-y-1 text-xs text-[var(--term-muted)] bg-[var(--term-subtle)] p-2.5 rounded border border-[var(--term-border)] font-mono">
+                <div><span class="text-[var(--term-dim)]">&gt;</span> execution: <span class="text-[var(--term-fg)]">DuckDB in-process OLAP</span></div>
+                <div><span class="text-[var(--term-dim)]">&gt;</span> guardrail: <span class="text-[var(--term-fg)]">SQLGlot AST validation (SELECT only)</span></div>
+                <div><span class="text-[var(--term-dim)]">&gt;</span> resilience: <span class="text-[var(--term-fg)]">Automatic 3-try syntax self-repair</span></div>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="term-tag">DuckDB</span>
+                <span class="term-tag">Python</span>
+                <span class="term-tag">SQLGlot</span>
+                <span class="term-tag">LangChain</span>
+                <span class="term-tag">Rich CLI</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-[var(--term-subtle)] border-t border-[var(--term-border)] flex items-center justify-between text-xs">
+            <button type="button" class="btn-open-detail text-[var(--term-green-bright)] hover:underline font-semibold" data-project="text2sql">
+              Details ↗
+            </button>
+            <a href="https://github.com/worgzek/text-to-sql-agent" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--term-bright)] text-[var(--term-muted)]">
+              GitHub ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Placeholder / Future Work -->
+        <div class="term-window border-dashed border-[var(--term-border)] flex flex-col justify-center items-center p-8 text-center bg-[var(--term-panel)]/40 min-h-[260px]">
+          <div class="text-2xl mb-2">⚙️</div>
+          <div class="text-xs font-semibold text-[var(--term-bright)] mb-1">Streaming Kafka + Flink Engine</div>
+          <p class="text-xs text-[var(--term-muted)] max-w-xs mb-4">
+            Currently prototyping real-time event streaming with Apache Kafka and stateful stream processing in Apache Flink.
+          </p>
+          <span class="text-[11px] font-mono text-[var(--term-cyan)] border border-[var(--term-border)] px-2.5 py-1 rounded bg-[var(--term-subtle)]">
+            [status: in development 🔨]
+          </span>
+        </div>
+
+      </div>
+
+      <!-- VIEW 2: EXPERIENCES (Hidden by default, shown when clicking 'experiences') -->
+      <div id="view-experiences" class="space-y-4" hidden>
+
+        <div class="term-window overflow-hidden">
+          <div class="term-window-header">
+            <div class="flex items-center gap-2">
+              <span class="term-dot term-dot-red"></span>
+              <span class="term-dot term-dot-yellow"></span>
+              <span class="term-dot term-dot-green"></span>
+              <span class="text-xs text-[var(--term-muted)] ml-2 font-mono">experience.log</span>
+            </div>
+            <span class="text-[10px] text-[var(--term-cyan)] font-mono">
+              2 ROLES · 1 HACKATHON AWARD
+            </span>
+          </div>
+
+          <div class="p-6 sm:p-8 divide-y divide-[var(--term-border)]">
+
+            <!-- Role 1: IVINA Data Engineer Intern -->
+            <div class="py-6 first:pt-0 group">
+              <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-3 md:gap-6">
+                
+                <!-- Left: Date & Type -->
+                <div class="space-y-1.5">
+                  <div class="text-xs font-mono text-[var(--term-muted)]">
+                    8/2026 — 11/2026
+                  </div>
+                  <span class="inline-block text-[10px] font-mono font-semibold px-2 py-0.5 rounded border border-[var(--term-cyan)]/30 text-[var(--term-cyan)] bg-[var(--term-cyan)]/10">
+                    [INTERNSHIP]
+                  </span>
+                </div>
+
+                <!-- Right: Details -->
+                <div class="space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-base sm:text-lg font-bold text-[var(--term-bright)] group-hover:text-[var(--term-green-bright)] transition-colors">
+                      Data Engineer Intern
+                    </h3>
+                    <span class="text-xs text-[var(--term-muted)] font-mono">
+                      Hanoi, Vietnam · On-site
+                    </span>
+                  </div>
+
+                  <div class="text-xs font-semibold text-[var(--term-green-bright)] font-mono">
+                    IVINA Joint Stock Company
+                  </div>
+
+                  <p class="text-xs sm:text-sm text-[var(--term-fg)] leading-relaxed">
+                    Participated in data engineering workflows: designing scalable ETL/ELT data pipelines, containerizing services with Docker, tuning SQL queries on PostgreSQL, and maintaining reliable automated task schedulers for business analytics.
+                  </p>
+
+                  <!-- Key Focus Pillars -->
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
+                    <div class="p-2.5 rounded bg-[var(--term-subtle)] border border-[var(--term-border)]">
+                      <span class="text-[var(--term-cyan)] font-semibold block mb-0.5">01. Pipeline Automation</span>
+                      <span class="text-[var(--term-muted)] text-[11px]">Resilient Python ETL workflows extracting from diverse data sources.</span>
+                    </div>
+                    <div class="p-2.5 rounded bg-[var(--term-subtle)] border border-[var(--term-border)]">
+                      <span class="text-[var(--term-green-bright)] font-semibold block mb-0.5">02. Data Warehousing</span>
+                      <span class="text-[var(--term-muted)] text-[11px]">Modeled and maintained staging &amp; production tables in PostgreSQL.</span>
+                    </div>
+                    <div class="p-2.5 rounded bg-[var(--term-subtle)] border border-[var(--term-border)]">
+                      <span class="text-[var(--term-yellow)] font-semibold block mb-0.5">03. SQL Optimization</span>
+                      <span class="text-[var(--term-muted)] text-[11px]">Analyzed EXPLAIN plans, built indexes, reduced query latency.</span>
+                    </div>
+                  </div>
+
+                  <!-- Devicon Tech Tags & Detail Button -->
+                  <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                    <div class="flex flex-wrap gap-2">
+                      <span class="term-tag"><i class="devicon-python-plain colored text-xs"></i> Python</span>
+                      <span class="term-tag"><i class="devicon-postgresql-plain colored text-xs"></i> PostgreSQL</span>
+                      <span class="term-tag"><i class="devicon-docker-plain colored text-xs"></i> Docker</span>
+                      <span class="term-tag">ETL / ELT</span>
+                      <span class="term-tag">Data Pipelines</span>
+                    </div>
+                    <button type="button" class="btn-open-detail term-btn text-xs" data-project="ivina">
+                      Details ↗
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Role 2: GDGoC PTIT & Mini Hackathon 2nd Prize -->
+            <div class="py-6 last:pb-0 group">
+              <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-3 md:gap-6">
+                
+                <!-- Left: Date & Type -->
+                <div class="space-y-1.5">
+                  <div class="text-xs font-mono text-[var(--term-muted)]">
+                    9/2026 — Present
+                  </div>
+                  <span class="inline-block text-[10px] font-mono font-semibold px-2 py-0.5 rounded border border-[var(--term-yellow)]/40 text-[var(--term-yellow)] bg-[var(--term-yellow)]/10">
+                    [COMMUNITY]
+                  </span>
+                </div>
+
+                <!-- Right: Details -->
+                <div class="space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-base sm:text-lg font-bold text-[var(--term-bright)] group-hover:text-[var(--term-yellow)] transition-colors">
+                      Tech Member &amp; Hackathon Team Lead
+                    </h3>
+                    <span class="text-xs text-[var(--term-yellow)] font-mono font-semibold flex items-center gap-1 border border-[var(--term-yellow)]/30 px-2 py-0.5 rounded bg-[var(--term-yellow)]/10">
+                      🥈 2nd Prize Winner
+                    </span>
+                  </div>
+
+                  <div class="text-xs font-semibold text-[var(--term-purple)] font-mono">
+                    Google Developer Groups on Campus — PTIT Chapter · Hanoi
+                  </div>
+
+                  <p class="text-xs sm:text-sm text-[var(--term-fg)] leading-relaxed">
+                    Participated in technical workshops and community sharing. Led a team of 7 developers in an internal mini-hackathon, developing the project <strong>NutriBudget</strong> (macro calculator, budget constraint solver, smart meal planner) and successfully winning <strong>2nd Prize (Giải Nhì) 🥈</strong>.
+                  </p>
+
+                  <!-- Hackathon Feature Card with Team Award Photo (Modern Highlight Pattern in CLI) -->
+                  <div class="border border-[var(--term-border)] rounded-lg overflow-hidden bg-[var(--term-subtle)] mt-2">
+                    <div class="grid grid-cols-1 md:grid-cols-5">
+                      
+                      <!-- Team Photo -->
+                      <div class="md:col-span-2 relative h-48 md:h-auto overflow-hidden border-b md:border-b-0 md:border-r border-[var(--term-border)]">
+                        <img src="../assets/img/gdgoc-hackathon.jpg" alt="GDGoC Hackathon Award - Team NutriBudget" class="w-full h-full object-cover" />
+                        <div class="absolute bottom-2 left-2 text-[10px] font-mono text-white bg-black/70 px-2 py-0.5 rounded">
+                          Team 7 members at Award 🥈
+                        </div>
+                      </div>
+
+                      <!-- Highlight Specs -->
+                      <div class="md:col-span-3 p-4 space-y-2.5 text-xs">
+                        <div class="flex items-center justify-between">
+                          <span class="font-bold text-[var(--term-bright)] text-sm">Project: Google ADK NutriBudget</span>
+                          <span class="text-[11px] font-mono text-[var(--term-green-bright)]">Team of 7</span>
+                        </div>
+                        
+                        <div class="space-y-1.5 text-[var(--term-muted)]">
+                          <div class="flex items-start gap-1.5">
+                            <span class="text-[var(--term-yellow)] font-bold">✓</span>
+                            <span><strong>Role:</strong> Hackathon Team Lead &amp; Optimization Architect</span>
+                          </div>
+                          <div class="flex items-start gap-1.5">
+                            <span class="text-[var(--term-cyan)] font-bold">✓</span>
+                            <span><strong>Optimization Engine:</strong> PuLP Linear Programming matching nutritional targets within user wallet constraints</span>
+                          </div>
+                          <div class="flex items-start gap-1.5">
+                            <span class="text-[var(--term-green-bright)] font-bold">✓</span>
+                            <span><strong>Tech Stack:</strong> FastAPI, Docker, PostgreSQL, Google ADK, PuLP</span>
+                          </div>
+                          <div class="flex items-start gap-1.5">
+                            <span class="text-[var(--term-purple)] font-bold">✓</span>
+                            <span><strong>Outcome:</strong> Awarded 2nd Prize 🥈 overall</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- Devicon Tech Tags & Detail Button -->
+                  <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                    <div class="flex flex-wrap gap-2">
+                      <span class="term-tag"><i class="devicon-fastapi-plain colored text-xs"></i> FastAPI</span>
+                      <span class="term-tag"><i class="devicon-docker-plain colored text-xs"></i> Docker</span>
+                      <span class="term-tag"><i class="devicon-postgresql-plain colored text-xs"></i> PostgreSQL</span>
+                      <span class="term-tag">Google ADK</span>
+                      <span class="term-tag">PuLP</span>
+                      <span class="term-tag font-semibold text-[var(--term-yellow)]">Team Lead (7 devs)</span>
+                      <span class="term-tag font-semibold text-[var(--term-yellow)]">🥈 2nd Prize</span>
+                    </div>
+                    <button type="button" class="btn-open-detail term-btn text-xs text-[var(--term-yellow)]" data-project="gdgoc">
+                      Details &amp; Photo ↗
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================== 03. CONTACT ============================== -->
+    <section id="contact" class="space-y-4">
+      <div class="section-title">
+        <span class="text-[var(--term-green-bright)]">//</span> Contact
+      </div>
+
+      <div class="term-window">
+        <!-- Terminal Window Header -->
+        <div class="term-window-header">
+          <div class="flex items-center gap-2">
+            <span class="term-dot term-dot-red"></span>
+            <span class="term-dot term-dot-yellow"></span>
+            <span class="term-dot term-dot-green"></span>
+          </div>
+          <div class="flex items-center gap-2 text-[10px] font-mono text-[var(--term-muted)]">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--term-green-bright)] animate-pulse"></span>
+            <span>OPEN FOR OPPORTUNITIES</span>
+          </div>
+        </div>
+
+        <div class="p-5 sm:p-7 space-y-6">
+          <!-- Intro -->
+          <div>
+            <div class="text-xs text-[var(--term-green-bright)] font-semibold tracking-wider uppercase mb-1">
+              // Direct Channels
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-[var(--term-bright)] tracking-tight">
+              Let's Connect &amp; Build Together
+            </h2>
+            <p class="text-xs sm:text-sm text-[var(--term-muted)] mt-1.5 max-w-2xl leading-relaxed">
+              Open for Data Engineer roles, scalable ETL &amp; Lakehouse collaborations, or interesting tech discussions. Reach out via any of the channels below:
+            </p>
+          </div>
+
+          <!-- 3 Synchronized Contact Channels -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+
+            <!-- 01: Direct Email -->
+            <div class="p-4 rounded border border-[var(--term-border)] bg-[var(--term-subtle)] flex flex-col justify-between space-y-3 hover:border-[var(--term-green-bright)]/60 transition-colors">
+              <div>
+                <div class="flex items-center justify-between text-[11px] text-[var(--term-muted)] pb-2 border-b border-[var(--term-border-muted)]">
+                  <span class="flex items-center gap-1.5 font-semibold text-[var(--term-green-bright)]">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <span>01. EMAIL</span>
+                  </span>
+                  <span class="text-[10px] text-[var(--term-dim)] font-mono">[PRIMARY]</span>
+                </div>
+                <div class="mt-3">
+                  <span class="text-[11px] text-[var(--term-muted)] block mb-1">Direct inquiries &amp; opportunities</span>
+                  <a href="mailto:hieuqt@gdscptit.dev" data-link="email" data-text="email" class="text-sm font-bold text-[var(--term-bright)] hover:text-[var(--term-green-bright)] transition-colors block truncate">
+                    hieuqt@gdscptit.dev
+                  </a>
+                </div>
+              </div>
+              <button id="copy-email" type="button" class="term-btn term-btn-primary !w-full !py-1.5 text-center flex items-center justify-center gap-1.5 font-semibold">
+                <span class="copy-label">copy to clipboard</span>
+              </button>
+            </div>
+
+            <!-- 02: GitHub -->
+            <div class="p-4 rounded border border-[var(--term-border)] bg-[var(--term-subtle)] flex flex-col justify-between space-y-3 hover:border-[var(--term-cyan)]/60 transition-colors">
+              <div>
+                <div class="flex items-center justify-between text-[11px] text-[var(--term-muted)] pb-2 border-b border-[var(--term-border-muted)]">
+                  <span class="flex items-center gap-1.5 font-semibold text-[var(--term-cyan)]">
+                    <i class="devicon-github-original text-sm"></i>
+                    <span>02. GITHUB</span>
+                  </span>
+                  <span class="text-[10px] text-[var(--term-dim)] font-mono">[CODEBASE]</span>
+                </div>
+                <div class="mt-3">
+                  <span class="text-[11px] text-[var(--term-muted)] block mb-1">Source repositories &amp; pipelines</span>
+                  <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" data-link="github" class="text-sm font-bold text-[var(--term-bright)] hover:text-[var(--term-cyan)] transition-colors block truncate">
+                    github.com/worgzek
+                  </a>
+                </div>
+              </div>
+              <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" data-link="github" class="term-btn !w-full !py-1.5 text-center flex items-center justify-center gap-1 hover:border-[var(--term-cyan)] hover:text-[var(--term-bright)]">
+                <span>open profile</span>
+                <span class="text-[var(--term-cyan)]">↗</span>
+              </a>
+            </div>
+
+            <!-- 03: LinkedIn -->
+            <div class="p-4 rounded border border-[var(--term-border)] bg-[var(--term-subtle)] flex flex-col justify-between space-y-3 hover:border-[var(--term-purple)]/60 transition-colors">
+              <div>
+                <div class="flex items-center justify-between text-[11px] text-[var(--term-muted)] pb-2 border-b border-[var(--term-border-muted)]">
+                  <span class="flex items-center gap-1.5 font-semibold text-[var(--term-purple)]">
+                    <i class="devicon-linkedin-plain colored text-sm"></i>
+                    <span>03. LINKEDIN</span>
+                  </span>
+                  <span class="text-[10px] text-[var(--term-dim)] font-mono">[NETWORK]</span>
+                </div>
+                <div class="mt-3">
+                  <span class="text-[11px] text-[var(--term-muted)] block mb-1">Professional network &amp; chat</span>
+                  <a href="https://www.linkedin.com/in/qt-hieu/" target="_blank" rel="noopener noreferrer" data-link="linkedin" class="text-sm font-bold text-[var(--term-bright)] hover:text-[var(--term-purple)] transition-colors block truncate">
+                    in/qt-hieu
+                  </a>
+                </div>
+              </div>
+              <a href="https://www.linkedin.com/in/qt-hieu/" target="_blank" rel="noopener noreferrer" data-link="linkedin" class="term-btn !w-full !py-1.5 text-center flex items-center justify-center gap-1 hover:border-[var(--term-purple)] hover:text-[var(--term-bright)]">
+                <span>connect</span>
+                <span class="text-[var(--term-purple)]">↗</span>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Terminal Status Banner -->
+          <div class="p-3 bg-[var(--term-bg)] border border-[var(--term-border)] rounded text-xs font-mono flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[var(--term-muted)]">
+            <div class="flex items-center gap-2">
+              <span class="text-[var(--term-green-bright)]">➜</span>
+              <span><span class="text-[var(--term-bright)]">Response Time:</span> Typically within 24 hours via email or LinkedIn</span>
+            </div>
+            <div class="flex items-center gap-2 text-[11px]">
+              <span class="text-[var(--term-dim)]">PGP:</span>
+              <span class="text-[var(--term-cyan)]">verified</span>
+              <span class="text-[var(--term-dim)]">·</span>
+              <span class="text-[var(--term-yellow)]">Hanoi, VN (GMT+7)</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Detail Modal Container (for Projects & Experiences) -->
+  <div id="project-modal" class="project-modal" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+    <div id="modal-backdrop" class="project-modal-backdrop"></div>
+    <div class="project-modal-dialog">
+      <div class="term-window-header">
+        <div class="flex items-center gap-2">
+          <span class="term-dot term-dot-red"></span>
+          <span class="term-dot term-dot-yellow"></span>
+          <span class="term-dot term-dot-green"></span>
+          <span id="modal-title" class="text-xs text-[var(--term-muted)] ml-2 font-mono">Project Details</span>
+        </div>
+        <button id="modal-close" class="text-xs text-[var(--term-muted)] hover:text-[var(--term-bright)] px-2 py-0.5 rounded border border-[var(--term-border)] hover:border-[var(--term-muted)] font-mono">
+          [esc / close ✕]
+        </button>
+      </div>
+      <div id="modal-body" class="p-5 sm:p-6 max-h-[80vh] overflow-y-auto font-mono">
+        <!-- Rendered dynamically by main.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Terminal Footer -->
+  <footer class="border-t border-[var(--term-border)] py-6 bg-[var(--term-panel)] text-xs text-[var(--term-muted)]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>
+        <span>© <span id="year">2026</span> Quang Hiếu (Worgzek)</span> · <span>Terminal portfolio edition</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="hover:text-[var(--term-green-bright)]">About</a>
+        <span class="text-[var(--term-dim)]">·</span>
+        <a href="portfolio.html" class="hover:text-[var(--term-green-bright)] text-[var(--term-bright)]">Portfolio</a>
+        <span class="text-[var(--term-dim)]">·</span>
+        <a href="#portfolio-container" class="hover:text-[var(--term-bright)]">back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+

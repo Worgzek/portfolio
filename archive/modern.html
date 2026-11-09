@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quang Hiếu (Worgzek) — Data Engineer Portfolio</title>
+  
+  <meta name="description" content="Quang Hiếu (Worgzek) — Data Engineer specializing in scalable ETL/ELT pipelines, Medallion Lakehouse architectures, and distributed systems." />
+  <meta name="author" content="Quang Hiếu" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💾</text></svg>" />
+
+  <!-- Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Devicon CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+  <!-- Tailwind CSS CDN with configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            ink: {
+              DEFAULT: '#0d1117',
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              800: '#161b22',
+              850: '#12161f',
+              900: '#0d1117',
+              950: '#070a0e'
+            },
+            accent: {
+              blue: '#38bdf8',
+              cyan: '#22d3ee',
+              emerald: '#10b981',
+              violet: '#a855f7'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Theme init before render to prevent flash -->
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+
+  <style>
+    /* Spotlight Card Effect (inspired by renlenon.vercel.app) */
+    .card-spotlight {
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+    }
+    .card-spotlight::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.08), transparent 80%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      z-index: 1;
+    }
+    .dark .card-spotlight::before {
+      background: radial-gradient(450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.12), transparent 80%);
+    }
+    .card-spotlight:hover::before {
+      opacity: 1;
+    }
+    .card-spotlight > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Floating controls */
+    .floating-controls {
+      position: fixed;
+      bottom: 1.75rem;
+      right: 1.75rem;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Modal styles */
+    .modal-backdrop {
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.3);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(156, 163, 175, 0.5);
+    }
+  </style>
+</head>
+
+<body class="bg-[#fafafa] text-gray-800 dark:bg-ink dark:text-gray-100 antialiased font-sans transition-colors duration-300 selection:bg-sky-500 selection:text-white">
+
+  <!-- ==================== COMPARISON TOP BANNER ==================== -->
+  <div class="bg-gradient-to-r from-sky-600 via-indigo-600 to-cyan-600 text-white text-xs py-2 px-4 shadow-sm">
+    <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="bg-white/20 px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider text-[10px]">Giao diện Modern</span>
+        <span>Lấy cảm hứng từ <strong>renlenon.vercel.app</strong></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="inline-flex items-center gap-1.5 bg-white text-gray-900 px-3 py-1 rounded-full text-xs font-semibold hover:bg-gray-100 transition shadow-sm">
+          <span>>_ Terminal CLI</span>
+        </a>
+        <a href="../index.html" class="inline-flex items-center gap-1.5 bg-gray-900 text-white border border-white/30 px-3 py-1 rounded-full text-xs font-semibold hover:bg-black transition shadow-sm">
+          <span>🗄️ SQL Studio</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== NAVIGATION BAR ==================== -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-ink/80 border-b border-gray-200/80 dark:border-gray-800/80 transition-colors">
+    <div class="max-w-4xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo / Monogram -->
+      <a href="#hero" class="flex items-center gap-2.5 group">
+        <span class="w-8 h-8 rounded-lg bg-gray-900 text-white dark:bg-white dark:text-gray-950 flex items-center justify-center font-bold text-xs tracking-wider transition-transform group-hover:scale-105 shadow-sm font-mono">
+          QH
+        </span>
+        <span class="font-bold text-sm tracking-tight text-gray-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition">
+          worgzek
+        </span>
+      </a>
+
+      <!-- Navigation Links & Theme Switcher -->
+      <nav class="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">
+        <a href="#hackathon" class="hover:text-gray-900 dark:hover:text-white transition">Highlights</a>
+        <a href="#projects" class="hover:text-gray-900 dark:hover:text-white transition">Projects</a>
+        <a href="#stack" class="hover:text-gray-900 dark:hover:text-white transition hidden sm:inline-block">Stack</a>
+        <a href="#contact" class="hover:text-gray-900 dark:hover:text-white transition">Contact</a>
+
+        <!-- Separator -->
+        <span class="h-4 w-px bg-gray-300 dark:bg-gray-700"></span>
+
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="p-1.5 rounded-lg text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+          <!-- Sun Icon (for dark mode) -->
+          <svg id="sun-icon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <!-- Moon Icon (for light mode) -->
+          <svg id="moon-icon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ==================== MAIN WRAPPER ==================== -->
+  <main class="max-w-4xl mx-auto px-5 sm:px-8 py-12 sm:py-16 space-y-20">
+
+    <!-- ==================== 01. HERO SECTION ==================== -->
+    <section id="hero" class="space-y-8">
+      
+      <!-- Avatar & Name Header -->
+      <div class="flex items-center gap-5">
+        <div class="relative">
+          <img 
+            src="../assets/img/profile.jpg" 
+            alt="Quang Hiếu" 
+            class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 shadow-md ring-4 ring-gray-100 dark:ring-gray-800/60"
+          />
+          <span class="absolute bottom-1 right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white dark:border-ink shadow-sm" title="Available for opportunities"></span>
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Quang Hiếu
+            </h1>
+            <!-- Verified Badge -->
+            <svg class="w-5 h-5 text-sky-500 shrink-0" viewBox="0 0 24 24" fill="currentColor" title="Verified Data Engineer">
+              <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">
+            Data Engineering · Medallion Lakehouse · Distributed Systems
+          </p>
+          <div class="flex items-center gap-2 pt-1 text-xs text-gray-500 dark:text-gray-400">
+            <span class="inline-flex items-center gap-1">
+              <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              Hanoi, Vietnam
+            </span>
+            <span>·</span>
+            <span class="font-mono text-[11px] text-sky-600 dark:text-sky-400">@worgzek</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signature Ren Lenon Headline -->
+      <div class="space-y-4">
+        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-[1.15]">
+          I Build, Scale &amp; <span class="bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">Architect.</span>
+        </h2>
+        
+        <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl font-normal">
+          I'm a <strong class="text-gray-900 dark:text-white font-semibold">Data Engineer</strong> passionate about building reliable, high-throughput data backbones. My focus is treating data pipelines like production software with strict schema contracts, idempotent operations, and modern lakehouse architectures using <strong class="text-gray-900 dark:text-white font-semibold">PySpark</strong>, <strong class="text-gray-900 dark:text-white font-semibold">dbt</strong>, <strong class="text-gray-900 dark:text-white font-semibold">FastAPI</strong>, and <strong class="text-gray-900 dark:text-white font-semibold">Docker</strong>.
+        </p>
+      </div>
+
+      <!-- Hero Action Buttons -->
+      <div class="flex flex-wrap items-center gap-3 pt-2">
+        <a href="#projects" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-xs sm:text-sm hover:bg-gray-800 dark:hover:bg-gray-100 transition shadow-sm active:scale-95">
+          <span>Explore Projects</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </a>
+
+        <a href="#contact" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-ink-800 text-gray-800 dark:text-gray-200 font-medium text-xs sm:text-sm hover:border-gray-400 dark:hover:border-gray-600 transition shadow-sm active:scale-95">
+          <span>Get in Touch</span>
+        </a>
+
+        <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-700 transition">
+          <i class="devicon-github-original text-base"></i>
+          <span class="text-xs font-mono">GitHub ↗</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/qt-hieu/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-700 transition">
+          <i class="devicon-linkedin-plain text-sky-500 text-base"></i>
+          <span class="text-xs font-mono">LinkedIn ↗</span>
+        </a>
+      </div>
+
+      <!-- Quick Stats Grid (Identical pattern to renlenon.vercel.app 4+ / 20+ / Global) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+        
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm">
+          <div class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            10<span class="text-sky-500">+</span>
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 font-medium mt-1">
+            Data Pipelines &amp; Workflows
+          </div>
+        </div>
+
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm">
+          <div class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            100M<span class="text-cyan-500">+</span>
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 font-medium mt-1">
+            Rows Processed &amp; Transformed
+          </div>
+        </div>
+
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm">
+          <div class="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tracking-tight">
+            2nd Prize 🥈
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 font-medium mt-1">
+            GDGoC Hackathon Award
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== 02. EXPERIENCE ==================== -->
+    <section id="experience" class="space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
+        <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Experience
+        </h3>
+        <span class="text-xs text-gray-500 dark:text-gray-400 font-mono">
+          2 Roles Listed
+        </span>
+      </div>
+
+      <div class="divide-y divide-gray-200 dark:divide-gray-800">
+
+        <!-- Role 1: IVINA -->
+        <div class="py-6 first:pt-2 last:pb-2 group">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4">
+            
+            <!-- Date Column -->
+            <div class="text-xs font-mono text-gray-500 dark:text-gray-400 pt-0.5">
+              8/2026 — 11/2026
+            </div>
+
+            <!-- Content Column -->
+            <div class="md:col-span-3 space-y-2">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h4 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition">
+                  Data Engineer Intern
+                </h4>
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300 font-medium border border-sky-200/50 dark:border-sky-800/50">
+                  Internship
+                </span>
+              </div>
+
+              <div class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
+                IVINA Joint Stock Company <span class="text-gray-400 dark:text-gray-500">· Hanoi, Vietnam · On-site</span>
+              </div>
+
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed pt-1">
+                Participated in data engineering workflows: designing scalable ETL/ELT data pipelines, containerizing services with Docker, tuning SQL queries on PostgreSQL, and maintaining reliable automated task schedulers for business analytics.
+              </p>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-1.5 pt-2">
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">Python</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">PostgreSQL</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">Docker</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">ETL/ELT</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">Data Pipelines</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Role 2: GDGoC PTIT -->
+        <div class="py-6 group">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4">
+            
+            <!-- Date Column -->
+            <div class="text-xs font-mono text-gray-500 dark:text-gray-400 pt-0.5">
+              9/2026 — Present
+            </div>
+
+            <!-- Content Column -->
+            <div class="md:col-span-3 space-y-2">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h4 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition">
+                  Tech Member &amp; Hackathon Team Lead
+                </h4>
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 font-medium border border-emerald-200/50 dark:border-emerald-800/50">
+                  Community &amp; Leadership
+                </span>
+              </div>
+
+              <div class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
+                Google Developer Groups on Campus — PTIT Chapter <span class="text-gray-400 dark:text-gray-500">· Hanoi</span>
+              </div>
+
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed pt-1">
+                Participated in technical workshops and community sharing. Led a team of 7 developers in an internal mini-hackathon, developing the project <strong class="text-gray-900 dark:text-white">NutriBudget</strong> (macro calculator, budget constraint solver, smart meal planner) and successfully winning <strong>2nd Prize 🥈</strong>.
+              </p>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-1.5 pt-2">
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">FastAPI</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">Docker</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">PostgreSQL</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">Google ADK</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">PuLP</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-semibold">🥈 2nd Prize</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== 03. HIGHLIGHTS & HACKATHON SHOWCASE ==================== -->
+    <section id="hackathon" class="space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Highlights &amp; Community
+          </h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            Mini-Hackathon 2nd Prize showcase &amp; team leadership
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature Card with Award Photo (Ren Lenon style Highlight Banner) -->
+      <div class="card-spotlight rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 overflow-hidden shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          
+          <!-- Image Container -->
+          <div class="relative h-64 md:h-auto overflow-hidden group">
+            <img 
+              src="../assets/img/gdgoc-hackathon.jpg" 
+              alt="GDGoC Hackathon 2nd Prize Award - Team NutriBudget" 
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden"></div>
+            <div class="absolute bottom-3 left-3 md:hidden text-white text-xs font-mono">
+              🥈 2nd Prize — GDGoC PTIT Mini Hackathon
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="p-6 sm:p-8 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                  🥈 2nd Prize Winner
+                </span>
+                <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">Team of 7</span>
+              </div>
+
+              <h4 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+                Google ADK NutriBudget
+              </h4>
+
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                Led a high-velocity 7-person development team during the internal GDGoC Hackathon. Designed the end-to-end architecture solving dietary optimization under financial constraints: calculating macros, accepting user wallet budgets, and generating optimized meal plans using linear programming.
+              </p>
+
+              <div class="pt-2 space-y-1.5 text-xs text-gray-600 dark:text-gray-400">
+                <div class="flex items-start gap-2">
+                  <span class="text-sky-500 font-bold">✓</span>
+                  <span><strong>Role:</strong> Hackathon Team Lead &amp; Backend/Optimization Architect</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-sky-500 font-bold">✓</span>
+                  <span><strong>Stack:</strong> FastAPI, Docker, PostgreSQL, Google ADK, PuLP</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-sky-500 font-bold">✓</span>
+                  <span><strong>Impact:</strong> Live prototype delivered within 24 hours, awarded 2nd prize</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 flex items-center gap-3">
+              <button onclick="openModal('nutribudget')" class="text-xs font-semibold px-4 py-2 rounded-lg bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition shadow-sm">
+                View Project Details ↗
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ==================== 04. PROJECTS GRID ==================== -->
+    <section id="projects" class="space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Featured Projects
+          </h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            Production-grade data pipelines, lakehouse architectures, and systems
+          </p>
+        </div>
+        <span class="text-xs text-gray-500 dark:text-gray-400 font-mono">
+          4 Projects
+        </span>
+      </div>
+
+      <!-- 2-Column Grid of Project Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- Project 1: NutriBudget -->
+        <div class="card-spotlight p-6 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm flex flex-col justify-between group hover:border-gray-300 dark:hover:border-gray-700">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5">
+                <span>🥈 Hackathon 2nd Prize</span>
+              </span>
+              <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">Team of 7</span>
+            </div>
+
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition">
+              Google ADK NutriBudget
+            </h4>
+
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              Intelligent nutrition-budget optimization system. Calculates macro targets, processes budgetary constraints, and leverages PuLP linear programming to output meal plans.
+            </p>
+
+            <!-- Devicon Tech Stack Row -->
+            <div class="flex flex-wrap items-center gap-2 pt-2">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-fastapi-plain colored text-xs"></i> FastAPI
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-docker-plain colored text-xs"></i> Docker
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-postgresql-plain colored text-xs"></i> PostgreSQL
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                Google ADK
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                PuLP
+              </span>
+            </div>
+          </div>
+
+          <div class="pt-5 border-t border-gray-100 dark:border-gray-800/80 mt-5 flex items-center justify-between">
+            <button onclick="openModal('nutribudget')" class="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1">
+              <span>View Architecture &amp; Specs</span>
+              <span>→</span>
+            </button>
+            <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">Lead Developer</span>
+          </div>
+        </div>
+
+        <!-- Project 2: Enterprise Medallion Lakehouse -->
+        <div class="card-spotlight p-6 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm flex flex-col justify-between group hover:border-gray-300 dark:hover:border-gray-700">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400 font-semibold">
+                Lakehouse Architecture
+              </span>
+              <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">Production Grade</span>
+            </div>
+
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition">
+              Enterprise Medallion Lakehouse
+            </h4>
+
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              End-to-end lakehouse implementation ingesting high-volume transactional data through Bronze (raw), Silver (cleansed/deduplicated), and Gold (dimensional marts) with ACID guarantees.
+            </p>
+
+            <!-- Devicon Tech Stack Row -->
+            <div class="flex flex-wrap items-center gap-2 pt-2">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-apachespark-original colored text-xs"></i> PySpark
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                Delta Lake
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                dbt
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-postgresql-plain colored text-xs"></i> PostgreSQL
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-docker-plain colored text-xs"></i> Docker
+              </span>
+            </div>
+          </div>
+
+          <div class="pt-5 border-t border-gray-100 dark:border-gray-800/80 mt-5 flex items-center justify-between">
+            <button onclick="openModal('medallion')" class="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1">
+              <span>View Architecture &amp; Specs</span>
+              <span>→</span>
+            </button>
+            <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">ETL / ELT</span>
+          </div>
+        </div>
+
+        <!-- Project 3: Real-Time Crypto Market Stream Engine -->
+        <div class="card-spotlight p-6 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm flex flex-col justify-between group hover:border-gray-300 dark:hover:border-gray-700">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-mono uppercase tracking-wider text-purple-600 dark:text-purple-400 font-semibold">
+                Streaming &amp; Analytics
+              </span>
+              <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">Sub-second Latency</span>
+            </div>
+
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-purple-500 dark:group-hover:text-purple-400 transition">
+              Crypto Stream Analytics Engine
+            </h4>
+
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              Real-time market streaming pipeline ingesting live ticker data into Redis streams, computing sliding-window volume weighted averages, and sinking to DuckDB for instant analytical queries.
+            </p>
+
+            <!-- Devicon Tech Stack Row -->
+            <div class="flex flex-wrap items-center gap-2 pt-2">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-python-plain colored text-xs"></i> Python
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-redis-plain colored text-xs"></i> Redis Streams
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-duckdb-plain colored text-xs"></i> DuckDB
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-fastapi-plain colored text-xs"></i> FastAPI
+              </span>
+            </div>
+          </div>
+
+          <div class="pt-5 border-t border-gray-100 dark:border-gray-800/80 mt-5 flex items-center justify-between">
+            <button onclick="openModal('streaming')" class="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1">
+              <span>View Architecture &amp; Specs</span>
+              <span>→</span>
+            </button>
+            <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">Stream Processing</span>
+          </div>
+        </div>
+
+        <!-- Project 4: Autonomous Multi-Agent Research Pipeline -->
+        <div class="card-spotlight p-6 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm flex flex-col justify-between group hover:border-gray-300 dark:hover:border-gray-700">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-mono uppercase tracking-wider text-cyan-600 dark:text-cyan-400 font-semibold">
+                AI &amp; Data Pipeline
+              </span>
+              <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">Agentic Workflow</span>
+            </div>
+
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition">
+              Multi-Agent Research Pipeline
+            </h4>
+
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              Asynchronous distributed web crawler and unstructured document processing pipeline that parses, cleanses, embeds, and indexes articles into MongoDB for semantic synthesis.
+            </p>
+
+            <!-- Devicon Tech Stack Row -->
+            <div class="flex flex-wrap items-center gap-2 pt-2">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-python-plain colored text-xs"></i> Python
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-mongodb-plain colored text-xs"></i> MongoDB
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-docker-plain colored text-xs"></i> Docker Compose
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-mono">
+                <i class="devicon-fastapi-plain colored text-xs"></i> FastAPI
+              </span>
+            </div>
+          </div>
+
+          <div class="pt-5 border-t border-gray-100 dark:border-gray-800/80 mt-5 flex items-center justify-between">
+            <button onclick="openModal('agents')" class="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1">
+              <span>View Architecture &amp; Specs</span>
+              <span>→</span>
+            </button>
+            <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">Vector / Unstructured</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== 05. TECH STACK & TOOLS ==================== -->
+    <section id="stack" class="space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Tech Stack &amp; Tools
+          </h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            Core technologies and daily driver tooling
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        <!-- Languages -->
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-3">
+          <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            Languages
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-python-plain colored text-sm"></i> Python
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-azuresqldatabase-plain colored text-sm"></i> SQL (PostgreSQL, Analytical)
+            </span>
+          </div>
+        </div>
+
+        <!-- Big Data & Transformation -->
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-3">
+          <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            Big Data &amp; Transformation
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-apachespark-original colored text-sm"></i> PySpark
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <svg class="w-3.5 h-3.5 text-[#FF694B]" viewBox="0 0 24 24" fill="currentColor"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763z"/></svg>
+              dbt
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <svg class="w-3.5 h-3.5 text-[#00ADD8]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.8L19.5 19h-15L12 5.8z"/></svg>
+              Delta Lake
+            </span>
+          </div>
+        </div>
+
+        <!-- Databases & Storage -->
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-3">
+          <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            Databases &amp; Storage
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-postgresql-plain colored text-sm"></i> PostgreSQL
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-duckdb-plain colored text-sm"></i> DuckDB
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-mongodb-plain colored text-sm"></i> MongoDB
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-redis-plain colored text-sm"></i> Redis
+            </span>
+          </div>
+        </div>
+
+        <!-- Orchestration & DevOps -->
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-3">
+          <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            Orchestration &amp; DevOps
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-apacheairflow-plain colored text-sm"></i> Apache Airflow
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-docker-plain colored text-sm"></i> Docker
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-docker-plain text-sky-400 text-sm"></i> Docker Compose
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+              <i class="devicon-fastapi-plain colored text-sm"></i> FastAPI
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tools & Environment Banner -->
+      <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-3">
+        <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          Tools &amp; Development Environment
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+            <i class="devicon-git-plain colored text-sm"></i> Git
+          </span>
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+            <i class="devicon-github-original text-sm"></i> GitHub
+          </span>
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+            <i class="devicon-bash-plain text-sm"></i> Unix CLI
+          </span>
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+            <i class="devicon-vscode-plain colored text-sm"></i> VS Code
+          </span>
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-ink-800 border border-gray-200 dark:border-gray-700/80 text-xs font-medium text-gray-800 dark:text-gray-200">
+            Claude Code CLI
+          </span>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ==================== 06. EDUCATION & INTERESTS ==================== -->
+    <section class="space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
+        <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Education &amp; Interests
+        </h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        
+        <!-- Education -->
+        <div class="card-spotlight p-6 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-4">
+          <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400 font-semibold">
+            <span>🎓 Academics</span>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <div class="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500 font-mono">
+                <span>DEGREE</span>
+                <span>Hanoi, VN</span>
+              </div>
+              <h4 class="text-base font-bold text-gray-900 dark:text-white mt-1">
+                Bachelor of Information Technology
+              </h4>
+              <p class="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                Posts and Telecommunications Institute of Technology (PTIT)
+              </p>
+            </div>
+
+            <div class="pt-3 border-t border-gray-100 dark:border-gray-800">
+              <div class="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500 font-mono">
+                <span>CERTIFICATE</span>
+                <span>MindX Technology</span>
+              </div>
+              <h4 class="text-base font-bold text-gray-900 dark:text-white mt-1">
+                Data Engineering Professional Course
+              </h4>
+              <p class="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                Production ETL pipelines, dimensional modeling, Apache Airflow, and PySpark processing.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hobbies & Personal Interests -->
+        <div class="card-spotlight p-6 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-4">
+          <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-purple-600 dark:text-purple-400 font-semibold">
+            <span>🎮 Personal Life &amp; Hobbies</span>
+          </div>
+
+          <div class="space-y-4 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">🎮</span>
+              <div>
+                <strong class="text-gray-900 dark:text-white block font-semibold">Gaming</strong>
+                <span>Indie gems, story-rich narrative titles (cốt truyện sâu sắc), and immersive AAA blockbusters.</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 pt-2">
+              <span class="text-xl">🏀</span>
+              <div>
+                <strong class="text-gray-900 dark:text-white block font-semibold">Basketball</strong>
+                <span>Playing pickup games &amp; die-hard fan of the <strong>Golden State Warriors</strong> (#DubNation).</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 pt-2">
+              <span class="text-xl">📸</span>
+              <div>
+                <strong class="text-gray-900 dark:text-white block font-semibold">Photography</strong>
+                <span>Street photography, urban architecture &amp; capturing everyday candid frames through the lens.</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 pt-2">
+              <span class="text-xl">⌨️</span>
+              <div>
+                <strong class="text-gray-900 dark:text-white block font-semibold">Gaming Gear Collecting</strong>
+                <span>Custom mechanical keyboards, tactile switch modding, audiophile equipment &amp; desk aesthetics.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== 07. HARDWARE & WORKSPACE ==================== -->
+    <section id="hardware" class="space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Hardware &amp; Workspace
+          </h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            Heavy compute rigs, mobile workstations, and developer environment
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- Desktop PC -->
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400 font-mono">🖥️ Heavy Compute Rig</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 font-mono">Desktop</span>
+          </div>
+          <h4 class="text-base font-bold text-gray-900 dark:text-white">Custom PC Workstation</h4>
+          <div class="space-y-1.5 text-xs text-gray-600 dark:text-gray-300 font-mono">
+            <div><span class="text-gray-400">CPU:</span> Intel Core i5-12400F (12T)</div>
+            <div><span class="text-gray-400">GPU:</span> NVIDIA RTX 3070 (8GB VRAM)</div>
+            <div><span class="text-gray-400">RAM:</span> 48 GB High-Bandwidth</div>
+            <div><span class="text-gray-400">Disk:</span> 1.5 TB NVMe SSD</div>
+          </div>
+          <p class="text-[11px] text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800 pt-2">
+            Local Spark clusters, multi-service Docker stacks, GPU testing &amp; ETL batch processing.
+          </p>
+        </div>
+
+        <!-- MacBook Pro 14" -->
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-mono">💻 Daily Driver</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-mono">macOS</span>
+          </div>
+          <h4 class="text-base font-bold text-gray-900 dark:text-white">Apple MacBook Pro 14"</h4>
+          <div class="space-y-1.5 text-xs text-gray-600 dark:text-gray-300 font-mono">
+            <div><span class="text-gray-400">SoC:</span> Apple M5 Pro</div>
+            <div><span class="text-gray-400">RAM:</span> 24 GB Unified Memory</div>
+            <div><span class="text-gray-400">Disk:</span> 1 TB High-Speed SSD</div>
+            <div><span class="text-gray-400">Color:</span> Space Black</div>
+          </div>
+          <p class="text-[11px] text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800 pt-2">
+            Primary architecture design, code reviews, distributed modeling, and mobile engineering.
+          </p>
+        </div>
+
+        <!-- Secondary Laptop & Peripherals -->
+        <div class="card-spotlight p-5 rounded-2xl border border-gray-200/90 dark:border-gray-800 bg-white dark:bg-ink-850 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-purple-600 dark:text-purple-400 font-mono">💻 Secondary &amp; Gear</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 font-mono">Linux / WSL</span>
+          </div>
+          <h4 class="text-base font-bold text-gray-900 dark:text-white">Lenovo Xiaoxin Pro 14 GT</h4>
+          <div class="space-y-1.5 text-xs text-gray-600 dark:text-gray-300 font-mono">
+            <div><span class="text-gray-400">CPU:</span> AMD Ryzen AI 9 365</div>
+            <div><span class="text-gray-400">RAM:</span> 32 GB LPDDR5X</div>
+            <div><span class="text-gray-400">Gear:</span> Tactile Mech Keyboard &amp; Ergonomic Mouse</div>
+          </div>
+          <p class="text-[11px] text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800 pt-2">
+            Linux WSL testing sandbox, x86 binary validation, and clean ergonomic peripherals.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== 07. CONTACT SECTION ==================== -->
+    <section id="contact" class="space-y-6">
+      
+      <div class="card-spotlight p-8 sm:p-10 rounded-3xl border border-gray-200/90 dark:border-gray-800 bg-gradient-to-br from-white via-white to-gray-50 dark:from-ink-850 dark:via-ink-850 dark:to-ink-800 shadow-md space-y-6 text-center sm:text-left">
+        
+        <div class="max-w-xl space-y-3">
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-100 text-sky-800 dark:bg-sky-950/80 dark:text-sky-300">
+            Let's Collaborate
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            Ready to build reliable data pipelines together?
+          </h3>
+          <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+            I am currently open for Data Engineer positions, data infrastructure discussions, and technical collaborations. Feel free to reach out via email or LinkedIn.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 pt-2 justify-center sm:justify-start">
+          
+          <!-- One-click Copy Email -->
+          <button id="copy-email-btn" type="button" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-xs sm:text-sm hover:bg-gray-800 dark:hover:bg-gray-100 transition shadow-sm active:scale-95">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span id="email-btn-text">hieuqt@gdscptit.dev</span>
+            <span class="text-[10px] opacity-70 ml-1 font-mono">[Copy]</span>
+          </button>
+
+          <!-- LinkedIn Link -->
+          <a href="https://www.linkedin.com/in/qt-hieu/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-ink-800 text-gray-800 dark:text-gray-200 font-semibold text-xs sm:text-sm hover:border-gray-400 dark:hover:border-gray-600 transition shadow-sm active:scale-95">
+            <i class="devicon-linkedin-plain text-sky-500 text-base"></i>
+            <span>LinkedIn Profile ↗</span>
+          </a>
+
+          <!-- GitHub Link -->
+          <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-ink-800 text-gray-800 dark:text-gray-200 font-semibold text-xs sm:text-sm hover:border-gray-400 dark:hover:border-gray-600 transition shadow-sm active:scale-95">
+            <i class="devicon-github-original text-base"></i>
+            <span>GitHub Profile ↗</span>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="border-t border-gray-200 dark:border-gray-800/80 py-8 text-xs text-gray-500 dark:text-gray-400 transition-colors">
+    <div class="max-w-4xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        © <span id="current-year">2026</span> Quang Hiếu (Worgzek). All rights reserved.
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="hover:text-gray-900 dark:hover:text-white transition font-mono">Bản Terminal CLI ↗</a>
+        <span>·</span>
+        <a href="#hero" class="hover:text-gray-900 dark:hover:text-white transition">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== FLOATING CONTROLS (Identical to Ren Lenon) ==================== -->
+  <div class="floating-controls">
+    
+    <!-- Back to top button -->
+    <button id="back-to-top" type="button" aria-label="Back to top" class="hidden w-11 h-11 rounded-full border border-gray-300 dark:border-gray-700 bg-white/90 dark:bg-ink-850/90 text-gray-600 dark:text-gray-300 shadow-lg backdrop-blur-md items-center justify-center hover:scale-105 active:scale-95 transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+    </button>
+
+    <!-- Work with Hieu Button -->
+    <button id="floating-contact-btn" type="button" class="flex items-center gap-2.5 px-5 py-3 rounded-full bg-gray-950 text-white dark:bg-white dark:text-gray-950 font-semibold text-xs sm:text-sm shadow-xl hover:scale-105 active:scale-95 transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      <span>Contact Hieu</span>
+    </button>
+
+  </div>
+
+  <!-- ==================== PROJECT DETAILS MODAL ==================== -->
+  <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+    <div id="modal-backdrop" class="fixed inset-0 modal-backdrop transition-opacity"></div>
+    <div class="relative w-full max-w-2xl bg-white dark:bg-ink-850 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-2xl overflow-hidden z-10 max-h-[85vh] flex flex-col">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+        <div>
+          <span id="modal-category" class="text-[11px] font-mono text-sky-500 uppercase tracking-wider font-semibold">Project Spec</span>
+          <h3 id="modal-title" class="text-lg font-bold text-gray-900 dark:text-white"></h3>
+        </div>
+        <button id="modal-close" class="p-1 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-white transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div id="modal-content" class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
+        <!-- Injected via JavaScript -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-gray-900 text-white dark:bg-white dark:text-gray-900 text-xs font-medium shadow-xl opacity-0 pointer-events-none transition-opacity duration-300 flex items-center gap-2">
+    <span>Email copied to clipboard!</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // Set dynamic year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Theme Toggle Handler
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Spotlight card mouse tracking (Ren Lenon signature feature)
+    document.querySelectorAll('.card-spotlight').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // Back to top scroll listener
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 350) {
+        backToTopBtn.classList.remove('hidden');
+        backToTopBtn.classList.add('flex');
+      } else {
+        backToTopBtn.classList.add('hidden');
+        backToTopBtn.classList.remove('flex');
+      }
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Floating Contact Button scrolls directly to #contact
+    document.getElementById('floating-contact-btn').addEventListener('click', () => {
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // One-Click Email Copy
+    const copyEmailBtn = document.getElementById('copy-email-btn');
+    const emailBtnText = document.getElementById('email-btn-text');
+    const toast = document.getElementById('toast');
+    
+    copyEmailBtn.addEventListener('click', async () => {
+      const email = 'hieuqt@gdscptit.dev';
+      try {
+        await navigator.clipboard.writeText(email);
+        toast.classList.remove('opacity-0');
+        setTimeout(() => {
+          toast.classList.add('opacity-0');
+        }, 2500);
+      } catch (err) {
+        window.location.href = `mailto:${email}`;
+      }
+    });
+
+    // Project Data for Modal
+    const projectData = {
+      nutribudget: {
+        title: "Google ADK NutriBudget (GDGoC 2nd Prize 🥈)",
+        category: "Hackathon Award & Architecture",
+        content: `
+          <div class="space-y-4">
+            <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-200">
+              <strong>🏆 2nd Prize Winner — GDGoC PTIT Mini-Hackathon:</strong> Led a team of 7 engineers to build and deploy an end-to-end intelligent diet-budget optimization system under rigorous hackathon time constraints.
+            </div>
+
+            <h5 class="text-sm font-bold text-gray-900 dark:text-white">Core System Architecture</h5>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong>Macro Target Calculations:</strong> Computes BMR/TDEE based on individual user biometric profiles (height, weight, age, activity level, fitness objectives).</li>
+              <li><strong>Budget Optimization (PuLP Linear Programming):</strong> Formulates a linear programming optimization problem minimizing dietary costs while meeting strict nutritional lower/upper bounds.</li>
+              <li><strong>FastAPI Microservice:</strong> High-performance async REST API providing endpoints for budget input, meal recommendation filtering, and execution tracking.</li>
+              <li><strong>Google Agent Development Kit (Google ADK):</strong> Leveraged agent workflows to dynamically map grocery item pricing and synthesize recipe steps.</li>
+              <li><strong>Containerized Deployment:</strong> Packaged via multi-stage Docker builds and orchestrated with Docker Compose for seamless local and cloud replication.</li>
+            </ul>
+
+            <h5 class="text-sm font-bold text-gray-900 dark:text-white pt-2">Tech Stack</h5>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">FastAPI</span>
+              <span class="px-2.5 py-1 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">Docker</span>
+              <span class="px-2.5 py-1 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">PostgreSQL</span>
+              <span class="px-2.5 py-1 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">Google ADK</span>
+              <span class="px-2.5 py-1 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">PuLP</span>
+            </div>
+          </div>
+        `
+      },
+      medallion: {
+        title: "Enterprise Medallion Lakehouse",
+        category: "Lakehouse Architecture & Governance",
+        content: `
+          <div class="space-y-4">
+            <h5 class="text-sm font-bold text-gray-900 dark:text-white">Architectural Overview</h5>
+            <p>Designed a multi-hop Medallion Architecture processing high-throughput e-commerce events with ACID reliability:</p>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong>Bronze Layer (Raw):</strong> Streaming ingest capturing event payloads directly into append-only Delta Lake tables with original metadata preserved.</li>
+              <li><strong>Silver Layer (Cleansed):</strong> PySpark structured streaming jobs deduplicate records, enforce schema validation contracts, and enrich categorical dimensions.</li>
+              <li><strong>Gold Layer (Business Marts):</strong> dbt models create star-schema dimensional marts (facts and dimensions) optimized for low-latency BI aggregations.</li>
+            </ul>
+
+            <h5 class="text-sm font-bold text-gray-900 dark:text-white pt-2">Data Quality & Observability</h5>
+            <p>Incorporated automated dbt tests for unique constraints, null values, and referential integrity to prevent downstream schema drift.</p>
+          </div>
+        `
+      },
+      streaming: {
+        title: "Crypto Stream Analytics Engine",
+        category: "Real-Time Streaming Systems",
+        content: `
+          <div class="space-y-4">
+            <h5 class="text-sm font-bold text-gray-900 dark:text-white">Real-Time Data Pipeline</h5>
+            <p>Engineered a distributed real-time processing engine ingesting high-frequency crypto trading feeds:</p>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong>Ingestion:</strong> Async WebSocket worker streaming trade ticks directly into Redis Streams.</li>
+              <li><strong>Stream Processing:</strong> Python consumer groups computing rolling-window VWAP (Volume-Weighted Average Price) and momentum indicators in sub-second latency.</li>
+              <li><strong>Analytical Sink:</strong> Batched micro-inserts into DuckDB for fast vector and columnar query execution.</li>
+            </ul>
+          </div>
+        `
+      },
+      agents: {
+        title: "Multi-Agent Research Pipeline",
+        category: "Autonomous Agentic Data Pipelines",
+        content: `
+          <div class="space-y-4">
+            <h5 class="text-sm font-bold text-gray-900 dark:text-white">Workflow Design</h5>
+            <p>An autonomous data pipeline combining distributed scraping workers with AI enrichment:</p>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong>Crawler Nodes:</strong> Asynchronous headless crawlers extracting research papers and tech publications.</li>
+              <li><strong>Document Cleaning & Normalization:</strong> Strips noise, converts markdown, and extracts structured entities.</li>
+              <li><strong>Storage & Indexing:</strong> Ingests cleansed documents into MongoDB with full-text and vector embeddings for semantic discovery.</li>
+            </ul>
+          </div>
+        `
+      }
+    };
+
+    // Modal Control Functions
+    const modal = document.getElementById('project-modal');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const modalClose = document.getElementById('modal-close');
+    const modalTitle = document.getElementById('modal-title');
+    const modalCategory = document.getElementById('modal-category');
+    const modalContent = document.getElementById('modal-content');
+
+    function openModal(projectId) {
+      const data = projectData[projectId];
+      if (!data) return;
+
+      modalTitle.textContent = data.title;
+      modalCategory.textContent = data.category;
+      modalContent.innerHTML = data.content;
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
+

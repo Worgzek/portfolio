@@ -1,0 +1,286 @@
+/* ==========================================================================
+   Quang Hiếu (Worgzek) — Data Engineer
+   Minimal Terminal / CLI Design System (Light & Dark Theme)
+   ========================================================================== */
+
+:root, [data-theme="dark"] {
+  --term-bg: #0d1117;
+  --term-panel: #161b22;
+  --term-subtle: #0d1117;
+  --term-border: #30363d;
+  --term-border-muted: #21262d;
+  --term-muted: #8b949e;
+  --term-dim: #484f58;
+  --term-fg: #c9d1d9;
+  --term-bright: #f0f6fc;
+  --term-green: #2ea043;
+  --term-green-bright: #3fb950;
+  --term-cyan: #39d0d8;
+  --term-yellow: #d29922;
+  --term-purple: #bc8cff;
+  --term-red: #f85149;
+  --term-backdrop: rgba(7, 9, 14, 0.85);
+  --term-card-subtle: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="light"] {
+  --term-bg: #f6f8fa;
+  --term-panel: #ffffff;
+  --term-subtle: #eaeef2;
+  --term-border: #d0d7de;
+  --term-border-muted: #e1e4e8;
+  --term-muted: #57606a;
+  --term-dim: #8c959f;
+  --term-fg: #24292f;
+  --term-bright: #1f2328;
+  --term-green: #1a7f37;
+  --term-green-bright: #1a7f37;
+  --term-cyan: #0969da;
+  --term-yellow: #9a6700;
+  --term-purple: #8250df;
+  --term-red: #cf222e;
+  --term-backdrop: rgba(140, 149, 159, 0.55);
+  --term-card-subtle: rgba(0, 0, 0, 0.03);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 60px;
+  background-color: var(--term-bg);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+body {
+  background-color: var(--term-bg);
+  color: var(--term-fg);
+  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, monospace);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Force HTML hidden attribute regardless of display:grid or display:flex */
+[hidden] {
+  display: none !important;
+}
+
+/* Header & Navigation */
+.term-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: var(--term-bg);
+  border-bottom: 1px solid var(--term-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* Terminal Window Frame */
+.term-window {
+  background-color: var(--term-panel);
+  border: 1px solid var(--term-border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.term-window-header {
+  background-color: var(--term-subtle);
+  border-bottom: 1px solid var(--term-border);
+  padding: 0.5rem 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.term-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* Section Title with Prompt */
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--term-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px dashed var(--term-border);
+}
+
+/* Terminal Tab Links */
+.term-tab {
+  padding: 0.35rem 0.65rem;
+  color: var(--term-muted);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.term-tab:hover {
+  color: var(--term-bright);
+  background-color: var(--term-card-subtle);
+}
+.term-tab.is-active {
+  color: var(--term-green-bright);
+  background-color: rgba(46, 160, 67, 0.15);
+  font-weight: 600;
+}
+
+/* Filter Tab Buttons */
+.term-tab-filter {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  color: var(--term-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.term-tab-filter:hover {
+  color: var(--term-bright);
+}
+.term-tab-filter.is-active {
+  color: var(--term-green-bright);
+  background-color: rgba(46, 160, 67, 0.15);
+  border-color: rgba(46, 160, 67, 0.4);
+  font-weight: 600;
+}
+
+/* Mini Tab Buttons */
+.term-tab-sm {
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--term-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.term-tab-sm:hover {
+  color: var(--term-bright);
+  border-color: var(--term-border);
+}
+.term-tab-sm.is-active {
+  color: var(--term-green-bright);
+  border-color: var(--term-green);
+  background-color: rgba(46, 160, 67, 0.1);
+}
+
+/* Terminal Buttons */
+.term-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 4px;
+  border: 1px solid var(--term-border);
+  background-color: var(--term-subtle);
+  color: var(--term-fg);
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.term-btn:hover {
+  border-color: var(--term-green-bright);
+  color: var(--term-green-bright);
+}
+
+.term-btn-primary {
+  border-color: var(--term-green);
+  color: var(--term-green-bright);
+  background-color: rgba(46, 160, 67, 0.1);
+}
+.term-btn-primary:hover {
+  background-color: var(--term-green);
+  color: #ffffff !important;
+}
+
+/* Tags */
+.term-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  color: var(--term-fg);
+  background-color: var(--term-subtle);
+  border: 1px solid var(--term-border);
+  line-height: 1.2;
+}
+
+/* Cursor Blink */
+.cursor-blink {
+  animation: cursor-flicker 1.05s steps(1) infinite;
+}
+@keyframes cursor-flicker {
+  50% { opacity: 0; }
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: var(--term-panel);
+  border: 1px solid var(--term-green);
+  color: var(--term-bright);
+  font-size: 0.75rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease-out;
+  z-index: 100;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Terminal Detail Modal */
+.project-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.project-modal[hidden] {
+  display: none;
+}
+.project-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--term-backdrop);
+  backdrop-filter: blur(4px);
+}
+.project-modal-dialog {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 50rem;
+  background-color: var(--term-panel);
+  border: 1px solid var(--term-border);
+  border-radius: 6px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  animation: modal-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes modal-pop {
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
