@@ -730,22 +730,22 @@
             id: "pc",
             device_category: "Desktop Rig",
             model_name: "Custom Compute PC",
-            specifications: "Intel Core i5-12400F (12 threads) · RTX 3070 (8GB VRAM) · 48 GB RAM · 1.5 TB SSD",
+            specifications: "Intel Core i5-12400F · RTX 3070 · 48 GB RAM · 1.5 TB SSD",
             workload_role: "Heavy Compute Rig: Local Spark clusters, Docker stacks, GPU testing, ETL batch processing",
             detail: {
               title: "Custom Desktop PC — Heavy Compute Rig",
               subtitle: "Local Data Engineering Lab & Distributed Cluster Simulation",
               hasPhoto: false,
-              arch: `[ Compute Stack ]
-CPU: Intel Core i5-12400F (6 Cores / 12 Threads)
-GPU: NVIDIA GeForce RTX 3070 (8 GB GDDR6 VRAM)
-RAM: 48 GB DDR4 High-Bandwidth
-Storage: 1.5 TB NVMe M.2 SSD
+              arch: `
+CPU: Intel Core i5-12400F
+GPU: NVIDIA GeForce RTX 3070
+RAM: 48 GB DDR4
+Storage: 1.5 TB SSD
 OS: Windows 11 Pro + WSL 2 (Ubuntu 22.04 LTS)`,
               bullets: [
                 "Configured for running local multi-container Spark and Airflow clusters simultaneously.",
                 "RTX 3070 GPU accelerates vector embedding computations and local LLM agent testing.",
-                "48 GB of memory provides ample headroom for in-memory DuckDB queries and PostgreSQL buffer caches."
+                "48 GB of memory provides ample headroom for in-memory queries and PostgreSQL buffer caches."
               ]
             }
           },
@@ -753,18 +753,19 @@ OS: Windows 11 Pro + WSL 2 (Ubuntu 22.04 LTS)`,
             id: "macbook",
             device_category: "Laptop (Pri)",
             model_name: 'Apple MacBook Pro 14"',
-            specifications: "Apple M5 Pro · 24 GB Unified RAM · 1 TB SSD · Space Black",
+            specifications: "Apple M5 Pro · 24 GB · 1 TB SSD",
             workload_role: "Daily Driver: System architecture, pipeline modeling, code reviews, mobile engineering",
             detail: {
               title: 'Apple MacBook Pro 14" — Daily Driver',
               subtitle: "Primary Workstation for Architecture & Development",
               hasPhoto: false,
-              arch: `[ Workstation Stack ]
-SoC: Apple M5 Pro
-Memory: 24 GB Unified Fast Memory
-Storage: 1 TB High-Speed SSD
+              arch: `
+Chip: Apple M5 Pro
+Memory: 24 GB
+Storage: 1 TB SSD
 Color: Space Black
-Display: Liquid Retina XDR with ProMotion 120Hz`,
+Display: Liquid Retina XDR with ProMotion 120Hz
+OS: macOS + Docker + WSL 2 (Ubuntu 22.04 LTS)`,
               bullets: [
                 "Exceptional battery efficiency and silence for long coding sessions and remote collaborations.",
                 "Native Unix environment for terminal workflows, Git pipelines, and Python virtual environments."
@@ -775,19 +776,22 @@ Display: Liquid Retina XDR with ProMotion 120Hz`,
             id: "lenovo",
             device_category: "Laptop (Sec)",
             model_name: "Lenovo Xiaoxin Pro 14 GT",
-            specifications: "AMD Ryzen AI 9 365 · 32 GB RAM · Linux / WSL data engineering lab",
+            specifications: "AMD Ryzen AI 9 365 · 32 GB RAM · 1 TB SSD",
             workload_role: "Secondary Workstation: Linux data engineering sandbox & client demonstrations",
             detail: {
               title: "Lenovo Xiaoxin Pro 14 GT — Secondary Rig",
               subtitle: "Portable x86 Linux / WSL Data Engineering Workstation",
               hasPhoto: false,
-              arch: `[ Hardware Stack ]
-CPU: AMD Ryzen AI 9 365 (High-efficiency multi-core)
-RAM: 32 GB LPDDR5X
-Environment: Dual-boot / Linux WSL data engineering lab`,
+              arch: `
+Chip: AMD Ryzen AI 9 365 (High-efficiency multi-core)
+Memory: 32 GB
+Storage: 1 TB SSD
+Color: Gray
+Display: 14-inch 2.8K 120Hz OLED
+OS: Windows 11 Pro + WSL 2 (Ubuntu 22.04 LTS)`,
               bullets: [
                 "Dedicated x86 environment for verifying Linux binary dependencies and multi-arch Docker builds.",
-                "Lightweight portability for on-campus GDGoC meetings and hackathons."
+                "Lightweight portability for mobile window-based applications."
               ]
             }
           },
@@ -795,24 +799,22 @@ Environment: Dual-boot / Linux WSL data engineering lab`,
             id: "gear",
             device_category: "Peripherals",
             model_name: "Desk Setup",
-            specifications: "Sugar65 (violet switches) · ATK Ghost Ultimate · Razer Barracuda X 2022 · 2K180HZ Monitor · Maono PD100X · Wallhack SP-004",
+            specifications: "Customized Sugar65 · ATK Ghost Ultimate · Razer Barracuda X 2022 · 2K180HZ Monitor · Maono PD100X · Wallhack SP-004",
             workload_role: "High-throughput productivity: Fast typing, precise mouse control, immersive audio, and clear voice capture",
             detail: {
               title: "Workspace Ergonomics & Tooling",
-              subtitle: "Peripherals configured for high-throughput productivity",
+              subtitle: "Peripherals configured for productivity",
               hasPhoto: false,
-              arch: `[ Desk Setup ]
-Keyboard: Custom mechanical keyboard Sugar65 with tactile violet switches
-Mouse: ATK Ghost Ultimate with high-precision sensor
-Headset: Razer Barracuda X 2022 (wireless, low-latency)
-Monitor: 2K 180Hz high-refresh display for smooth visuals
-Micro: Maono PD100X condenser microphone for clear voice capture
-Mousepad: Wallhack SP-004 Glass mousepad for smooth tracking
-Terminal: Unix CLI with custom aliases & zsh plugins
-Editor: VS Code & Claude Code CLI`,
+              arch: `
+Keyboard: Custom mechanical keyboard Sugar65
+Mouse: ATK Ghost Ultimate
+Headset: Razer Barracuda X 2022
+Monitor: 2K 180Hz IPS
+Micro: Maono PD100X
+Mousepad: Wallhack SP-004 Glass mousepad`,
               bullets: [
                 "Optimized for fast code iteration and Gaming performance.",
-                "Clean minimal workspace setup designed to minimize distraction during deep debugging."
+                "Clean minimal workspace setup designed to minimize distraction."
               ]
             }
           }
@@ -1185,7 +1187,7 @@ Editor: VS Code & Claude Code CLI`,
                   <h3 class="text-base font-bold text-sql-bright">Quang Hieu</h3>
                 </div>
                 <div class="text-xs text-sql-accent font-semibold">${d.subtitle}</div>
-                <div class="text-[11px] text-sql-muted">📍 Hanoi, Vietnam · Post and Telecommunications Institute of Technology</div>
+                <div class="text-[11px] text-sql-muted">𖡡 Hanoi, Vietnam · Post and Telecommunications Institute of Technology</div>
               </div>
             </div>
 
@@ -1246,19 +1248,19 @@ Editor: VS Code & Claude Code CLI`,
               <div class="text-xs font-bold text-sql-yellow uppercase tracking-wider">// Personal Life & Hobbies</div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div class="p-3 rounded bg-sql-panel/60 border border-sql-border space-y-1 hover:border-sql-yellow/50 transition-all duration-150">
-                  <div class="font-bold text-sql-bright">🎮 Gaming</div>
+                  <div class="font-bold text-sql-bright">( っ'-')╮ =͟͟͞͞🎮 Gaming</div>
                   <div class="text-sql-muted text-[11px]">Indie gems, story-rich, and immersive AAA blockbusters.</div>
                 </div>
                 <div class="p-3 rounded bg-sql-panel/60 border border-sql-border space-y-1 hover:border-sql-yellow/50 transition-all duration-150">
-                  <div class="font-bold text-sql-bright">🏀 Basketball</div>
+                  <div class="font-bold text-sql-bright">( っ'-')╮ =͟͟͞͞🏀 Basketball</div>
                   <div class="text-sql-muted text-[11px]">Die-hard fan of the Golden State Warriors (#DubNation).</div>
                 </div>
                 <div class="p-3 rounded bg-sql-panel/60 border border-sql-border space-y-1 hover:border-sql-yellow/50 transition-all duration-150">
-                  <div class="font-bold text-sql-bright">📸 Photography</div>
+                  <div class="font-bold text-sql-bright">( っ'-')╮ =͟͟͞͞📷 Photography</div>
                   <div class="text-sql-muted text-[11px]">Landscape, Street photography, urban architecture, and capturing everyday moments.</div>
                 </div>
                 <div class="p-3 rounded bg-sql-panel/60 border border-sql-border space-y-1 hover:border-sql-yellow/50 transition-all duration-150">
-                  <div class="font-bold text-sql-bright">⌨️ Gear Collecting</div>
+                  <div class="font-bold text-sql-bright">( っ'-')╮ =͟͟͞͞⌨️ Gear Collecting</div>
                   <div class="text-sql-muted text-[11px]">Custom mechanical keyboards, gaming mouse, and desk aesthetics.</div>
                 </div>
               </div>
