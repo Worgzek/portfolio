@@ -230,15 +230,22 @@
       color: rgb(var(--sql-bright)) !important;
     }
 
-    /* [ ↗ Details ] button: Clean Tactile Drop Shadow (No Colored Glow) */
+    /* [ ↗ Details ] button: Translucent Blue Overlay & Tactile Drop Shadow (No Colored Glow) */
     .btn-inspect {
+      background-color: rgba(var(--sql-accent), 0.15) !important;
+      border-color: rgba(var(--sql-accent), 0.5) !important;
+      color: rgb(var(--sql-accent)) !important;
       transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .btn-inspect:hover {
+      background-color: rgba(var(--sql-accent), 0.32) !important;
+      border-color: rgb(var(--sql-accent)) !important;
+      color: rgb(var(--sql-bright)) !important;
       transform: translateY(-1.5px) !important;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.2) !important;
     }
     .btn-inspect:active {
+      background-color: rgba(var(--sql-accent), 0.45) !important;
       transform: translateY(0) scale(0.96) !important;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
     }
@@ -1074,7 +1081,7 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
 
         const actionTd = data.hasAction
           ? `<td class="px-2 sm:px-2.5 py-2 sm:py-2.5 border-r border-sql-border/60 text-center align-middle whitespace-nowrap bg-sql-sidebar/20">
-              <button onclick="event.stopPropagation(); openDetail('${activeTable}', ${idx})" class="btn-inspect px-2.5 py-1 bg-sql-accent/15 hover:bg-sql-accent text-sql-accent hover:text-gray-950 border border-sql-accent/50 hover:border-sql-accent font-bold text-[11px] inline-flex items-center gap-1 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm cursor-pointer select-none" title="Open detailed technical specifications for this record">
+              <button onclick="event.stopPropagation(); openDetail('${activeTable}', ${idx})" class="btn-inspect px-2.5 py-1 font-bold text-[11px] inline-flex items-center gap-1 cursor-pointer select-none border" title="Open detailed technical specifications for this record">
                 <span>↗ Details</span>
               </button>
             </td>`
@@ -1124,7 +1131,7 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
                 content = `
                   <div class="inline-flex items-center gap-2 flex-wrap">
                     <span class="text-sql-green font-mono font-semibold">${val}</span>
-                    <button onclick="event.stopPropagation(); copyText('${val}')" class="px-2.5 py-1 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent text-sql-bright hover:text-sql-accent font-bold text-[11px] inline-flex items-center gap-1.5 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm cursor-pointer select-none" title="Copy email address to clipboard">
+                    <button onclick="event.stopPropagation(); copyText('${val}')" class="px-2.5 py-1 bg-sql-panel hover:bg-sql-accent/20 border border-sql-border hover:border-sql-accent text-sql-bright hover:text-sql-accent font-bold text-[11px] inline-flex items-center gap-1.5 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm cursor-pointer select-none" title="Copy email address to clipboard">
                       <span>🗒 Copy</span>
                     </button>
                   </div>
@@ -1133,7 +1140,7 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
                 content = `
                   <div class="inline-flex items-center gap-2 flex-wrap">
                     <span class="text-sql-accent font-mono truncate max-w-[200px] sm:max-w-xs">${val}</span>
-                    <a href="${val}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="px-2 py-0.5 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent text-sql-bright hover:text-sql-accent font-bold text-[11px] inline-flex items-center gap-1 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm cursor-pointer select-none shrink-0" title="Open external link">
+                    <a href="${val}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="px-2 py-0.5 bg-sql-panel hover:bg-sql-accent/20 border border-sql-border hover:border-sql-accent text-sql-bright hover:text-sql-accent font-bold text-[11px] inline-flex items-center gap-1 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm cursor-pointer select-none shrink-0" title="Open external link">
                       <span>Open ↗</span>
                     </a>
                   </div>
