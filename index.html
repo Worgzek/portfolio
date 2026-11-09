@@ -208,53 +208,53 @@
       transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms ease;
     }
     #table-body tr:hover td {
-      background-color: rgba(var(--sql-accent), 0.18) !important;
+      background-color: rgb(var(--sql-accent) / 0.18) !important;
       color: rgb(var(--sql-bright)) !important;
     }
     #table-body tr:hover td:first-child {
       color: rgb(var(--sql-accent)) !important;
       font-weight: 700 !important;
       box-shadow: inset 4px 0 0 rgb(var(--sql-accent)) !important;
-      background-color: rgba(var(--sql-accent), 0.26) !important;
+      background-color: rgb(var(--sql-accent) / 0.26) !important;
     }
     #table-body tr:active td {
-      background-color: rgba(var(--sql-accent), 0.30) !important;
+      background-color: rgb(var(--sql-accent) / 0.30) !important;
     }
     /* Flat tech chips (hover triggers only on the specific chip hovered) */
     .tech-chip {
-      background-color: rgba(var(--sql-panel), 0.65);
-      border-color: rgba(var(--sql-border), 0.8);
+      background-color: rgb(var(--sql-panel) / 0.65);
+      border-color: rgb(var(--sql-border) / 0.8);
       color: rgb(var(--sql-fg));
       cursor: default !important;
       transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
     }
     .tech-chip:hover {
-      border-color: rgba(var(--sql-border), 1) !important;
-      background-color: rgba(var(--sql-panel), 0.95) !important;
+      border-color: rgb(var(--sql-border) / 1) !important;
+      background-color: rgb(var(--sql-panel) / 0.95) !important;
       color: rgb(var(--sql-bright)) !important;
     }
 
     /* [ ↗ Details ] button: Translucent Blue Overlay & Tactile Drop Shadow (No Colored Glow) */
     .btn-inspect {
-      background-color: rgba(var(--sql-accent), 0.15) !important;
-      border-color: rgba(var(--sql-accent), 0.5) !important;
+      background-color: rgb(var(--sql-accent) / 0.15) !important;
+      border-color: rgb(var(--sql-accent) / 0.5) !important;
       color: rgb(var(--sql-accent)) !important;
       transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     .btn-inspect:hover {
-      background-color: rgba(var(--sql-accent), 0.32) !important;
+      background-color: rgb(var(--sql-accent) / 0.32) !important;
       border-color: rgb(var(--sql-accent)) !important;
       color: rgb(var(--sql-bright)) !important;
       transform: translateY(-1.5px) !important;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.2) !important;
     }
     .btn-inspect:active {
-      background-color: rgba(var(--sql-accent), 0.45) !important;
+      background-color: rgb(var(--sql-accent) / 0.45) !important;
       transform: translateY(0) scale(0.96) !important;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
     }
     #table-body tr:active {
-      background-color: rgba(var(--sql-accent), 0.28) !important;
+      background-color: rgb(var(--sql-accent) / 0.28) !important;
     }
 
     /* Section & Query Switch Animation (Tactile Glide & Fade) */
