@@ -216,9 +216,23 @@
       box-shadow: inset 4px 0 0 rgb(var(--sql-accent)) !important;
       background-color: rgba(var(--sql-accent), 0.22) !important;
     }
-    #table-body tr:hover .tech-badge {
-      border-color: rgba(var(--sql-accent), 0.5) !important;
-      background-color: rgb(var(--sql-panel)) !important;
+    /* Flat passive tech chips (clearly distinct from clickable buttons) */
+    .tech-chip {
+      background-color: rgba(var(--sql-panel), 0.65);
+      border-color: rgba(var(--sql-border), 0.8);
+      color: rgb(var(--sql-fg));
+      cursor: default !important;
+    }
+    #table-body tr:hover .tech-chip {
+      border-color: rgba(var(--sql-border), 1);
+      background-color: rgba(var(--sql-panel), 0.95);
+    }
+    /* [ ↗ Details ] button: tactile accent highlight on row hover */
+    #table-body tr:hover .btn-inspect {
+      background-color: rgb(var(--sql-accent)) !important;
+      color: #0b0f14 !important;
+      border-color: rgb(var(--sql-accent)) !important;
+      box-shadow: 0 4px 10px -2px rgba(56, 189, 248, 0.5) !important;
     }
     #table-body tr:active {
       background-color: rgba(var(--sql-accent), 0.28) !important;
@@ -405,7 +419,7 @@
             <span class="text-sql-green text-[11px]">👁</span>
             <span class="truncate">v_contact</span>
           </div>
-          <span class="text-[10px] text-sql-green font-mono">5</span>
+          <span class="text-[10px] text-sql-green font-mono">6</span>
         </button>
 
       </div>
@@ -886,6 +900,10 @@ Editor: VS Code & Claude Code CLI`,
         hasAction: false,
         rows: [
           {
+            channel: "Resume / CV",
+            address: "assets/Quang_Trung_Hieu_CV.pdf"
+          },
+          {
             channel: "Email",
             address: "hieuqt@gdscptit.dev"
           },
@@ -1008,8 +1026,8 @@ Editor: VS Code & Claude Code CLI`,
     function renderTechBadge(tag) {
       const icon = getTechIcon(tag);
       return `
-        <span class="tech-badge inline-flex items-center gap-1.5 px-2 py-0.5 bg-sql-panel border border-sql-border text-[11px] text-sql-bright font-medium hover:border-sql-accent/60 hover:text-sql-accent transition-all duration-150 select-none shadow-sm">
-          ${icon ? `<span>${icon}</span>` : ''}
+        <span class="tech-chip inline-flex items-center gap-1.5 px-2 py-0.5 bg-sql-sidebar/70 border border-sql-border/60 text-[11px] text-sql-fg font-normal select-none cursor-default">
+          ${icon ? `<span class="opacity-80">${icon}</span>` : ''}
           <span>${tag}</span>
         </span>
       `;
@@ -1022,15 +1040,20 @@ Editor: VS Code & Claude Code CLI`,
       document.getElementById('active-query-name').textContent = data.title;
       const countMsg = `✓ ${data.rows.length} ${data.rows.length === 1 ? 'row' : 'rows'} returned`;
       const hintMsg = data.hasAction 
-        ? `<span class="sm:ml-2 px-1.5 sm:px-2 py-0.5 rounded bg-sql-accent/15 text-sql-accent border border-sql-accent/30 font-medium text-[10px] sm:text-[11px] inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-sql-accent animate-pulse"></span>Click row to inspect ↗</span>`
+        ? `<span class="sm:ml-2 px-1.5 sm:px-2 py-0.5 rounded bg-sql-accent/15 text-sql-accent border border-sql-accent/30 font-medium text-[10px] sm:text-[11px] inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-sql-accent animate-pulse"></span>Click [↗ Details] to inspect</span>`
         : '';
       document.getElementById('exec-status').innerHTML = `${countMsg} ${hintMsg}`;
       document.getElementById('sql-code').innerHTML = data.sql;
 
       // Table Headers
       const thead = document.getElementById('table-head');
+      const actionTh = data.hasAction
+        ? `<th class="w-24 sm:w-28 px-2 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border text-center text-sql-accent font-bold text-[11px] uppercase tracking-wider select-none bg-sql-panel">inspect</th>`
+        : '';
+
       thead.innerHTML = `
         <th class="w-8 sm:w-10 px-2 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border text-center text-sql-muted/70">#</th>
+        ${actionTh}
         ${data.headers.map(h => `<th class="px-2.5 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border/60 capitalize whitespace-nowrap">${h.replace(/_/g, ' ')}</th>`).join('')}
       `;
 
@@ -1042,9 +1065,18 @@ Editor: VS Code & Claude Code CLI`,
           : 'cursor-default';
         const rowClick = data.hasAction ? `onclick="openDetail('${activeTable}', ${idx})"` : '';
 
+        const actionTd = data.hasAction
+          ? `<td class="px-2 sm:px-2.5 py-2 sm:py-2.5 border-r border-sql-border/60 text-center align-middle whitespace-nowrap bg-sql-sidebar/20">
+              <button onclick="event.stopPropagation(); openDetail('${activeTable}', ${idx})" class="btn-inspect px-2.5 py-1 bg-sql-accent/15 hover:bg-sql-accent text-sql-accent hover:text-gray-950 border border-sql-accent/50 hover:border-sql-accent font-bold text-[11px] inline-flex items-center gap-1 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm cursor-pointer select-none" title="Open detailed technical specifications for this record">
+                <span>↗ Details</span>
+              </button>
+            </td>`
+          : '';
+
         return `
           <tr class="${rowClass}" ${rowClick}>
             <td class="px-3 py-3 border-r border-sql-border/60 text-center text-sql-muted text-[10px] select-none bg-sql-sidebar/30 transition-colors">${idx + 1}</td>
+            ${actionTd}
             ${data.headers.map(h => {
               const val = row[h];
               let content = '';
@@ -1074,26 +1106,30 @@ Editor: VS Code & Claude Code CLI`,
                 content = `<span class="font-bold text-sql-bright inline-flex items-center gap-1.5">${icon}<span>${val}</span></span>`;
               } else if (h === 'address' && val.endsWith('.pdf')) {
                 content = `
-                  <a href="${val}" download="Quang_Trung_Hieu_Data_Engineer_CV.pdf" target="_blank" onclick="event.stopPropagation()" class="px-2.5 py-1 rounded bg-sql-panel hover:bg-sql-hover border border-sql-green/50 hover:border-sql-green text-sql-green font-mono font-semibold text-xs inline-flex items-center gap-1.5 transition hover:-translate-y-0.5 active:translate-y-0 shadow-sm" title="Download Official CV (PDF)">
-                    <span>Quang_Trung_Hieu_CV.pdf</span>
-                    <span class="text-[10px]">↓ [Download]</span>
-                  </a>
+                  <div class="inline-flex items-center gap-2 flex-wrap">
+                    <span class="text-sql-bright font-mono text-xs">Quang_Trung_Hieu_CV.pdf</span>
+                    <a href="${val}" download="Quang_Trung_Hieu_Data_Engineer_CV.pdf" target="_blank" onclick="event.stopPropagation()" class="px-2.5 py-1 bg-sql-green hover:bg-emerald-400 text-gray-950 font-bold text-[11px] inline-flex items-center gap-1.5 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm border border-emerald-600/40 cursor-pointer select-none" title="Download Official CV (PDF)">
+                      <span>⤓ Download CV</span>
+                    </a>
+                  </div>
                 `;
               } else if (h === 'address' && val.includes('@')) {
                 content = `
-                  <div class="inline-flex items-center gap-2">
-                    <span class="text-sql-green font-mono cursor-pointer hover:underline font-semibold" onclick="event.stopPropagation(); copyText('${val}')" title="Click to copy">${val}</span>
-                    <button onclick="event.stopPropagation(); copyText('${val}')" class="px-2 py-0.5 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 text-[10px] text-sql-green hover:text-sql-accent font-mono cursor-pointer select-none shadow-sm hover:shadow">
-                      [Copy]
+                  <div class="inline-flex items-center gap-2 flex-wrap">
+                    <span class="text-sql-green font-mono font-semibold">${val}</span>
+                    <button onclick="event.stopPropagation(); copyText('${val}')" class="px-2.5 py-1 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent text-sql-bright hover:text-sql-accent font-bold text-[11px] inline-flex items-center gap-1.5 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm cursor-pointer select-none" title="Copy email address to clipboard">
+                      <span>📋 Copy</span>
                     </button>
                   </div>
                 `;
               } else if (h === 'address' && val.startsWith('http')) {
                 content = `
-                  <a href="${val}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-sql-accent font-mono hover:underline inline-flex items-center gap-1.5 font-semibold">
-                    <span>${val}</span>
-                    <span class="text-xs">↗</span>
-                  </a>
+                  <div class="inline-flex items-center gap-2 flex-wrap">
+                    <span class="text-sql-accent font-mono truncate max-w-[200px] sm:max-w-xs">${val}</span>
+                    <a href="${val}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="px-2 py-0.5 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent text-sql-bright hover:text-sql-accent font-bold text-[11px] inline-flex items-center gap-1 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 shadow-sm cursor-pointer select-none shrink-0" title="Open external link">
+                      <span>Open ↗</span>
+                    </a>
+                  </div>
                 `;
               } else {
                 content = val || '';
