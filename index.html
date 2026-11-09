@@ -317,7 +317,7 @@
   <header class="h-11 px-4 bg-sql-sidebar border-b border-sql-border flex items-center justify-between shrink-0 select-none">
     
     <!-- Left: Identity -->
-    <span onclick="switchTable('aboutme')" class="font-bold text-sql-bright text-sm tracking-widest select-none cursor-pointer" title="Return to v_about_me">
+    <span onclick="switchTable('aboutme')" class="font-bold text-sql-bright text-sm tracking-widest select-none cursor-pointer" title="Return to view_about_me">
       WZDB
     </span>
 
@@ -355,7 +355,7 @@
   <!-- ==================== MOBILE SUB-HEADER (SCROLLABLE TABS) ==================== -->
   <div class="md:hidden bg-sql-sidebar border-b border-sql-border px-2 py-1.5 overflow-x-auto no-scrollbar flex items-center gap-1.5 shrink-0 select-none">
     <button onclick="switchTable('aboutme')" class="nav-tab shrink-0 px-2.5 py-1 border border-sql-border/60 bg-sql-active text-sql-bright font-semibold text-[11px] whitespace-nowrap shadow-sm" data-nav="aboutme">
-      v_about_me
+      view_about_me
     </button>
     <button onclick="switchTable('skills')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="skills">
       dim_tech_stack
@@ -370,7 +370,7 @@
       dim_hardware
     </button>
     <button onclick="switchTable('contact')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="contact">
-      v_contact
+      view_contact
     </button>
   </div>
 
@@ -387,11 +387,11 @@
 
       <div class="p-2 space-y-0.5 flex-1 overflow-y-auto text-xs">
         
-        <!-- 1. v_about_me -->
+        <!-- 1. view_about_me -->
         <button onclick="switchTable('aboutme')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-sql-border/60 bg-sql-active text-sql-bright font-medium text-left hover:bg-sql-hover hover:border-sql-accent/60 hover:text-sql-accent select-none shadow-sm" data-key="aboutme">
           <div class="flex items-center gap-2 truncate">
             <span class="text-sql-green text-[11px]">👁</span>
-            <span class="truncate font-semibold">v_about_me</span>
+            <span class="truncate font-semibold">view_about_me</span>
           </div>
           <span class="text-[10px] text-sql-green font-mono">1</span>
         </button>
@@ -432,11 +432,11 @@
           <span class="text-[10px] text-sql-muted font-mono">4</span>
         </button>
 
-        <!-- 6. v_contact -->
+        <!-- 6. view_contact -->
         <button onclick="switchTable('contact')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent text-left select-none shadow-sm" data-key="contact">
           <div class="flex items-center gap-2 truncate">
             <span class="text-sql-green text-[11px]">👁</span>
-            <span class="truncate">v_contact</span>
+            <span class="truncate">view_contact</span>
           </div>
           <span class="text-[10px] text-sql-green font-mono">6</span>
         </button>
@@ -480,7 +480,7 @@
         
         <!-- Table Box with horizontal scrolling -->
         <div class="border border-sql-border overflow-x-auto bg-sql-sidebar/30">
-          <table class="w-full min-w-full text-left border-collapse text-xs">
+          <table class="w-max min-w-full text-left border-collapse text-xs">
             <thead class="bg-sql-panel border-b border-sql-border text-[11px] text-sql-muted select-none">
               <tr id="table-head">
                 <!-- Dynamically populated -->
@@ -872,8 +872,8 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
 
       // 1. ABOUT ME
       aboutme: {
-        title: "Query: v_about_me",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">alias</span>, <span class="sql-col">full_name</span>, <span class="sql-col">role</span>, <span class="sql-col">focus</span>, <span class="sql-col">location</span>, <span class="sql-col">status</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">v_about_me</span>;`,
+        title: "Query: view_about_me",
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">alias</span>, <span class="sql-col">full_name</span>, <span class="sql-col">role</span>, <span class="sql-col">focus</span>, <span class="sql-col">location</span>, <span class="sql-col">status</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">view_about_me</span>;`,
         headers: ["alias", "full_name", "role", "focus", "location", "status"],
         hasAction: true,
         rows: [
@@ -915,8 +915,8 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
 
       // CONTACT
       contact: {
-        title: "Query: v_contact",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">channel</span>, <span class="sql-col">address</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">v_contact</span>;`,
+        title: "Query: view_contact",
+        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">channel</span>, <span class="sql-col">address</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">view_contact</span>;`,
         headers: ["channel", "address"],
         hasAction: false,
         rows: [
@@ -1063,16 +1063,38 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
       document.getElementById('exec-status').innerHTML = countMsg;
       document.getElementById('sql-code').innerHTML = data.sql;
 
+      function getColClass(h) {
+        if (h === 'description' || h === 'highlights' || h === 'workload_role') {
+          return 'min-w-[320px] max-w-[460px] leading-relaxed';
+        }
+        if (h === 'architecture' || h === 'specifications' || h === 'focus') {
+          return 'min-w-[240px] max-w-[360px] leading-relaxed';
+        }
+        if (h === 'organization') {
+          return 'min-w-[200px] leading-relaxed';
+        }
+        if (h === 'tech_stack' || h === 'technologies') {
+          return 'min-w-[220px]';
+        }
+        if (h === 'address') {
+          return 'min-w-[260px]';
+        }
+        if (h === 'project_name' || h === 'model_name' || h === 'device_category' || h === 'period' || h === 'role' || h === 'location' || h === 'status' || h === 'tag' || h === 'channel' || h === 'alias' || h === 'full_name' || h === 'category') {
+          return 'whitespace-nowrap min-w-[130px]';
+        }
+        return 'min-w-[140px]';
+      }
+
       // Table Headers
       const thead = document.getElementById('table-head');
       const actionTh = data.hasAction
-        ? `<th class="w-24 sm:w-28 px-2 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border text-center text-sql-accent font-bold text-[11px] uppercase tracking-wider select-none bg-sql-panel">inspect</th>`
+        ? `<th class="w-24 sm:w-28 min-w-[90px] px-2 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border text-center text-sql-accent font-bold text-[11px] uppercase tracking-wider select-none bg-sql-panel whitespace-nowrap">inspect</th>`
         : '';
 
       thead.innerHTML = `
-        <th class="w-8 sm:w-10 px-2 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border text-center text-sql-muted/70">#</th>
+        <th class="w-8 sm:w-10 min-w-[36px] px-2 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border text-center text-sql-muted/70 whitespace-nowrap">#</th>
         ${actionTh}
-        ${data.headers.map(h => `<th class="px-2.5 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border/60 capitalize whitespace-nowrap">${h.replace(/_/g, ' ')}</th>`).join('')}
+        ${data.headers.map(h => `<th class="px-2.5 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border/60 capitalize whitespace-nowrap ${getColClass(h)}">${h.replace(/_/g, ' ')}</th>`).join('')}
       `;
 
       // Table Rows
@@ -1153,7 +1175,7 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
                 content = val || '';
               }
 
-              return `<td class="px-2.5 sm:px-3 py-2 sm:py-3 border-r border-sql-border/40 align-top">${content}</td>`;
+              return `<td class="px-2.5 sm:px-3 py-2.5 sm:py-3 border-r border-sql-border/40 align-top ${getColClass(h)}">${content}</td>`;
             }).join('')}
           </tr>
         `;
