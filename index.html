@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>worgzek</title>
+  <title>hieu's portfolio</title>
   
   <meta name="description" content="Worgzek's Portfolio — Data Engineer Portfolio presented as a clean, interactive SQL workspace." />
   <meta name="author" content="Quang Hieu" />
@@ -64,16 +64,32 @@
   </script>
 
   <style>
-    /* Ensure 100% viewport fit with zoom */
+    /* Ensure 100% viewport fit */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
     }
 
-    /* Website 125% zoom for enhanced readability */
-    html {
-      zoom: 1.25;
+    /* Website 125% zoom for desktop (>=1024px), standard 100% on tablet & mobile */
+    @media (min-width: 1024px) {
+      html {
+        zoom: 1.25;
+      }
+    }
+    @media (max-width: 1023px) {
+      html {
+        zoom: 1;
+      }
+    }
+
+    /* Scrollbar hide utility */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
 
     /* CSS Variables for Clean Dark/Light SQL Theme */
@@ -303,6 +319,28 @@
 
   </header>
 
+  <!-- ==================== MOBILE SUB-HEADER (SCROLLABLE TABS) ==================== -->
+  <div class="md:hidden bg-sql-sidebar border-b border-sql-border px-2 py-1.5 overflow-x-auto no-scrollbar flex items-center gap-1.5 shrink-0 select-none">
+    <button onclick="switchTable('aboutme')" class="nav-tab shrink-0 px-2.5 py-1 border border-sql-border/60 bg-sql-active text-sql-bright font-semibold text-[11px] whitespace-nowrap shadow-sm" data-nav="aboutme">
+      v_about_me
+    </button>
+    <button onclick="switchTable('skills')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="skills">
+      dim_tech_stack
+    </button>
+    <button onclick="switchTable('experience')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="experience">
+      fact_experience
+    </button>
+    <button onclick="switchTable('projects')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="projects">
+      fact_projects
+    </button>
+    <button onclick="switchTable('hardware')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="hardware">
+      dim_hardware
+    </button>
+    <button onclick="switchTable('contact')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="contact">
+      v_contact
+    </button>
+  </div>
+
 
   <!-- ==================== MAIN SPLIT WORKSPACE ==================== -->
   <div class="flex-1 flex overflow-hidden">
@@ -387,29 +425,29 @@
     <main class="flex-1 flex flex-col overflow-hidden bg-sql-bg">
       
       <!-- SQL Query Bar (Clean, no clutter) -->
-      <div class="bg-sql-editor border-b border-sql-border p-3 shrink-0">
-        <div class="flex items-center justify-between gap-3 mb-2">
-          <div class="flex items-center gap-2">
+      <div class="bg-sql-editor border-b border-sql-border p-2.5 sm:p-3 shrink-0">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+          <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             <span id="active-query-name" class="font-bold text-sql-bright text-xs">Query: fact_experience</span>
             <span class="text-sql-border">·</span>
-            <span id="exec-status" class="text-sql-green text-[11px]">✓ 2 rows returned</span>
+            <span id="exec-status" class="text-sql-green text-[11px] inline-flex items-center flex-wrap gap-1">✓ 2 rows returned</span>
           </div>
-          <button id="btn-run" onclick="reRunQuery()" class="flex items-center gap-1.5 px-3 py-1 bg-sql-green hover:bg-emerald-400 border border-emerald-600/40 text-gray-950 font-bold text-[11px] select-none cursor-pointer shadow-sm hover:shadow-md transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95" title="Execute query & Download CV">
+          <button id="btn-run" onclick="reRunQuery()" class="flex items-center justify-center gap-1.5 px-3 py-1.5 sm:py-1 bg-sql-green hover:bg-emerald-400 border border-emerald-600/40 text-gray-950 font-bold text-[11px] select-none cursor-pointer shadow-sm hover:shadow-md transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 w-full sm:w-auto" title="Execute query & Download CV">
             <span>▶ Run Query (Download CV)</span>
           </button>
         </div>
 
         <!-- Clean SQL Query Code Display -->
-        <pre id="sql-code" class="p-3 rounded-lg bg-sql-bg/80 border border-sql-border/70 text-xs overflow-x-auto leading-relaxed"></pre>
+        <pre id="sql-code" class="p-2.5 sm:p-3 bg-sql-bg/80 border border-sql-border/70 text-[11px] sm:text-xs overflow-x-auto leading-relaxed"></pre>
       </div>
 
 
       <!-- Results Table Area -->
-      <div id="results-area" class="flex-1 overflow-auto p-4 space-y-4">
+      <div id="results-area" class="flex-1 overflow-auto p-2.5 sm:p-4 space-y-3 sm:space-y-4">
         
-        <!-- Table Box -->
-        <div class="border border-sql-border rounded-lg overflow-hidden bg-sql-sidebar/30">
-          <table class="w-full text-left border-collapse text-xs">
+        <!-- Table Box with horizontal scrolling -->
+        <div class="border border-sql-border overflow-x-auto bg-sql-sidebar/30">
+          <table class="w-full min-w-full text-left border-collapse text-xs">
             <thead class="bg-sql-panel border-b border-sql-border text-[11px] text-sql-muted select-none">
               <tr id="table-head">
                 <!-- Dynamically populated -->
@@ -429,26 +467,26 @@
 
 
   <!-- ==================== TECHNICAL DETAIL MODAL ==================== -->
-  <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm hidden modal-closed" role="dialog" aria-modal="true" onclick="if(event.target === this) closeModal()">
-    <div id="modal-container" class="relative w-full max-w-2xl bg-sql-editor rounded-xl border border-sql-border shadow-2xl overflow-hidden flex flex-col max-h-full my-auto">
+  <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm hidden modal-closed" role="dialog" aria-modal="true" onclick="if(event.target === this) closeModal()">
+    <div id="modal-container" class="relative w-full max-w-[calc(100vw-16px)] sm:max-w-2xl min-w-0 bg-sql-editor border border-sql-border shadow-2xl overflow-hidden flex flex-col h-[92vh] sm:h-auto max-h-[92vh] sm:max-h-[88vh] my-auto">
       
       <!-- Modal Header -->
-      <div class="h-11 px-5 bg-sql-sidebar border-b border-sql-border flex items-center justify-between shrink-0 select-none">
-        <div class="flex items-center gap-2">
-          <span id="modal-heading" class="font-bold text-sql-bright text-sm">Technical Specifications</span>
+      <div class="h-10 sm:h-11 px-3 sm:px-5 bg-sql-sidebar border-b border-sql-border flex items-center justify-between shrink-0 select-none">
+        <div class="flex items-center gap-2 truncate pr-2">
+          <span id="modal-heading" class="font-bold text-sql-bright text-xs sm:text-sm truncate">Technical Specifications</span>
         </div>
-        <button onclick="closeModal()" class="text-sql-muted hover:text-sql-accent text-xs px-2.5 py-1 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 select-none shadow-sm hover:shadow">
+        <button onclick="closeModal()" class="text-sql-muted hover:text-sql-accent text-xs px-2 sm:px-2.5 py-1 bg-sql-panel hover:bg-sql-hover border border-sql-border hover:border-sql-accent/60 select-none shadow-sm hover:shadow shrink-0">
           ✕ Close [Esc]
         </button>
       </div>
 
       <!-- Modal Body -->
-      <div id="modal-content" class="flex-1 min-h-0 p-5 sm:p-6 overflow-y-auto space-y-4 text-xs font-mono">
+      <div id="modal-content" class="flex-1 min-h-0 min-w-0 max-w-full p-3 sm:p-6 overflow-y-auto space-y-4 text-xs font-mono">
         <!-- Rendered dynamically -->
       </div>
 
       <!-- Modal Footer -->
-      <div class="h-8 px-5 bg-sql-sidebar border-t border-sql-border flex items-center justify-between shrink-0 text-[11px] text-sql-muted select-none">
+      <div class="h-7 sm:h-8 px-3 sm:px-5 bg-sql-sidebar border-t border-sql-border flex items-center justify-between shrink-0 text-[10px] sm:text-[11px] text-sql-muted select-none">
         <span>SQL Record Inspector</span>
         <span class="text-[10px] text-sql-muted/70 font-mono">Press [Esc] to dismiss</span>
       </div>
@@ -984,7 +1022,7 @@ Editor: VS Code & Claude Code CLI`,
       document.getElementById('active-query-name').textContent = data.title;
       const countMsg = `✓ ${data.rows.length} ${data.rows.length === 1 ? 'row' : 'rows'} returned`;
       const hintMsg = data.hasAction 
-        ? `<span class="ml-2.5 px-2 py-0.5 rounded bg-sql-accent/15 text-sql-accent border border-sql-accent/30 font-medium text-[11px] inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-sql-accent animate-pulse"></span>Click any row to inspect detail ↗</span>`
+        ? `<span class="sm:ml-2 px-1.5 sm:px-2 py-0.5 rounded bg-sql-accent/15 text-sql-accent border border-sql-accent/30 font-medium text-[10px] sm:text-[11px] inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-sql-accent animate-pulse"></span>Click row to inspect ↗</span>`
         : '';
       document.getElementById('exec-status').innerHTML = `${countMsg} ${hintMsg}`;
       document.getElementById('sql-code').innerHTML = data.sql;
@@ -992,8 +1030,8 @@ Editor: VS Code & Claude Code CLI`,
       // Table Headers
       const thead = document.getElementById('table-head');
       thead.innerHTML = `
-        <th class="w-10 px-3 py-2.5 border-r border-sql-border text-center text-sql-muted/70">#</th>
-        ${data.headers.map(h => `<th class="px-3 py-2.5 border-r border-sql-border/60 capitalize">${h.replace(/_/g, ' ')}</th>`).join('')}
+        <th class="w-8 sm:w-10 px-2 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border text-center text-sql-muted/70">#</th>
+        ${data.headers.map(h => `<th class="px-2.5 sm:px-3 py-2 sm:py-2.5 border-r border-sql-border/60 capitalize whitespace-nowrap">${h.replace(/_/g, ' ')}</th>`).join('')}
       `;
 
       // Table Rows
@@ -1061,7 +1099,7 @@ Editor: VS Code & Claude Code CLI`,
                 content = val || '';
               }
 
-              return `<td class="px-3 py-3 border-r border-sql-border/40 align-top">${content}</td>`;
+              return `<td class="px-2.5 sm:px-3 py-2 sm:py-3 border-r border-sql-border/40 align-top">${content}</td>`;
             }).join('')}
           </tr>
         `;
@@ -1472,8 +1510,10 @@ Editor: VS Code & Claude Code CLI`,
       switchTable('aboutme');
     }
 
-    // Auto-open About Me modal on page load
-    openDetail('aboutme', 0);
+    // Auto-open About Me modal on desktop page load only
+    if (window.innerWidth >= 768) {
+      openDetail('aboutme', 0);
+    }
   </script>
 
 </body>
