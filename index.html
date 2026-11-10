@@ -354,8 +354,9 @@
 
   <!-- ==================== MOBILE SUB-HEADER (SCROLLABLE TABS) ==================== -->
   <div class="md:hidden bg-sql-sidebar border-b border-sql-border px-2 py-1.5 overflow-x-auto no-scrollbar flex items-center gap-1.5 shrink-0 select-none">
-    <button onclick="switchTable('aboutme')" class="nav-tab shrink-0 px-2.5 py-1 border border-sql-border/60 bg-sql-active text-sql-bright font-semibold text-[11px] whitespace-nowrap shadow-sm" data-nav="aboutme">
-      view_about_me
+    <button onclick="switchTable('aboutme')" class="nav-tab shrink-0 px-2.5 py-1 border border-sql-border/60 bg-sql-active text-sql-bright font-semibold text-[11px] whitespace-nowrap shadow-sm inline-flex items-center gap-1" data-nav="aboutme">
+      <span class="text-xs select-none">👁</span>
+      <span>view_about_me</span>
     </button>
     <button onclick="switchTable('skills')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="skills">
       dim_tech_stack
@@ -369,8 +370,9 @@
     <button onclick="switchTable('hardware')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="hardware">
       dim_hardware
     </button>
-    <button onclick="switchTable('contact')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm" data-nav="contact">
-      view_contact
+    <button onclick="switchTable('contact')" class="nav-tab shrink-0 px-2.5 py-1 border border-transparent bg-transparent text-sql-muted text-[11px] whitespace-nowrap shadow-sm inline-flex items-center gap-1" data-nav="contact">
+      <span class="text-xs select-none">👁</span>
+      <span>view_contact</span>
     </button>
   </div>
 
@@ -390,7 +392,7 @@
         <!-- 1. view_about_me -->
         <button onclick="switchTable('aboutme')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-sql-border/60 bg-sql-active text-sql-bright font-medium text-left hover:bg-sql-hover hover:border-sql-accent/60 hover:text-sql-accent select-none shadow-sm" data-key="aboutme">
           <div class="flex items-center gap-2 truncate">
-            <span class="text-sql-green text-[11px]">👁</span>
+            <span class="text-xs select-none">👁</span>
             <span class="truncate font-semibold">view_about_me</span>
           </div>
           <span class="text-[10px] text-sql-green font-mono">1</span>
@@ -435,7 +437,7 @@
         <!-- 6. view_contact -->
         <button onclick="switchTable('contact')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent hover:bg-sql-hover hover:border-sql-accent/60 text-sql-muted hover:text-sql-accent text-left select-none shadow-sm" data-key="contact">
           <div class="flex items-center gap-2 truncate">
-            <span class="text-sql-green text-[11px]">👁</span>
+            <span class="text-xs select-none">👁</span>
             <span class="truncate">view_contact</span>
           </div>
           <span class="text-[10px] text-sql-green font-mono">6</span>
@@ -447,7 +449,7 @@
       <div class="p-3 border-t border-sql-border shrink-0 select-none">
         <div class="text-[11px] text-sql-muted font-mono flex items-center justify-between">
           <span>Made by <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="text-sql-accent hover:underline font-semibold">@Worgzek</a></span>
-          <span class="text-sql-muted/80">v1.2.2</span>
+          <span class="text-sql-muted/80">v1.2.3</span>
         </div>
       </div>
 
