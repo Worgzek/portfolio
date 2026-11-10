@@ -148,16 +148,16 @@
       border-radius: 0 !important;
     }
 
-    /* Tactile Button Hover Effect matching Contact Buttons */
-    button, .btn-tactile {
+    /* Tactile Button Hover Effect matching Contact Buttons (Excluded for Sidebar Items) */
+    button:not(.sidebar-item), .btn-tactile {
       transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
     }
-    button:hover, .btn-tactile:hover {
+    button:not(.sidebar-item):hover, .btn-tactile:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.18), 0 2px 4px -2px rgba(0, 0, 0, 0.12);
     }
-    button:active, .btn-tactile:active {
+    button:not(.sidebar-item):active, .btn-tactile:active {
       transform: translateY(0px) scale(0.95);
     }
 
@@ -220,21 +220,26 @@
     #table-body tr:active td {
       background-color: rgb(var(--sql-accent) / 0.30) !important;
     }
-    /* Sidebar Table Items Hover Effect matching Table Row Hover */
+    /* Sidebar Table Items Hover Effect matching Table Row Hover (Flat, No Bounce/Shadow, Cyan Overlay + Left Vertical Bar) */
     .sidebar-item {
+      transform: none !important;
+      box-shadow: none !important;
       transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
     }
     .sidebar-item:hover {
+      transform: none !important;
       background-color: rgb(var(--sql-accent) / 0.18) !important;
       color: rgb(var(--sql-bright)) !important;
-      border-color: rgb(var(--sql-accent) / 0.45) !important;
+      border-color: transparent !important;
       box-shadow: inset 4px 0 0 rgb(var(--sql-accent)) !important;
     }
     .sidebar-item:hover .truncate {
       color: rgb(var(--sql-bright)) !important;
     }
     .sidebar-item:active {
+      transform: none !important;
       background-color: rgb(var(--sql-accent) / 0.28) !important;
+      box-shadow: inset 4px 0 0 rgb(var(--sql-accent)) !important;
     }
     /* Flat tech chips (hover triggers only on the specific chip hovered) */
     .tech-chip {
@@ -406,7 +411,7 @@
       <div class="p-2 space-y-0.5 flex-1 overflow-y-auto text-xs">
         
         <!-- 1. view_about_me -->
-        <button onclick="switchTable('aboutme')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-sql-border/60 bg-sql-active text-sql-bright font-medium text-left select-none shadow-sm" data-key="aboutme">
+        <button onclick="switchTable('aboutme')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-sql-border/60 bg-sql-active text-sql-bright font-medium text-left select-none" data-key="aboutme">
           <div class="flex items-center gap-2 truncate">
             <span class="text-xs select-none">👁</span>
             <span class="truncate font-semibold">view_about_me</span>
@@ -415,7 +420,7 @@
         </button>
 
         <!-- 2. dim_tech_stack -->
-        <button onclick="switchTable('skills')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none shadow-sm" data-key="skills">
+        <button onclick="switchTable('skills')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none" data-key="skills">
           <div class="flex items-center gap-2 truncate">
             <span class="text-sql-purple text-[11px]">⊞</span>
             <span class="truncate">dim_tech_stack</span>
@@ -424,7 +429,7 @@
         </button>
 
         <!-- 3. fact_experience -->
-        <button onclick="switchTable('experience')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none shadow-sm" data-key="experience">
+        <button onclick="switchTable('experience')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none" data-key="experience">
           <div class="flex items-center gap-2 truncate">
             <span class="text-sql-accent text-[11px]">⊞</span>
             <span class="truncate">fact_experience</span>
@@ -433,7 +438,7 @@
         </button>
 
         <!-- 4. fact_projects -->
-        <button onclick="switchTable('projects')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none shadow-sm" data-key="projects">
+        <button onclick="switchTable('projects')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none" data-key="projects">
           <div class="flex items-center gap-2 truncate">
             <span class="text-sql-accent text-[11px]">⊞</span>
             <span class="truncate">fact_projects</span>
@@ -442,7 +447,7 @@
         </button>
 
         <!-- 5. dim_hardware -->
-        <button onclick="switchTable('hardware')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none shadow-sm" data-key="hardware">
+        <button onclick="switchTable('hardware')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none" data-key="hardware">
           <div class="flex items-center gap-2 truncate">
             <span class="text-sql-yellow text-[11px]">⊞</span>
             <span class="truncate">dim_hardware</span>
@@ -451,7 +456,7 @@
         </button>
 
         <!-- 6. view_contact -->
-        <button onclick="switchTable('contact')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none shadow-sm" data-key="contact">
+        <button onclick="switchTable('contact')" class="sidebar-item w-full flex items-center justify-between px-2.5 py-1.5 border border-transparent text-sql-muted text-left select-none" data-key="contact">
           <div class="flex items-center gap-2 truncate">
             <span class="text-xs select-none">👁</span>
             <span class="truncate">view_contact</span>
@@ -465,7 +470,7 @@
       <div class="p-3 border-t border-sql-border shrink-0 select-none">
         <div class="text-[11px] text-sql-muted font-mono flex items-center justify-between">
           <span>Made by <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="text-sql-accent hover:underline font-semibold">@Worgzek</a></span>
-          <span class="text-sql-muted/80">v1.2.5</span>
+          <span class="text-sql-muted/80">v1.2.6</span>
         </div>
       </div>
 
