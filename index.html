@@ -325,6 +325,7 @@
 
     /* SQL Syntax Colors */
     .sql-kw { color: rgb(var(--sql-purple)); font-weight: 600; }
+    .sql-fn { color: rgb(var(--sql-yellow)); font-weight: 600; }
     .sql-col { color: rgb(var(--sql-bright)); }
     .sql-tbl { color: rgb(var(--sql-accent)); font-weight: 500; }
     .sql-comment { color: rgb(var(--sql-muted)); font-style: italic; }
@@ -470,7 +471,7 @@
       <div class="p-3 border-t border-sql-border shrink-0 select-none">
         <div class="text-[11px] text-sql-muted font-mono flex items-center justify-between">
           <span>Made by <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="text-sql-accent hover:underline font-semibold">@Worgzek</a></span>
-          <span class="text-sql-muted/80">v1.2.6</span>
+          <span class="text-sql-muted/80">v1.2.7</span>
         </div>
       </div>
 
@@ -494,7 +495,7 @@
         </div>
 
         <!-- Clean SQL Query Code Display -->
-        <pre id="sql-code" class="p-2.5 sm:p-3 bg-sql-bg/80 border border-sql-border/70 text-[11px] sm:text-xs overflow-x-auto leading-relaxed"></pre>
+        <pre id="sql-code" class="p-2.5 sm:p-3 bg-sql-bg/80 border border-sql-border/70 text-[11px] sm:text-xs overflow-x-auto max-h-40 sm:max-h-52 overflow-y-auto leading-relaxed"></pre>
       </div>
 
 
@@ -564,7 +565,20 @@
       // 1. EXPERIENCE
       experience: {
         title: "Query: fact_experience",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">period</span>, <span class="sql-col">role</span>, <span class="sql-col">organization</span>, <span class="sql-col">highlights</span>, <span class="sql-col">tech_stack</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">fact_experience</span>\n<span class="sql-kw">ORDER BY</span> <span class="sql-col">period</span> <span class="sql-kw">DESC</span>;`,
+        sql: `<span class="sql-comment">-- Career Milestones, Organizational Roles & Core Tech Ownership</span>
+<span class="sql-kw">SELECT</span> 
+    <span class="sql-col">fe.tenure_period</span> <span class="sql-kw">AS</span> <span class="sql-col">period</span>,
+    <span class="sql-col">dr.role_title</span> <span class="sql-kw">AS</span> <span class="sql-col">role</span>,
+    <span class="sql-col">do.org_name</span> <span class="sql-kw">AS</span> <span class="sql-col">organization</span>,
+    <span class="sql-col">fe.key_highlights</span> <span class="sql-kw">AS</span> <span class="sql-col">highlights</span>,
+    <span class="sql-fn">ARRAY_AGG</span>(<span class="sql-col">dt.tech_name</span> <span class="sql-kw">ORDER BY</span> <span class="sql-col">bet.priority_order</span>) <span class="sql-kw">AS</span> <span class="sql-col">tech_stack</span>
+<span class="sql-kw">FROM</span> <span class="sql-tbl">fact_experience</span> <span class="sql-col">fe</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_organizations</span> <span class="sql-col">do</span> <span class="sql-kw">ON</span> <span class="sql-col">fe.org_id</span> = <span class="sql-col">do.org_id</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_roles</span> <span class="sql-col">dr</span> <span class="sql-kw">ON</span> <span class="sql-col">fe.role_id</span> = <span class="sql-col">dr.role_id</span>
+<span class="sql-kw">LEFT JOIN</span> <span class="sql-tbl">bridge_experience_tech</span> <span class="sql-col">bet</span> <span class="sql-kw">ON</span> <span class="sql-col">fe.exp_id</span> = <span class="sql-col">bet.exp_id</span>
+<span class="sql-kw">LEFT JOIN</span> <span class="sql-tbl">dim_technologies</span> <span class="sql-col">dt</span> <span class="sql-kw">ON</span> <span class="sql-col">bet.tech_id</span> = <span class="sql-col">dt.tech_id</span>
+<span class="sql-kw">GROUP BY</span> <span class="sql-col">fe.exp_id</span>, <span class="sql-col">fe.tenure_period</span>, <span class="sql-col">dr.role_title</span>, <span class="sql-col">do.org_name</span>, <span class="sql-col">fe.key_highlights</span>, <span class="sql-col">fe.start_date</span>
+<span class="sql-kw">ORDER BY</span> <span class="sql-col">fe.start_date</span> <span class="sql-kw">DESC</span>;`,
         headers: ["period", "role", "organization", "highlights", "tech_stack"],
         hasAction: true,
         rows: [
@@ -626,7 +640,20 @@
       // 2. PROJECTS
       projects: {
         title: "Query: fact_projects",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">project_name</span>, <span class="sql-col">tag</span>, <span class="sql-col">architecture</span>, <span class="sql-col">description</span>, <span class="sql-col">tech_stack</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">fact_projects</span>;`,
+        sql: `<span class="sql-comment">-- Production Data Pipelines &amp; Distributed Systems Engineering</span>
+<span class="sql-kw">SELECT</span> 
+    <span class="sql-col">fp.project_name</span>,
+    <span class="sql-col">dp.domain_tag</span> <span class="sql-kw">AS</span> <span class="sql-col">tag</span>,
+    <span class="sql-col">fp.architecture</span>,
+    <span class="sql-col">fp.description</span>,
+    <span class="sql-fn">ARRAY_AGG</span>(<span class="sql-col">dt.tech_name</span> <span class="sql-kw">ORDER BY</span> <span class="sql-col">bpt.order_seq</span>) <span class="sql-kw">AS</span> <span class="sql-col">tech_stack</span>
+<span class="sql-kw">FROM</span> <span class="sql-tbl">fact_projects</span> <span class="sql-col">fp</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_project_domains</span> <span class="sql-col">dp</span> <span class="sql-kw">ON</span> <span class="sql-col">fp.domain_id</span> = <span class="sql-col">dp.domain_id</span>
+<span class="sql-kw">LEFT JOIN</span> <span class="sql-tbl">bridge_project_tech</span> <span class="sql-col">bpt</span> <span class="sql-kw">ON</span> <span class="sql-col">fp.project_id</span> = <span class="sql-col">bpt.project_id</span>
+<span class="sql-kw">LEFT JOIN</span> <span class="sql-tbl">dim_technologies</span> <span class="sql-col">dt</span> <span class="sql-kw">ON</span> <span class="sql-col">bpt.tech_id</span> = <span class="sql-col">dt.tech_id</span>
+<span class="sql-kw">WHERE</span> <span class="sql-col">fp.is_featured</span> = <span class="sql-kw">TRUE</span>
+<span class="sql-kw">GROUP BY</span> <span class="sql-col">fp.project_id</span>, <span class="sql-col">fp.project_name</span>, <span class="sql-col">dp.domain_tag</span>, <span class="sql-col">fp.architecture</span>, <span class="sql-col">fp.description</span>, <span class="sql-col">fp.released_at</span>
+<span class="sql-kw">ORDER BY</span> <span class="sql-col">fp.released_at</span> <span class="sql-kw">DESC</span>;`,
         headers: ["project_name", "tag", "architecture", "description", "tech_stack"],
         hasAction: true,
         rows: [
@@ -764,7 +791,15 @@
       // 3. HARDWARE & WORKSPACE
       hardware: {
         title: "Query: dim_hardware",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">model_name</span>, <span class="sql-col">specifications</span>, <span class="sql-col">workload_role</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_hardware</span>;`,
+        sql: `<span class="sql-comment">-- Workstation Hardware Inventory &amp; Dedicated Workload Roles</span>
+<span class="sql-kw">SELECT</span> 
+    <span class="sql-col">dh.model_name</span>,
+    <span class="sql-col">dh.specifications</span>,
+    <span class="sql-col">dwr.workload_summary</span> <span class="sql-kw">AS</span> <span class="sql-col">workload_role</span>
+<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_hardware</span> <span class="sql-col">dh</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_workload_roles</span> <span class="sql-col">dwr</span> <span class="sql-kw">ON</span> <span class="sql-col">dh.role_id</span> = <span class="sql-col">dwr.role_id</span>
+<span class="sql-kw">WHERE</span> <span class="sql-col">dh.is_operational</span> = <span class="sql-kw">TRUE</span>
+<span class="sql-kw">ORDER BY</span> <span class="sql-col">dh.priority_order</span> <span class="sql-kw">ASC</span>;`,
         headers: ["model_name", "specifications", "workload_role"],
         hasAction: true,
         rows: [
@@ -862,7 +897,15 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
       // 4. TECH STACK
       skills: {
         title: "Query: dim_tech_stack",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">category</span>, <span class="sql-col">technologies</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_tech_stack</span>;`,
+        sql: `<span class="sql-comment">-- Categorized Competency Matrix with Aggregated Technologies</span>
+<span class="sql-kw">SELECT</span> 
+    <span class="sql-col">c.category_name</span> <span class="sql-kw">AS</span> <span class="sql-col">category</span>,
+    <span class="sql-fn">ARRAY_AGG</span>(<span class="sql-col">t.technology_name</span> <span class="sql-kw">ORDER BY</span> <span class="sql-col">t.proficiency_rank</span> <span class="sql-kw">DESC</span>) <span class="sql-kw">AS</span> <span class="sql-col">technologies</span>
+<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_tech_stack</span> <span class="sql-col">t</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_tech_category</span> <span class="sql-col">c</span> <span class="sql-kw">ON</span> <span class="sql-col">t.category_id</span> = <span class="sql-col">c.category_id</span>
+<span class="sql-kw">WHERE</span> <span class="sql-col">t.is_active</span> = <span class="sql-kw">TRUE</span>
+<span class="sql-kw">GROUP BY</span> <span class="sql-col">c.category_name</span>, <span class="sql-col">c.display_order</span>
+<span class="sql-kw">ORDER BY</span> <span class="sql-col">c.display_order</span> <span class="sql-kw">ASC</span>;`,
         headers: ["category", "technologies"],
         hasAction: false,
         rows: [
@@ -892,7 +935,19 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
       // 1. ABOUT ME
       aboutme: {
         title: "Query: view_about_me",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">alias</span>, <span class="sql-col">full_name</span>, <span class="sql-col">role</span>, <span class="sql-col">focus</span>, <span class="sql-col">location</span>, <span class="sql-col">status</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">view_about_me</span>;`,
+        sql: `<span class="sql-comment">-- Analytical Mart: Engineer Profile &amp; Active Availability</span>
+<span class="sql-kw">SELECT</span> 
+    <span class="sql-col">e.alias</span>,
+    <span class="sql-col">e.full_name</span>,
+    <span class="sql-col">r.role_title</span> <span class="sql-kw">AS</span> <span class="sql-col">role</span>,
+    <span class="sql-col">f.focus_summary</span> <span class="sql-kw">AS</span> <span class="sql-col">focus</span>,
+    <span class="sql-col">l.location_name</span> <span class="sql-kw">AS</span> <span class="sql-col">location</span>,
+    <span class="sql-col">s.status_code</span> <span class="sql-kw">AS</span> <span class="sql-col">status</span>
+<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_engineer</span> <span class="sql-col">e</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_roles</span> <span class="sql-col">r</span> <span class="sql-kw">ON</span> <span class="sql-col">e.role_id</span> = <span class="sql-col">r.role_id</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_engineer_focus</span> <span class="sql-col">f</span> <span class="sql-kw">ON</span> <span class="sql-col">e.engineer_id</span> = <span class="sql-col">f.engineer_id</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_locations</span> <span class="sql-col">l</span> <span class="sql-kw">ON</span> <span class="sql-col">e.location_id</span> = <span class="sql-col">l.location_id</span>
+<span class="sql-kw">LEFT JOIN</span> <span class="sql-tbl">fact_career_status</span> <span class="sql-col">s</span> <span class="sql-kw">ON</span> <span class="sql-col">e.engineer_id</span> = <span class="sql-col">s.engineer_id</span>;`,
         headers: ["alias", "full_name", "role", "focus", "location", "status"],
         hasAction: true,
         rows: [
@@ -935,7 +990,14 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
       // CONTACT
       contact: {
         title: "Query: view_contact",
-        sql: `<span class="sql-kw">SELECT</span> <span class="sql-col">channel</span>, <span class="sql-col">address</span>\n<span class="sql-kw">FROM</span> <span class="sql-tbl">view_contact</span>;`,
+        sql: `<span class="sql-comment">-- Production Identity &amp; Public Communication Endpoints</span>
+<span class="sql-kw">SELECT</span> 
+    <span class="sql-col">dc.channel_name</span> <span class="sql-kw">AS</span> <span class="sql-col">channel</span>,
+    <span class="sql-col">dc.endpoint_uri</span> <span class="sql-kw">AS</span> <span class="sql-col">address</span>
+<span class="sql-kw">FROM</span> <span class="sql-tbl">dim_comm_channels</span> <span class="sql-col">dc</span>
+<span class="sql-kw">INNER JOIN</span> <span class="sql-tbl">dim_identities</span> <span class="sql-col">di</span> <span class="sql-kw">ON</span> <span class="sql-col">dc.identity_id</span> = <span class="sql-col">di.identity_id</span>
+<span class="sql-kw">WHERE</span> <span class="sql-col">dc.is_active</span> = <span class="sql-kw">TRUE</span>
+<span class="sql-kw">ORDER BY</span> <span class="sql-col">dc.sort_order</span> <span class="sql-kw">ASC</span>;`,
         headers: ["channel", "address"],
         hasAction: false,
         rows: [
