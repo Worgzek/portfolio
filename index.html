@@ -449,7 +449,7 @@
       <div class="p-3 border-t border-sql-border shrink-0 select-none">
         <div class="text-[11px] text-sql-muted font-mono flex items-center justify-between">
           <span>Made by <a href="https://github.com/worgzek" target="_blank" rel="noopener noreferrer" class="text-sql-accent hover:underline font-semibold">@Worgzek</a></span>
-          <span class="text-sql-muted/80">v1.2.3</span>
+          <span class="text-sql-muted/80">v1.2.4</span>
         </div>
       </div>
 
@@ -950,7 +950,7 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
 
     let activeTable = 'aboutme';
 
-    function switchTable(key) {
+    function switchTable(key, showToastNotification = true) {
       if (!database[key]) return;
       activeTable = key;
 
@@ -977,7 +977,13 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
         item.classList.toggle('text-sql-muted', !isActive);
       });
 
+      const t0 = performance.now();
       render();
+      const elapsed = Math.max(12, Math.round(performance.now() - t0 + Math.floor(Math.random() * 16 + 10)));
+
+      if (showToastNotification) {
+        showToast(`Query Executed · ${elapsed}ms`);
+      }
     }
 
     function reRunQuery() {
@@ -1522,11 +1528,13 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
       });
     }
 
+    let toastTimeout = null;
     function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toast-msg').textContent = msg;
       toast.classList.remove('opacity-0');
-      setTimeout(() => toast.classList.add('opacity-0'), 2200);
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => toast.classList.add('opacity-0'), 2000);
     }
 
     // ==================== THEME MANAGEMENT ====================
@@ -1579,9 +1587,9 @@ Mousepad: Wallhack SP-004 Glass mousepad`,
     initTheme();
     const initialHash = window.location.hash.replace('#', '');
     if (initialHash && database[initialHash]) {
-      switchTable(initialHash);
+      switchTable(initialHash, false);
     } else {
-      switchTable('aboutme');
+      switchTable('aboutme', false);
     }
 
     // Auto-open About Me modal on page load (both desktop & mobile)
